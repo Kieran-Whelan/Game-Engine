@@ -1,18 +1,31 @@
 package me.frogdog.test;
 
+import me.frogdog.core.EngineManager;
 import me.frogdog.core.WindowManager;
-import org.lwjgl.Version;
+import me.frogdog.core.utils.Consts;
 
 public class Launcher {
 
+    private static WindowManager window;
+    private static TestGame game;
+
     public static void main(String[] args) {
-        WindowManager window = new WindowManager("Frog Engine", 0, 0, false);
-        window.init();
+        window = new WindowManager(Consts.TITLE, 1600, 900, false);
+        game = new TestGame();
 
-        while (!window.windowShouldClose()) {
-            window.update();
+        EngineManager engine = new EngineManager();
+        try {
+            engine.start();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+    }
 
-        window.cleanup();
+    public static WindowManager getWindow() {
+        return window;
+    }
+
+    public static TestGame getGame() {
+        return game;
     }
 }
