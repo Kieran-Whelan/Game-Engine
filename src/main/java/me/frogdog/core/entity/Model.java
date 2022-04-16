@@ -9,4 +9,12 @@ public class Model {
         this.id = id;
         this.vertexCount = vertexCount;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public int getVertexCount() {
+        return vertexCount;
+    }
 }

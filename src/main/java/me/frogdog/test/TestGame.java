@@ -3,6 +3,8 @@ package me.frogdog.test;
 import me.frogdog.core.ILoigc;
 import me.frogdog.core.RenderManager;
 import me.frogdog.core.WindowManager;
+import me.frogdog.core.entity.Model;
+import me.frogdog.core.entity.ObjectLoader;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 
@@ -12,17 +14,37 @@ public class TestGame implements ILoigc {
     private float colour = 0.0f;
 
     private final RenderManager renderer;
+    private final ObjectLoader loader;
     private final WindowManager window;
+
+    private Model model;
 
     public TestGame() {
         renderer = new RenderManager();
         window = Launcher.getWindow();
+        loader = new ObjectLoader();
     }
 
 
     @Override
     public void init() throws Exception {
         renderer.init();
+
+        float[] vertices = {
+                -0.5f, 0.5f, 0f,
+                -0.5f, -0.5f, 0f,
+                0.5f, -0.5f, 0f,
+                0.5f, -0.5f, 0f,
+                0.5f, 0.5f, 0f,
+                -0.5f, 0.5f, 0f
+        };
+
+        int[] indices = {
+                0, 1, 3,
+                3, 1, 2
+        };
+
+        model = loader.loadModel(vertices, indices);
     }
 
     @Override
@@ -54,11 +76,12 @@ public class TestGame implements ILoigc {
         }
 
         window.setClearColour(colour, colour, colour, 0.0f);
-        renderer.clear();
+        renderer.render(model);
     }
 
     @Override
     public void cleanup() {
         renderer.cleanup();
+        loader.cleanup();
     }
 }

@@ -6,7 +6,6 @@ import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.system.CallbackI;
 import org.lwjgl.system.MemoryUtil;
 
 public class WindowManager {
