@@ -5,6 +5,7 @@ import me.frogdog.core.RenderManager;
 import me.frogdog.core.WindowManager;
 import me.frogdog.core.entity.Model;
 import me.frogdog.core.entity.ObjectLoader;
+import me.frogdog.core.entity.Texture;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 
@@ -34,9 +35,7 @@ public class TestGame implements ILoigc {
                 -0.5f, 0.5f, 0f,
                 -0.5f, -0.5f, 0f,
                 0.5f, -0.5f, 0f,
-                0.5f, -0.5f, 0f,
-                0.5f, 0.5f, 0f,
-                -0.5f, 0.5f, 0f
+                0.5f, 0.5f, 0f
         };
 
         int[] indices = {
@@ -44,7 +43,15 @@ public class TestGame implements ILoigc {
                 3, 1, 2
         };
 
-        model = loader.loadModel(vertices, indices);
+        float[] textureCoords = {
+                0, 0,
+                0, 1,
+                1, 1,
+                1, 0
+        };
+
+        model = loader.loadModel(vertices, textureCoords, indices);
+        model.setTexture(new Texture(loader.loadTexture("textures/grassblock.png")));
     }
 
     @Override
