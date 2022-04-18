@@ -3,9 +3,11 @@ package me.frogdog.test;
 import me.frogdog.core.ILoigc;
 import me.frogdog.core.RenderManager;
 import me.frogdog.core.WindowManager;
+import me.frogdog.core.entity.Entity;
 import me.frogdog.core.entity.Model;
-import me.frogdog.core.entity.ObjectLoader;
+import me.frogdog.core.ObjectLoader;
 import me.frogdog.core.entity.Texture;
+import org.joml.Vector3f;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 
@@ -18,7 +20,7 @@ public class TestGame implements ILoigc {
     private final ObjectLoader loader;
     private final WindowManager window;
 
-    private Model model;
+    private Entity entity;
 
     public TestGame() {
         renderer = new RenderManager();
@@ -50,8 +52,9 @@ public class TestGame implements ILoigc {
                 1, 0
         };
 
-        model = loader.loadModel(vertices, textureCoords, indices);
+        Model model = loader.loadModel(vertices, textureCoords, indices);
         model.setTexture(new Texture(loader.loadTexture("textures/grassblock.png")));
+        entity = new Entity(model, new Vector3f(1, 0, 0), new Vector3f(0, 0, 0), 1);
     }
 
     @Override
@@ -73,6 +76,11 @@ public class TestGame implements ILoigc {
         } else if (colour <= 0) {
             colour = 0;
         }
+
+        if (entity.getPos().x < -1.5f) {
+            entity.getPos().x = 1.5f;
+        }
+        entity.getPos().x -= 0.01f;
     }
 
     @Override
@@ -83,7 +91,7 @@ public class TestGame implements ILoigc {
         }
 
         window.setClearColour(colour, colour, colour, 0.0f);
-        renderer.render(model);
+        renderer.render(entity);
     }
 
     @Override

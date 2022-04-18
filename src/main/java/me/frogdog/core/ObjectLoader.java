@@ -1,5 +1,6 @@
-package me.frogdog.core.entity;
+package me.frogdog.core;
 
+import me.frogdog.core.entity.Model;
 import me.frogdog.core.utils.Utils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15;
