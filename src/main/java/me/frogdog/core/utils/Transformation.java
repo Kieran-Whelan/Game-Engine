@@ -4,7 +4,6 @@ import me.frogdog.core.Camera;
 import me.frogdog.core.entity.Entity;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
-import org.lwjgl.system.CallbackI;
 
 public class Transformation {
 

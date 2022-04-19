@@ -6,7 +6,7 @@ public interface ILoigc {
 
     void input();
 
-    void update();
+    void update(float interval, MouseManager mouseManager);
 
     void render();
 

@@ -1,10 +1,9 @@
 package me.frogdog.core;
 
 import me.frogdog.core.entity.Entity;
-import me.frogdog.core.entity.Model;
 import me.frogdog.core.utils.Transformation;
 import me.frogdog.core.utils.Utils;
-import me.frogdog.test.Launcher;
+import me.frogdog.game.Main;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
@@ -16,7 +15,7 @@ public class RenderManager {
     private ShaderManager shader;
 
     public RenderManager() {
-        window = Launcher.getWindow();
+        window = Main.getWindow();
     }
 
     public void init() throws Exception {
