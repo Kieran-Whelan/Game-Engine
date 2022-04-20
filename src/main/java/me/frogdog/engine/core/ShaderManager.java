@@ -1,6 +1,7 @@
 package me.frogdog.engine.core;
 
 import me.frogdog.engine.core.entity.Material;
+import me.frogdog.engine.core.lighting.DirectionalLight;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
@@ -33,6 +34,12 @@ public class ShaderManager {
         }
 
         uniforms.put(uniformName, uniformLocation);
+    }
+
+    public void createDirectionalLightUniform(String uniformName) throws Exception {
+        createUniform(uniformName + ".colour");
+        createUniform(uniformName + ".direction");
+        createUniform(uniformName + ".intensity");
     }
 
     public void createMaterialUniform(String uniformName) throws Exception {
@@ -80,6 +87,12 @@ public class ShaderManager {
         setUniform(uniformName + ".specular", material.getSpecularColour());
         setUniform(uniformName + ".hasTexture", material.hasTexture() ? 1 : 0);
         setUniform(uniformName + ".reflectance", material.getReflectance());
+    }
+
+    public void setUniform(String uniformName, DirectionalLight directionalLight) {
+        setUniform(uniformName + ".colour", directionalLight.getColour());
+        setUniform(uniformName + ".direction", directionalLight.getDirection());
+        setUniform(uniformName + ".intensity", directionalLight.getIntensity());
     }
 
     public void createVertexShader(String shaderCode) throws Exception {
