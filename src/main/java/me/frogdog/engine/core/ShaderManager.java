@@ -3,6 +3,7 @@ package me.frogdog.engine.core;
 import me.frogdog.engine.core.entity.Material;
 import me.frogdog.engine.core.lighting.DirectionalLight;
 import me.frogdog.engine.core.lighting.PointLight;
+import me.frogdog.engine.core.lighting.SpotLight;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
@@ -12,6 +13,7 @@ import org.lwjgl.system.MemoryStack;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 
 public class ShaderManager {
 
@@ -51,6 +53,12 @@ public class ShaderManager {
         createUniform(uniformName + ".constant");
         createUniform(uniformName + ".linear");
         createUniform(uniformName + ".exponent");
+    }
+
+    public void createSpotLightUniform(String uniformName) throws Exception {
+        createPointLightUniform(uniformName + ".pl");
+        createUniform(uniformName + ".conedir");
+        createUniform(uniformName + ".cutoff");
     }
 
     public void createMaterialUniform(String uniformName) throws Exception {
@@ -113,6 +121,12 @@ public class ShaderManager {
         setUniform(uniformName + ".constant", pointLight.getConstant());
         setUniform(uniformName + ".linear", pointLight.getLinear());
         setUniform(uniformName + ".exponent", pointLight.getExponent());
+    }
+
+    public void setUniform(String uniformName, SpotLight spotLight) {
+        setUniform(uniformName + ".pl", spotLight.getPointLight());
+        setUniform(uniformName + ".conedir", spotLight.getConeDirection());
+        setUniform(uniformName + ".cutoff", spotLight.getCutoff());
     }
 
     public void createVertexShader(String shaderCode) throws Exception {

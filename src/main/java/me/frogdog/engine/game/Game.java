@@ -6,6 +6,7 @@ import me.frogdog.engine.core.entity.Model;
 import me.frogdog.engine.core.entity.Texture;
 import me.frogdog.engine.core.lighting.DirectionalLight;
 import me.frogdog.engine.core.lighting.PointLight;
+import me.frogdog.engine.core.lighting.SpotLight;
 import me.frogdog.engine.utils.Consts;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
@@ -25,6 +26,7 @@ public class Game implements ILoigc {
     private float lightAngle;
     private DirectionalLight directionalLight;
     private PointLight pointLight;
+    private SpotLight spotLight;
 
     public Game() {
         renderer = new RenderManager();
@@ -96,18 +98,26 @@ public class Game implements ILoigc {
 
         Model model = loader.loadModel(vertices, textCoords, indices);
         //Model model = loader.loadOBLModel("/models/bunny.obj");
-        model.setTexture(new Texture(loader.loadTexture("textures/test.png")), 1.0f);
+        model.setTexture(new Texture(loader.loadTexture("textures/grass.png")), 1.0f);
         entity = new Entity(model, new Vector3f(0, 0, -5), new Vector3f(0, 0, 0), 1);
 
         float lightIntensity = 1.0f;
+        //point light
         Vector3f lightPosition = new Vector3f(0, 0, -3.2f);
         Vector3f lightColour =  new Vector3f(1, 1, 1);
         pointLight = new PointLight(lightColour, lightPosition, lightIntensity, 0, 0, 1);
 
+        //spot light
+        Vector3f coneDir = new Vector3f(0, 0, 1);
+        float cutoff = (float) Math.cos(Math.toRadians(100));
+        spotLight = new SpotLight(new PointLight(lightColour, new Vector3f(0, 0, 1.0f), lightIntensity, 0, 0, 1), coneDir, cutoff);
+
+        //directional light
         lightIntensity = 0.0f;
         lightPosition = new Vector3f(-1, -10, 0);
         lightColour =  new Vector3f(1, 1, 1);
         directionalLight = new DirectionalLight(lightColour, lightPosition, lightIntensity);
+
     }
 
     @Override
@@ -143,6 +153,16 @@ public class Game implements ILoigc {
 
         if (window.isKeyPressed(GLFW.GLFW_KEY_P)) {
             pointLight.getPosition().x -= 0.1f;
+        }
+
+        float lightPos = spotLight.getPointLight().getPosition().z;
+
+        if (window.isKeyPressed(GLFW.GLFW_KEY_N)) {
+            spotLight.getPointLight().getPosition().z = lightPos + 0.1f;
+        }
+
+        if (window.isKeyPressed(GLFW.GLFW_KEY_M)) {
+            spotLight.getPointLight().getPosition().z = lightPos - 0.1f;
         }
     }
 
@@ -182,7 +202,7 @@ public class Game implements ILoigc {
 
     @Override
     public void render() {
-        renderer.render(entity, camera, directionalLight, pointLight);
+        renderer.render(entity, camera, directionalLight, pointLight, spotLight);
     }
 
     @Override

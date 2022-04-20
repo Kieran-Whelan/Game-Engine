@@ -3,6 +3,7 @@ package me.frogdog.engine.core;
 import me.frogdog.engine.core.entity.Entity;
 import me.frogdog.engine.core.lighting.DirectionalLight;
 import me.frogdog.engine.core.lighting.PointLight;
+import me.frogdog.engine.core.lighting.SpotLight;
 import me.frogdog.engine.utils.Consts;
 import me.frogdog.engine.utils.Utils;
 import me.frogdog.engine.game.Main;
@@ -34,10 +35,11 @@ public class RenderManager {
         shader.createUniform("specularPower");
         shader.createDirectionalLightUniform("directionalLight");
         shader.createPointLightUniform("pointLight");
+        shader.createSpotLightUniform("spotLight");
 
     }
 
-    public void render(Entity entity, Camera camera, DirectionalLight directionalLight, PointLight pointLight) {
+    public void render(Entity entity, Camera camera, DirectionalLight directionalLight, PointLight pointLight, SpotLight spotLight) {
         clear();
 
         if (window.isResize()) {
@@ -55,6 +57,7 @@ public class RenderManager {
         shader.setUniform("specularPower", Consts.SPECULAR_POWER);
         shader.setUniform("directionalLight", directionalLight);
         shader.setUniform("pointLight", pointLight);
+        shader.setUniform("spotLight", spotLight);
 
         GL30.glBindVertexArray(entity.getModel().getId());
         GL20.glEnableVertexAttribArray(0);
