@@ -28,14 +28,14 @@ public class Game implements ILoigc {
         camera = new Camera();
         cameraInc = new Vector3f(0, 0, 0);
     }
-    
+
     @Override
     public void init() throws Exception {
         renderer.init();
 
         Model model = loader.loadOBLModel("/models/bunny.obj");
-        model.setTexture(new Texture(loader.loadTexture("textures/grassblock.png")));
-        entity = new Entity(model, new Vector3f(0, 0, -91), new Vector3f(0, 0, 0), 1);
+        model.setTexture(new Texture(loader.loadTexture("textures/grassblock.png")), 1.0f);
+        entity = new Entity(model, new Vector3f(0, 0, -5), new Vector3f(0, 0, 0), 1);
     }
 
     @Override
@@ -75,17 +75,11 @@ public class Game implements ILoigc {
             camera.moveRotation(rotVec.x * Consts.MOUSE_SENSITIVITY, rotVec.y * Consts.MOUSE_SENSITIVITY, 0);
         }
 
-        //entity.incRotation(0.0f, 0.5f, 0.0f);
+        entity.incRotation(0.0f, 0.25f, 0.0f);
     }
 
     @Override
     public void render() {
-        if (window.isResize()) {
-            GL11.glViewport(0, 0, window.getWidth(), window.getHeight());
-            window.setResize(true);
-        }
-
-        window.setClearColour(0.0f, 0.0f, 0.0f, 0.0f);
         renderer.render(entity, camera);
     }
 
