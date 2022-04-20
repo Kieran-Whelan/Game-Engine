@@ -5,6 +5,7 @@ import me.frogdog.engine.core.entity.Entity;
 import me.frogdog.engine.core.entity.Model;
 import me.frogdog.engine.core.entity.Texture;
 import me.frogdog.engine.core.lighting.DirectionalLight;
+import me.frogdog.engine.core.lighting.PointLight;
 import me.frogdog.engine.utils.Consts;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
@@ -23,6 +24,7 @@ public class Game implements ILoigc {
 
     private float lightAngle;
     private DirectionalLight directionalLight;
+    private PointLight pointLight;
 
     public Game() {
         renderer = new RenderManager();
@@ -97,9 +99,14 @@ public class Game implements ILoigc {
         model.setTexture(new Texture(loader.loadTexture("textures/test.png")), 1.0f);
         entity = new Entity(model, new Vector3f(0, 0, -5), new Vector3f(0, 0, 0), 1);
 
-        float lightIntensity = 0.0f;
-        Vector3f lightPosition = new Vector3f(-1, -10, 0);
+        float lightIntensity = 1.0f;
+        Vector3f lightPosition = new Vector3f(0, 0, -3.2f);
         Vector3f lightColour =  new Vector3f(1, 1, 1);
+        pointLight = new PointLight(lightColour, lightPosition, lightIntensity, 0, 0, 1);
+
+        lightIntensity = 0.0f;
+        lightPosition = new Vector3f(-1, -10, 0);
+        lightColour =  new Vector3f(1, 1, 1);
         directionalLight = new DirectionalLight(lightColour, lightPosition, lightIntensity);
     }
 
@@ -128,6 +135,14 @@ public class Game implements ILoigc {
 
         if (window.isKeyPressed(GLFW.GLFW_KEY_X)) {
             cameraInc.y = 1;
+        }
+
+        if (window.isKeyPressed(GLFW.GLFW_KEY_O)) {
+            pointLight.getPosition().x += 0.1f;
+        }
+
+        if (window.isKeyPressed(GLFW.GLFW_KEY_P)) {
+            pointLight.getPosition().x -= 0.1f;
         }
     }
 
@@ -167,7 +182,7 @@ public class Game implements ILoigc {
 
     @Override
     public void render() {
-        renderer.render(entity, camera, directionalLight);
+        renderer.render(entity, camera, directionalLight, pointLight);
     }
 
     @Override
