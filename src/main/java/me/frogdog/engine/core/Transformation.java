@@ -1,6 +1,7 @@
 package me.frogdog.engine.core;
 
 import me.frogdog.engine.core.entity.Entity;
+import me.frogdog.engine.core.entity.Terrain;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
@@ -14,6 +15,12 @@ public class Transformation {
                 rotateZ((float) Math.toRadians(entity.getRotation().z)).
                 scale(entity.getScale());
 
+        return matrix;
+    }
+
+    public static Matrix4f createTransformationMatrix(Terrain terrain) {
+        Matrix4f matrix = new Matrix4f();
+        matrix.identity().translate(terrain.getPosition()).scale(1);
         return matrix;
     }
 

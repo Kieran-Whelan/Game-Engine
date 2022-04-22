@@ -5,6 +5,7 @@ import me.frogdog.engine.core.ShaderManager;
 import me.frogdog.engine.core.Transformation;
 import me.frogdog.engine.core.entity.Entity;
 import me.frogdog.engine.core.entity.Model;
+import me.frogdog.engine.core.entity.Terrain;
 import me.frogdog.engine.core.lighting.DirectionalLight;
 import me.frogdog.engine.core.lighting.PointLight;
 import me.frogdog.engine.core.lighting.SpotLight;
@@ -16,24 +17,25 @@ import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class EntityRenderer implements IRenderer {
+public class TerrainRenderer implements IRenderer {
 
     ShaderManager shader;
-    private Map<Model, List<Entity>> entities;
+    private List<Terrain> terrains;
 
-    public EntityRenderer() throws Exception {
-        entities = new HashMap<>();
+    public TerrainRenderer() throws Exception {
+        terrains = new ArrayList<>();
         shader = new ShaderManager();
     }
 
     @Override
     public void init() throws Exception {
-        shader.createVertexShader(Utils.loadResource("/shaders/entity_vertex.glsl"));
-        shader.createFragmentShader(Utils.loadResource("/shaders/entity_fragment.glsl"));
+        shader.createVertexShader(Utils.loadResource("/shaders/terrain_vertex.glsl"));
+        shader.createFragmentShader(Utils.loadResource("/shaders/terrain_fragment.glsl"));
         shader.link();
         shader.createUniform("textureSampler");
         shader.createUniform("transformationMatrix");
@@ -53,16 +55,14 @@ public class EntityRenderer implements IRenderer {
         shader.bind();
         shader.setUniform("projectionMatrix", Main.getWindow().updateProjectionMatrix());
         RenderManager.renderLights(pointLights, spotLights, directionalLight, shader);
-        for (Model model : entities.keySet()) {
-            bind(model);
-            List<Entity> entitiesList = entities.get(model);
-            for (Entity entity : entitiesList) {
-                prepare(entity, camera);
-                GL11.glDrawElements(GL11.GL_TRIANGLES, entity.getModel().getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
-            }
+        for (Terrain terrain : terrains) {
+            bind(terrain.getModel());
+            prepare(terrain, camera);
+            GL11.glDrawElements(GL11.GL_TRIANGLES, terrain.getModel().getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
+
             unbind();
         }
-        entities.clear();
+        terrains.clear();
         shader.unbind();
     }
 
@@ -86,9 +86,9 @@ public class EntityRenderer implements IRenderer {
     }
 
     @Override
-    public void prepare(Object entity, Camera camera) {
+    public void prepare(Object terrain, Camera camera) {
         shader.setUniform("textureSampler", 0);
-        shader.setUniform("transformationMatrix", Transformation.createTransformationMatrix((Entity) entity));
+        shader.setUniform("transformationMatrix", Transformation.createTransformationMatrix((Terrain) terrain));
         shader.setUniform("viewMatrix", Transformation.getViewMatrix(camera));
     }
 
@@ -97,7 +97,7 @@ public class EntityRenderer implements IRenderer {
         shader.cleanup();
     }
 
-    public Map<Model, List<Entity>> getEntities() {
-        return entities;
+    public List<Terrain> getTerrain() {
+        return terrains;
     }
 }

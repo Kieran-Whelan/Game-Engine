@@ -1,9 +1,7 @@
 package me.frogdog.engine.game;
 
 import me.frogdog.engine.core.*;
-import me.frogdog.engine.core.entity.Entity;
-import me.frogdog.engine.core.entity.Model;
-import me.frogdog.engine.core.entity.Texture;
+import me.frogdog.engine.core.entity.*;
 import me.frogdog.engine.core.lighting.DirectionalLight;
 import me.frogdog.engine.core.lighting.PointLight;
 import me.frogdog.engine.core.lighting.SpotLight;
@@ -24,6 +22,8 @@ public class Game implements ILoigc {
     private final WindowManager window;
 
     private List<Entity> entities;
+    private List<Terrain> terrains;
+
     private Camera camera;
 
     Vector3f cameraInc;
@@ -45,6 +45,7 @@ public class Game implements ILoigc {
     @Override
     public void init() throws Exception {
         renderer.init();
+        camera.setPosition(0 ,0 ,0);
 
         float[] vertices = new float[] {
                 -0.5f, 0.5f, 0.5f,
@@ -105,16 +106,21 @@ public class Game implements ILoigc {
         //Model model = loader.loadOBLModel("/models/bunny.obj");
         model.setTexture(new Texture(loader.loadTexture("textures/grass.png")), 1.0f);
 
+        terrains = new ArrayList<>();
+        Terrain terrain = new Terrain(new Vector3f(0, 1, 0), loader, new Material(new Texture(loader.loadTexture("textures/terrain.png")), 0.1f));
+        Terrain terrain1 = new Terrain(new Vector3f(0, 1, -400), loader, new Material(new Texture(loader.loadTexture("textures/grass.png")), 0.1f));
+        terrains.add(terrain);
+        terrains.add(terrain1);
+
         entities = new ArrayList<>();
         Random r = new Random();
 
-        for (int i = 0; i < 200; i++) {
-            float x = r.nextFloat() * 100 - 50;
-            float y = r.nextFloat() * 100 - 50;
-            float z = r.nextFloat() * -300;
-            entities.add(new Entity(model, new Vector3f(x, y, z), new Vector3f(r.nextFloat() * 180, r.nextFloat() * 180, 0), 1));
+        for (int i = 0; i < 2000; i++) {
+            float x = r.nextFloat() * 800;
+            float z = r.nextFloat() * -800;
+            entities.add(new Entity(model, new Vector3f(x, 0, z), new Vector3f(0, 0, 0), 1));
         }
-        entities.add(new Entity(model, new Vector3f(0, 0, -2f), new Vector3f(0, 0, 0), 1));
+        entities.add(new Entity(model, new Vector3f(0, 0, -5), new Vector3f(0, 0, 0), 1));
 
         float lightIntensity = 1.0f;
         //point light
@@ -241,6 +247,10 @@ public class Game implements ILoigc {
 
         for (Entity entity : entities) {
             renderer.processEntity(entity);
+        }
+
+        for (Terrain terrain : terrains) {
+            renderer.processTerrain(terrain);
         }
     }
 

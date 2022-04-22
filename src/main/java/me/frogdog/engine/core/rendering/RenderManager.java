@@ -6,6 +6,7 @@ import me.frogdog.engine.core.Transformation;
 import me.frogdog.engine.core.WindowManager;
 import me.frogdog.engine.core.entity.Entity;
 import me.frogdog.engine.core.entity.Model;
+import me.frogdog.engine.core.entity.Terrain;
 import me.frogdog.engine.core.lighting.DirectionalLight;
 import me.frogdog.engine.core.lighting.PointLight;
 import me.frogdog.engine.core.lighting.SpotLight;
@@ -26,6 +27,7 @@ public class RenderManager {
 
     private final WindowManager window;
     private EntityRenderer entityRenderer;
+    private TerrainRenderer terrainRenderer;
 
     private Map<Model, List<Entity>> entities = new HashMap<>();
 
@@ -35,7 +37,9 @@ public class RenderManager {
 
     public void init() throws Exception {
         entityRenderer = new EntityRenderer();
+        terrainRenderer = new TerrainRenderer();
         entityRenderer.init();
+        terrainRenderer.init();
     }
 
     public static void renderLights(PointLight[] pointLights, SpotLight[] spotLights, DirectionalLight directionalLight, ShaderManager shader) {
@@ -62,6 +66,7 @@ public class RenderManager {
         }
 
         entityRenderer.render(camera, pointLights, spotLights, directionalLight);
+        terrainRenderer.render(camera, pointLights, spotLights, directionalLight);
     }
 
     public void processEntity(Entity entity) {
@@ -75,11 +80,16 @@ public class RenderManager {
         }
     }
 
+    public void processTerrain(Terrain terrain) {
+        terrainRenderer.getTerrain().add(terrain);
+    }
+
     public void clear() {
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
     }
 
     public void cleanup() {
         entityRenderer.cleanup();
+        terrainRenderer.cleanup();
     }
 }
