@@ -101,6 +101,7 @@ public class Game implements ILoigc {
         Model model = loader.loadModel(vertices, textCoords, indices);
         //Model model = loader.loadOBLModel("/models/bunny.obj");
         model.setTexture(new Texture(loader.loadTexture("textures/grass.png")), 1.0f);
+        model.getMaterial().setDisableCulling(true);
 
         TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("textures/terrain.png"));
         TerrainTexture redTexture = new TerrainTexture(loader.loadTexture("textures/flowers.png"));

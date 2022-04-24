@@ -25,6 +25,8 @@ public class RenderManager {
     private EntityRenderer entityRenderer;
     private TerrainRenderer terrainRenderer;
 
+    private static boolean isCulling = false;
+
     private Map<Model, List<Entity>> entities = new HashMap<>();
 
     public RenderManager() {
@@ -63,6 +65,21 @@ public class RenderManager {
 
         entityRenderer.render(camera, scene.getPointLights(), scene.getSpotLights(), scene.getDirectionalLight());
         terrainRenderer.render(camera, scene.getPointLights(), scene.getSpotLights(), scene.getDirectionalLight());
+    }
+
+    public static void enableCulling() {
+        if (!isCulling) {
+            GL11.glEnable(GL11.GL_CULL_FACE);
+            GL11.glCullFace(GL11.GL_BACK);
+            isCulling = true;
+        }
+    }
+
+    public static void disableCulling() {
+        if (isCulling) {
+            GL11.glDisable(GL11.GL_CULL_FACE);
+            isCulling = false;
+        }
     }
 
     public void processEntity(Entity entity) {
