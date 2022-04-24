@@ -3,9 +3,8 @@ package me.frogdog.engine.core.rendering;
 import me.frogdog.engine.core.Camera;
 import me.frogdog.engine.core.ShaderManager;
 import me.frogdog.engine.core.Transformation;
-import me.frogdog.engine.core.entity.Entity;
 import me.frogdog.engine.core.entity.Model;
-import me.frogdog.engine.core.entity.Terrain;
+import me.frogdog.engine.core.entity.terrain.Terrain;
 import me.frogdog.engine.core.lighting.DirectionalLight;
 import me.frogdog.engine.core.lighting.PointLight;
 import me.frogdog.engine.core.lighting.SpotLight;
@@ -18,9 +17,7 @@ import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class TerrainRenderer implements IRenderer {
 

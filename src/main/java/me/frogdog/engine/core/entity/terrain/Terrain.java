@@ -1,6 +1,9 @@
-package me.frogdog.engine.core.entity;
+package me.frogdog.engine.core.entity.terrain;
 
 import me.frogdog.engine.core.ObjectLoader;
+import me.frogdog.engine.core.entity.Material;
+import me.frogdog.engine.core.entity.Model;
+import me.frogdog.engine.core.entity.Texture;
 import org.joml.Vector3f;
 
 public class Terrain {

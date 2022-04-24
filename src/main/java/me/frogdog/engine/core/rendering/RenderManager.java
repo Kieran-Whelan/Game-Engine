@@ -2,21 +2,17 @@ package me.frogdog.engine.core.rendering;
 
 import me.frogdog.engine.core.Camera;
 import me.frogdog.engine.core.ShaderManager;
-import me.frogdog.engine.core.Transformation;
 import me.frogdog.engine.core.WindowManager;
 import me.frogdog.engine.core.entity.Entity;
 import me.frogdog.engine.core.entity.Model;
-import me.frogdog.engine.core.entity.Terrain;
+import me.frogdog.engine.core.entity.SceneManager;
+import me.frogdog.engine.core.entity.terrain.Terrain;
 import me.frogdog.engine.core.lighting.DirectionalLight;
 import me.frogdog.engine.core.lighting.PointLight;
 import me.frogdog.engine.core.lighting.SpotLight;
 import me.frogdog.engine.utils.Consts;
-import me.frogdog.engine.utils.Utils;
 import me.frogdog.engine.game.Main;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL13;
-import org.lwjgl.opengl.GL20;
-import org.lwjgl.opengl.GL30;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -57,7 +53,7 @@ public class RenderManager {
         shader.setUniform("directionalLight", directionalLight);
     }
 
-    public void render(Camera camera, DirectionalLight directionalLight, PointLight[] pointLights, SpotLight[] spotLights) {
+    public void render(Camera camera, SceneManager scene) {
         clear();
 
         if (window.isResize()) {
@@ -65,8 +61,8 @@ public class RenderManager {
             window.setResize(false);
         }
 
-        entityRenderer.render(camera, pointLights, spotLights, directionalLight);
-        terrainRenderer.render(camera, pointLights, spotLights, directionalLight);
+        entityRenderer.render(camera, scene.getPointLights(), scene.getSpotLights(), scene.getDirectionalLight());
+        terrainRenderer.render(camera, scene.getPointLights(), scene.getSpotLights(), scene.getDirectionalLight());
     }
 
     public void processEntity(Entity entity) {
