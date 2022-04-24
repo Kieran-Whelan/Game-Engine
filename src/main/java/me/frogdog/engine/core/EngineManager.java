@@ -1,7 +1,10 @@
 package me.frogdog.engine.core;
 
+import me.frogdog.engine.core.input.Keyboard;
+import me.frogdog.engine.core.input.Mouse;
 import me.frogdog.engine.utils.Consts;
 import me.frogdog.engine.game.Main;
+import me.frogdog.engine.utils.interfaces.ILoigc;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWErrorCallback;
 
@@ -18,16 +21,19 @@ public class EngineManager {
     private WindowManager window;
     private GLFWErrorCallback errorCallback;
     private ILoigc gameLogic;
-    private MouseManager mouseManager;
+    private Mouse mouse;
+    private Keyboard keyboard;
 
     public void init() throws Exception {
         GLFW.glfwSetErrorCallback(errorCallback = GLFWErrorCallback.createPrint(System.err));
         window = Main.getWindow();
         gameLogic = Main.getGame();
-        mouseManager = new MouseManager();
+        mouse = new Mouse();
+        keyboard = new Keyboard();
         window.init();
         gameLogic.init();
-        mouseManager.init();
+        mouse.init();
+        keyboard.init();
     }
 
     public void start() throws Exception {
@@ -91,7 +97,7 @@ public class EngineManager {
     }
 
     private void input() {
-        mouseManager.input();
+        mouse.input();
         gameLogic.input();
     }
 
@@ -101,7 +107,7 @@ public class EngineManager {
     }
 
     private void update(float interval) {
-        gameLogic.update(interval, mouseManager);
+        gameLogic.update(interval, mouse);
     }
 
     private void cleanup() {

@@ -1,11 +1,11 @@
-package me.frogdog.engine.core;
+package me.frogdog.engine.core.input;
 
 import me.frogdog.engine.game.Main;
 import org.joml.Vector2d;
 import org.joml.Vector2f;
 import org.lwjgl.glfw.GLFW;
 
-public class MouseManager {
+public class Mouse {
 
     private final Vector2d previousPos, currentPos;
     private final Vector2f displVec;
@@ -13,12 +13,11 @@ public class MouseManager {
     public boolean erase = true;
     private boolean inWindow = false, leftButtonPress = false, rightButtonPress = false;
 
-    public MouseManager() {
+    public Mouse() {
         previousPos = new Vector2d(-1, -1);
         currentPos = new Vector2d(0, 0);
         displVec = new Vector2f();
     }
-
 
     public void init() {
         GLFW.glfwSetCursorPosCallback(Main.getWindow().getWindow(), ((window, xpos, ypos) -> {

@@ -1,4 +1,4 @@
-package me.frogdog.engine.core.rendering;
+package me.frogdog.engine.utils.interfaces;
 
 import me.frogdog.engine.core.Camera;
 import me.frogdog.engine.core.entity.Model;

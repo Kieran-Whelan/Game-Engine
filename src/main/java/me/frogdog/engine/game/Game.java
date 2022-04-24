@@ -5,11 +5,14 @@ import me.frogdog.engine.core.entity.*;
 import me.frogdog.engine.core.entity.terrain.BlendMapTerrain;
 import me.frogdog.engine.core.entity.terrain.Terrain;
 import me.frogdog.engine.core.entity.terrain.TerrainTexture;
+import me.frogdog.engine.core.input.Keyboard;
+import me.frogdog.engine.core.input.Mouse;
 import me.frogdog.engine.core.lighting.DirectionalLight;
 import me.frogdog.engine.core.lighting.PointLight;
 import me.frogdog.engine.core.lighting.SpotLight;
 import me.frogdog.engine.core.rendering.RenderManager;
 import me.frogdog.engine.utils.Consts;
+import me.frogdog.engine.utils.interfaces.ILoigc;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
@@ -24,6 +27,7 @@ public class Game implements ILoigc {
     private final WindowManager window;
     private SceneManager sceneManager;
     private Camera camera;
+    private Keyboard keyboard;
 
     private float cameraSpeed = 0.5f;
 
@@ -32,6 +36,7 @@ public class Game implements ILoigc {
     public Game() {
         renderer = new RenderManager();
         window = Main.getWindow();
+        keyboard = new Keyboard();
         loader = new ObjectLoader();
         camera = new Camera();
         cameraInc = new Vector3f(0, 0, 0);
@@ -153,50 +158,50 @@ public class Game implements ILoigc {
     @Override
     public void input() {
         cameraInc.set(0, 0, 0);
-        if (window.isKeyPressed(GLFW.GLFW_KEY_W)) {
+        if (keyboard.isKeyPressed(GLFW.GLFW_KEY_W)) {
             cameraInc.z = -1;
         }
 
-        if (window.isKeyPressed(GLFW.GLFW_KEY_S)) {
+        if (keyboard.isKeyPressed(GLFW.GLFW_KEY_S)) {
             cameraInc.z = 1;
         }
 
-        if (window.isKeyPressed(GLFW.GLFW_KEY_A)) {
+        if (keyboard.isKeyPressed(GLFW.GLFW_KEY_A)) {
             cameraInc.x = -1;
         }
 
-        if (window.isKeyPressed(GLFW.GLFW_KEY_D)) {
+        if (keyboard.isKeyPressed(GLFW.GLFW_KEY_D)) {
             cameraInc.x = 1;
         }
 
-        if (window.isKeyPressed(GLFW.GLFW_KEY_LEFT_SHIFT)) {
+        if (keyboard.isKeyPressed(GLFW.GLFW_KEY_LEFT_SHIFT)) {
             cameraSpeed = 5.0f;
         }
 
-        if (window.isKeyReleased(GLFW.GLFW_KEY_LEFT_SHIFT)) {
+        if (keyboard.isKeyReleased(GLFW.GLFW_KEY_LEFT_SHIFT)) {
             cameraSpeed = 0.5f;
         }
 
-        if (window.isKeyPressed(GLFW.GLFW_KEY_Z)) {
+        if (keyboard.isKeyPressed(GLFW.GLFW_KEY_Z)) {
             cameraInc.y = -1;
         }
 
-        if (window.isKeyPressed(GLFW.GLFW_KEY_X)) {
+        if (keyboard.isKeyPressed(GLFW.GLFW_KEY_X)) {
             cameraInc.y = 1;
         }
 
         float lightPos = sceneManager.getSpotLights()[0].getPointLight().getPosition().z;
-        if (window.isKeyPressed(GLFW.GLFW_KEY_N)) {
+        if (keyboard.isKeyPressed(GLFW.GLFW_KEY_N)) {
             sceneManager.getSpotLights()[0].getPointLight().getPosition().z = lightPos + 0.1f;
         }
 
-        if (window.isKeyPressed(GLFW.GLFW_KEY_M)) {
+        if (keyboard.isKeyPressed(GLFW.GLFW_KEY_M)) {
             sceneManager.getSpotLights()[0].getPointLight().getPosition().z = lightPos - 0.1f;
         }
     }
 
     @Override
-    public void update(float interval, MouseManager mouseManager) {
+    public void update(float interval, Mouse mouseManager) {
         //camera.movePosition(cameraInc.x * Consts.CAMERA_MOVE_SPEED, cameraInc.y * Consts.CAMERA_MOVE_SPEED, cameraInc.z * Consts.CAMERA_MOVE_SPEED);
         camera.movePosition(cameraInc.x * cameraSpeed, cameraInc.y * cameraSpeed, cameraInc.z * cameraSpeed);
 

@@ -62,12 +62,6 @@ public class WindowManager {
             this.setResize(true);
         });
 
-        GLFW.glfwSetKeyCallback(window, (window, key, scancode, action, mods) -> {
-            if (key == GLFW.GLFW_KEY_ESCAPE && action == GLFW.GLFW_RELEASE) {
-                GLFW.glfwSetWindowShouldClose(window, true);
-            }
-        });
-
         if (maximised) {
             GLFW.glfwMaximizeWindow(window);
         } else {
@@ -103,14 +97,6 @@ public class WindowManager {
 
     public void setClearColour(float r, float g, float b, float a) {
         GL11.glClearColor(r, g, b, a);
-    }
-
-    public boolean isKeyPressed(int keycode) {
-        return GLFW.glfwGetKey(window, keycode) == GLFW.GLFW_PRESS;
-    }
-
-    public boolean isKeyReleased(int keycode) {
-        return GLFW.glfwGetKey(window, keycode) == GLFW.GLFW_RELEASE;
     }
 
     public boolean windowShouldClose() {
