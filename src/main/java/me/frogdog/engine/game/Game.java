@@ -2,7 +2,9 @@ package me.frogdog.engine.game;
 
 import me.frogdog.engine.core.*;
 import me.frogdog.engine.core.entity.*;
+import me.frogdog.engine.core.entity.terrain.BlendMapTerrain;
 import me.frogdog.engine.core.entity.terrain.Terrain;
+import me.frogdog.engine.core.entity.terrain.TerrainTexture;
 import me.frogdog.engine.core.lighting.DirectionalLight;
 import me.frogdog.engine.core.lighting.PointLight;
 import me.frogdog.engine.core.lighting.SpotLight;
@@ -10,6 +12,7 @@ import me.frogdog.engine.core.rendering.RenderManager;
 import me.frogdog.engine.utils.Consts;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
+import org.joml.Vector4f;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.Random;
@@ -99,8 +102,17 @@ public class Game implements ILoigc {
         //Model model = loader.loadOBLModel("/models/bunny.obj");
         model.setTexture(new Texture(loader.loadTexture("textures/grass.png")), 1.0f);
 
-        Terrain terrain = new Terrain(new Vector3f(-400, -1, -400), loader, new Material(new Texture(loader.loadTexture("textures/terrain.png")), 0.1f));
-        Terrain terrain1 = new Terrain(new Vector3f(0, -1, -400), loader, new Material(new Texture(loader.loadTexture("textures/grass.png")), 0.1f));
+        TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("textures/terrain.png"));
+        TerrainTexture redTexture = new TerrainTexture(loader.loadTexture("textures/flowers.png"));
+        TerrainTexture greenTexture = new TerrainTexture(loader.loadTexture("textures/stone.png"));
+        TerrainTexture blueTexture = new TerrainTexture(loader.loadTexture("textures/grass.png"));
+        TerrainTexture blendMap = new TerrainTexture(loader.loadTexture("textures/blendMap.png"));
+
+        BlendMapTerrain blendMapTerrain = new BlendMapTerrain(backgroundTexture, redTexture, greenTexture, blueTexture);
+
+        Terrain terrain = new Terrain(new Vector3f(-400, -1, -400), loader, new Material(new Vector4f(0.0f, 0.0f, 0.0f, 0.0f), 0.1f), blendMapTerrain, blendMap);
+        Terrain terrain1 = new Terrain(new Vector3f(0, -1, -400), loader, new Material(new Vector4f(0.0f, 0.0f, 0.0f, 0.0f), 0.1f), blendMapTerrain, blendMap);
+        //Terrain terrain1 = new Terrain(new Vector3f(0, -1, -400), loader, new Material(new Texture(loader.loadTexture("textures/grass.png")), 0.1f));
         sceneManager.addTerrain(terrain);
         sceneManager.addTerrain(terrain1);
 
