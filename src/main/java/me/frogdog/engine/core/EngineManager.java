@@ -1,6 +1,5 @@
 package me.frogdog.engine.core;
 
-import me.frogdog.engine.core.audio.AudioManager;
 import me.frogdog.engine.core.input.Keyboard;
 import me.frogdog.engine.core.input.Mouse;
 import me.frogdog.engine.utils.Consts;
@@ -24,7 +23,6 @@ public class EngineManager {
     private ILoigc gameLogic;
     private Mouse mouse;
     private Keyboard keyboard;
-    private AudioManager audio;
 
     public void init() throws Exception {
         GLFW.glfwSetErrorCallback(errorCallback = GLFWErrorCallback.createPrint(System.err));
@@ -32,9 +30,7 @@ public class EngineManager {
         gameLogic = Main.getGame();
         mouse = new Mouse();
         keyboard = new Keyboard();
-        audio = new AudioManager();
         window.init();
-        audio.init();
         gameLogic.init();
         mouse.init();
         keyboard.init();
@@ -116,7 +112,6 @@ public class EngineManager {
 
     private void cleanup() {
         window.cleanup();
-        audio.cleanup();
         gameLogic.cleanup();
         errorCallback.free();
         GLFW.glfwTerminate();

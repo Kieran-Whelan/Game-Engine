@@ -19,7 +19,6 @@ import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 import org.lwjgl.glfw.GLFW;
-
 import java.util.Random;
 
 public class Game implements ILoigc {
@@ -29,6 +28,7 @@ public class Game implements ILoigc {
     private SceneManager sceneManager;
     private Camera camera;
     private Keyboard keyboard;
+    private Sound sound;
 
     private float cameraSpeed = 0.5f;
 
@@ -107,6 +107,8 @@ public class Game implements ILoigc {
         //Model model = loader.loadOBLModel("/models/bunny.obj");
         model.setTexture(new Texture(loader.loadTexture("textures/grass.png")), 1.0f);
         model.getMaterial().setDisableCulling(true);
+
+        sound = new Sound("audio/unlock.wav");
 
         TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("textures/terrain.png"));
         TerrainTexture redTexture = new TerrainTexture(loader.loadTexture("textures/flowers.png"));
@@ -204,6 +206,8 @@ public class Game implements ILoigc {
     public void update(float interval, Mouse mouseManager) {
         //camera.movePosition(cameraInc.x * Consts.CAMERA_MOVE_SPEED, cameraInc.y * Consts.CAMERA_MOVE_SPEED, cameraInc.z * Consts.CAMERA_MOVE_SPEED);
         camera.movePosition(cameraInc.x * cameraSpeed, cameraInc.y * cameraSpeed, cameraInc.z * cameraSpeed);
+
+        sound.play();
 
         if (mouseManager.isRightButtonPress()) {
             Vector2f rotVec = mouseManager.getDisplVec();
