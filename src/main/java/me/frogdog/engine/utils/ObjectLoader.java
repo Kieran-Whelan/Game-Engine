@@ -1,4 +1,4 @@
-package me.frogdog.engine.core;
+package me.frogdog.engine.utils;
 
 import me.frogdog.engine.core.entity.Model;
 import me.frogdog.engine.utils.Utils;

@@ -1,6 +1,7 @@
 package me.frogdog.engine.game;
 
 import me.frogdog.engine.core.*;
+import me.frogdog.engine.core.audio.Sound;
 import me.frogdog.engine.core.entity.*;
 import me.frogdog.engine.core.entity.terrain.BlendMapTerrain;
 import me.frogdog.engine.core.entity.terrain.Terrain;
@@ -12,6 +13,7 @@ import me.frogdog.engine.core.lighting.PointLight;
 import me.frogdog.engine.core.lighting.SpotLight;
 import me.frogdog.engine.core.rendering.RenderManager;
 import me.frogdog.engine.utils.Consts;
+import me.frogdog.engine.utils.ObjectLoader;
 import me.frogdog.engine.utils.interfaces.ILoigc;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
@@ -24,7 +26,6 @@ public class Game implements ILoigc {
 
     private final RenderManager renderer;
     private final ObjectLoader loader;
-    private final WindowManager window;
     private SceneManager sceneManager;
     private Camera camera;
     private Keyboard keyboard;
@@ -35,7 +36,6 @@ public class Game implements ILoigc {
 
     public Game() {
         renderer = new RenderManager();
-        window = Main.getWindow();
         keyboard = new Keyboard();
         loader = new ObjectLoader();
         camera = new Camera();

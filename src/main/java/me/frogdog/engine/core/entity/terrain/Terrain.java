@@ -1,6 +1,6 @@
 package me.frogdog.engine.core.entity.terrain;
 
-import me.frogdog.engine.core.ObjectLoader;
+import me.frogdog.engine.utils.ObjectLoader;
 import me.frogdog.engine.core.entity.Material;
 import me.frogdog.engine.core.entity.Model;
 import me.frogdog.engine.core.entity.Texture;

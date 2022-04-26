@@ -60,7 +60,7 @@ void setupColours(Material material, vec2 textCoord) {
 
         vec4 blendMapColour = texture(blendMap, textCoord);
         float backgroundTextureAmt = 1 - (blendMapColour.r + blendMapColour.g + blendMapColour.b);
-        vec2 tiledCoords = textCoord / 0.05f;
+        vec2 tiledCoords = textCoord / 0.01;
         vec4 backgroundTextureColour = texture(backgroundTexture, tiledCoords) * backgroundTextureAmt;
         vec4 redTextureColour = texture(redTexture, tiledCoords) * blendMapColour.r;
         vec4 greenTextureColour = texture(greenTexture, tiledCoords) * blendMapColour.g;
