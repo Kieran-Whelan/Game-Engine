@@ -103,10 +103,31 @@ public class Game implements ILoigc {
                 4, 6, 7, 5, 4, 7,
         };
 
+        float[] quadVertices = new float[] {
+                -1, -1, 0,
+                -1,  1, 0,
+                1,  1, 0,
+                1, -1, 0
+        };
+
+        int[] quadIndices = new int[] {
+                0, 1, 2,
+                0, 2, 3
+        };
+
         Model model = loader.loadModel(vertices, textCoords, indices);
         //Model model = loader.loadOBLModel("/models/bunny.obj");
-        model.setTexture(new Texture(loader.loadTexture("textures/grass.png")), 1.0f);
+        model.setMaterial(new Material(new Texture(loader.loadTexture("textures/grass.png")), 1.0f));
         model.getMaterial().setDisableCulling(true);
+
+        Random r = new Random();
+
+        for (int i = 0; i < 2000; i++) {
+            float x = r.nextFloat(-400, 400);
+            float z = r.nextFloat() * -400;
+            sceneManager.addEntity(new Entity(model, new Vector3f(x, 2, z), new Vector3f(0, 0, 0), 1));
+        }
+        sceneManager.addEntity(new Entity(model, new Vector3f(0, 2, 5), new Vector3f(0, 0, 0), 1));
 
         sound = new Sound("audio/unlock.wav");
 
@@ -120,18 +141,9 @@ public class Game implements ILoigc {
 
         Terrain terrain = new Terrain(new Vector3f(-400, -1, -400), loader, new Material(new Vector4f(0.0f, 0.0f, 0.0f, 0.0f), 0.1f), blendMapTerrain, blendMap);
         Terrain terrain1 = new Terrain(new Vector3f(0, -1, -400), loader, new Material(new Vector4f(0.0f, 0.0f, 0.0f, 0.0f), 0.1f), blendMapTerrain, blendMap);
-        //Terrain terrain1 = new Terrain(new Vector3f(0, -1, -400), loader, new Material(new Texture(loader.loadTexture("textures/grass.png")), 0.1f));
+        //Terrain terrain1 = new Terrain(new Vector3f(0, -1, -400), loader, new Material(new Texture(loader.loadTexture("textures/terrain.png")), 0.1f));
         sceneManager.addTerrain(terrain);
         sceneManager.addTerrain(terrain1);
-
-        Random r = new Random();
-
-        for (int i = 0; i < 2000; i++) {
-            float x = r.nextFloat(-400, 400);
-            float z = r.nextFloat() * -400;
-            sceneManager.addEntity(new Entity(model, new Vector3f(x, 2, z), new Vector3f(0, 0, 0), 1));
-        }
-        sceneManager.addEntity(new Entity(model, new Vector3f(0, 2, 5), new Vector3f(0, 0, 0), 1));
 
         float lightIntensity = 1.0f;
         //point light
@@ -252,12 +264,12 @@ public class Game implements ILoigc {
         sceneManager.getDirectionalLight().getDirection().x = (float) Math.sin(angRad);
         sceneManager.getDirectionalLight().getDirection().y = (float) Math.cos(angRad);
 
-        for (Entity entity : sceneManager.getEntities()) {
-            renderer.processEntity(entity);
-        }
-
         for (Terrain terrain : sceneManager.getTerrains()) {
             renderer.processTerrain(terrain);
+        }
+
+        for (Entity entity : sceneManager.getEntities()) {
+            renderer.processEntity(entity);
         }
     }
 

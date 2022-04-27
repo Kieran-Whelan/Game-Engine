@@ -63,8 +63,8 @@ public class RenderManager {
             window.setResize(false);
         }
 
-        entityRenderer.render(camera, scene.getPointLights(), scene.getSpotLights(), scene.getDirectionalLight());
         terrainRenderer.render(camera, scene.getPointLights(), scene.getSpotLights(), scene.getDirectionalLight());
+        entityRenderer.render(camera, scene.getPointLights(), scene.getSpotLights(), scene.getDirectionalLight());
     }
 
     public static void enableCulling() {
