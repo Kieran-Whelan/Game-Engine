@@ -23,7 +23,7 @@ import java.util.Map;
 
 public class EntityRenderer implements IRenderer {
 
-    ShaderManager shader;
+    private ShaderManager shader;
     private Map<Model, List<Entity>> entities;
 
     public EntityRenderer() throws Exception {
@@ -63,6 +63,7 @@ public class EntityRenderer implements IRenderer {
             }
             unbind();
         }
+
         entities.clear();
         shader.unbind();
     }

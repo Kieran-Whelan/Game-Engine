@@ -123,12 +123,11 @@ public class ObjectLoader {
         faces.add(facesVec);
     }
 
-    public Model loadModel(float[] vertices, int[] indices) {
+    public Model loadModel(float[] vertices) {
         int id = createVAO();
-        storeIndicesBuffer(indices);
-        storeDataInAttribList(0, 3, vertices);
+        storeDataInAttribList(0, 2, vertices);
         unbind();
-        return new Model(id, indices.length);
+        return new Model(id, vertices.length / 2);
     }
 
     public Model loadModel(float[] vertices, float[] textureCoords, int[] indices) {
@@ -165,7 +164,6 @@ public class ObjectLoader {
 
             width = w.get();
             height = h.get();
-
         }
 
         int id = GL11.glGenTextures();

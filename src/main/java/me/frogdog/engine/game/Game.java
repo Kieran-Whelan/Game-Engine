@@ -12,6 +12,7 @@ import me.frogdog.engine.core.lighting.DirectionalLight;
 import me.frogdog.engine.core.lighting.PointLight;
 import me.frogdog.engine.core.lighting.SpotLight;
 import me.frogdog.engine.core.rendering.RenderManager;
+import me.frogdog.engine.core.rendering.hud.font.Font;
 import me.frogdog.engine.utils.Consts;
 import me.frogdog.engine.utils.ObjectLoader;
 import me.frogdog.engine.utils.interfaces.ILoigc;
@@ -19,6 +20,8 @@ import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 import org.lwjgl.glfw.GLFW;
+import org.lwjgl.stb.STBPerlin;
+
 import java.util.Random;
 
 public class Game implements ILoigc {
@@ -95,30 +98,28 @@ public class Game implements ILoigc {
         };
 
         int[] indices = new int[] {
-                0, 1, 3, 3, 1, 2,
-                8, 10, 11, 9, 8, 11,
-                12, 13, 7, 5, 12, 7,
-                14, 15, 6, 4, 14, 6,
-                16, 18, 19, 17, 16, 19,
-                4, 6, 7, 5, 4, 7,
-        };
-
-        float[] quadVertices = new float[] {
-                -1, -1, 0,
-                -1,  1, 0,
-                1,  1, 0,
-                1, -1, 0
-        };
-
-        int[] quadIndices = new int[] {
-                0, 1, 2,
-                0, 2, 3
+                0, 1, 3,
+                3, 1, 2,
+                8, 10, 11,
+                9, 8, 11,
+                12, 13, 7,
+                5, 12, 7,
+                14, 15, 6,
+                4, 14, 6,
+                16, 18, 19,
+                17, 16, 19,
+                4, 6, 7,
+                5, 4, 7
         };
 
         Model model = loader.loadModel(vertices, textCoords, indices);
         //Model model = loader.loadOBLModel("/models/bunny.obj");
         model.setMaterial(new Material(new Texture(loader.loadTexture("textures/grass.png")), 1.0f));
         model.getMaterial().setDisableCulling(true);
+
+        Font font = new Font("font/Dubai.png", 16.0f , 16.0f, 30.0f, 59.0f);
+
+        sceneManager.addEntity(new Entity(font.getGlyph(2, 5), new Vector3f(camera.getPosition().x - 10, 5, camera.getPosition().z - 1), new Vector3f(0f, 0f, 180f), 5));
 
         Random r = new Random();
 
@@ -129,12 +130,12 @@ public class Game implements ILoigc {
         }
         sceneManager.addEntity(new Entity(model, new Vector3f(0, 2, 5), new Vector3f(0, 0, 0), 1));
 
-        sound = new Sound("audio/unlock.wav");
+        //sound = new Sound("audio/unlock.wav");
 
         TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("textures/terrain.png"));
         TerrainTexture redTexture = new TerrainTexture(loader.loadTexture("textures/flowers.png"));
         TerrainTexture greenTexture = new TerrainTexture(loader.loadTexture("textures/stone.png"));
-        TerrainTexture blueTexture = new TerrainTexture(loader.loadTexture("textures/grass.png"));
+        TerrainTexture blueTexture = new TerrainTexture(loader.loadTexture("textures/dirt.png"));
         TerrainTexture blendMap = new TerrainTexture(loader.loadTexture("textures/blendMap.png"));
 
         BlendMapTerrain blendMapTerrain = new BlendMapTerrain(backgroundTexture, redTexture, greenTexture, blueTexture);
@@ -219,7 +220,7 @@ public class Game implements ILoigc {
         //camera.movePosition(cameraInc.x * Consts.CAMERA_MOVE_SPEED, cameraInc.y * Consts.CAMERA_MOVE_SPEED, cameraInc.z * Consts.CAMERA_MOVE_SPEED);
         camera.movePosition(cameraInc.x * cameraSpeed, cameraInc.y * cameraSpeed, cameraInc.z * cameraSpeed);
 
-        sound.play();
+        //sound.play();
 
         if (mouseManager.isRightButtonPress()) {
             Vector2f rotVec = mouseManager.getDisplVec();

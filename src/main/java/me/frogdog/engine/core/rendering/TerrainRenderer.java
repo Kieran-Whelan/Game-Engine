@@ -22,7 +22,7 @@ import java.util.List;
 
 public class TerrainRenderer implements IRenderer {
 
-    ShaderManager shader;
+    private ShaderManager shader;
     private List<Terrain> terrains;
 
     public TerrainRenderer() throws Exception {

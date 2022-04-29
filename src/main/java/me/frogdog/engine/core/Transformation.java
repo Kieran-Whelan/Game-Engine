@@ -2,10 +2,18 @@ package me.frogdog.engine.core;
 
 import me.frogdog.engine.core.entity.Entity;
 import me.frogdog.engine.core.entity.terrain.Terrain;
+import me.frogdog.engine.core.rendering.hud.HudTexture;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
 public class Transformation {
+
+    public static Matrix4f createTransformationMatrix(HudTexture hudTexture) {
+        Matrix4f matrix = new Matrix4f();
+        matrix.identity().translate(hudTexture.getPosition().x, hudTexture.getPosition().y, 0f).
+                scale(hudTexture.getScale().x, hudTexture.getScale().y, 1f);
+        return matrix;
+    }
 
     public static Matrix4f createTransformationMatrix(Entity entity) {
         Matrix4f matrix = new Matrix4f();
