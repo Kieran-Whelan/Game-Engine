@@ -2,7 +2,7 @@ package me.frogdog.engine.core.rendering.hud;
 
 import me.frogdog.engine.core.Camera;
 import me.frogdog.engine.core.ShaderManager;
-import me.frogdog.engine.core.Transformation;
+import me.frogdog.engine.core.maths.Transformation;
 import me.frogdog.engine.core.entity.Model;
 import me.frogdog.engine.core.lighting.DirectionalLight;
 import me.frogdog.engine.core.lighting.PointLight;
@@ -42,7 +42,7 @@ public class HudRenderer implements IRenderer {
 
     @Override
     public void init() throws Exception {
-        HudTexture test = new HudTexture(loader.loadTexture("textures/grass.png"), new Vector2f(0.0f, 0.0f), new Vector2f(0.25f, 0.25f));
+        HudTexture test = new HudTexture(loader.loadTexture("font/Dubai.png"), new Vector2f(0.0f, 0.0f), new Vector2f(1.25f, 1.25f));
         hudTextures.add(test);
         shader.createVertexShader(Utils.loadResource("/shaders/hud_vertex.glsl"));
         shader.createFragmentShader(Utils.loadResource("/shaders/hud_fragment.glsl"));
@@ -59,6 +59,8 @@ public class HudRenderer implements IRenderer {
         for (HudTexture hudTexture : hudTextures) {
             GL13.glActiveTexture(GL13.GL_TEXTURE0);
             GL11.glBindTexture(GL11.GL_TEXTURE_2D, hudTexture.getId());
+            GL11.glEnable(GL11.GL_BLEND);
+            GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
             Matrix4f matrix = Transformation.createTransformationMatrix(hudTexture);
             shader.setUniform("transformationMatrix", matrix);
             GL11.glDrawArrays(GL11.GL_TRIANGLE_STRIP, 0, quad.getVertexCount());

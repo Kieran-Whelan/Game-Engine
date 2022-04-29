@@ -58,9 +58,9 @@ vec4 specularC;
 void setupColours(Material material, vec2 textCoord) {
     if (material.hasTexture == 0) {
         vec4 blendMapColour = texture(blendMap, textCoord);
-        float backgroundTextureAmt = 1 - (blendMapColour.r + blendMapColour.g + blendMapColour.b);
+        float backgroundTextureAmount = 1 - (blendMapColour.r + blendMapColour.g + blendMapColour.b);
         vec2 tiledCoords = textCoord / 0.01;
-        vec4 backgroundTextureColour = texture(backgroundTexture, tiledCoords) * backgroundTextureAmt;
+        vec4 backgroundTextureColour = texture(backgroundTexture, tiledCoords) * backgroundTextureAmount;
         vec4 redTextureColour = texture(redTexture, tiledCoords) * blendMapColour.r;
         vec4 greenTextureColour = texture(greenTexture, tiledCoords) * blendMapColour.g;
         vec4 blueTextureColour = texture(blueTexture, tiledCoords) * blendMapColour.b;

@@ -117,10 +117,6 @@ public class Game implements ILoigc {
         model.setMaterial(new Material(new Texture(loader.loadTexture("textures/grass.png")), 1.0f));
         model.getMaterial().setDisableCulling(true);
 
-        Font font = new Font("font/Dubai.png", 16.0f , 16.0f, 30.0f, 59.0f);
-
-        sceneManager.addEntity(new Entity(font.getGlyph(2, 5), new Vector3f(camera.getPosition().x - 10, 5, camera.getPosition().z - 1), new Vector3f(0f, 0f, 180f), 5));
-
         Random r = new Random();
 
         for (int i = 0; i < 2000; i++) {
