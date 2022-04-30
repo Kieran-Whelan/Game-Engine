@@ -1,6 +1,6 @@
 package me.frogdog.engine.core.rendering;
 
-import me.frogdog.engine.core.Camera;
+import me.frogdog.engine.core.maths.Camera;
 import me.frogdog.engine.core.ShaderManager;
 import me.frogdog.engine.core.WindowManager;
 import me.frogdog.engine.core.entity.Entity;

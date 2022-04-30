@@ -147,11 +147,28 @@ public class Text {
             case '|' -> new Vector2f(12.0f, 7.0f);
             case '}' -> new Vector2f(13.0f, 7.0f);
             case '~' -> new Vector2f(14.0f, 7.0f);
+            case ' ' -> new Vector2f(0.0f, 2.0f);
             default -> new Vector2f(1.0f, 0.0f);
         };
     }
 
     private float getSpaceMultiplier(char glyph) {
+        if (glyph == 'i') {
+            return 0.65f;
+        }
+
+        if (glyph == 'I') {
+            return 0.75f;
+        }
+
+        if (glyph == 'w' || glyph == 'm') {
+            return 1.5f;
+        }
+
+        if (glyph == 'W' || glyph == 'M') {
+            return 1.75f;
+        }
+
         if (isUpperCase(glyph)) {
             return 1.25f;
         }

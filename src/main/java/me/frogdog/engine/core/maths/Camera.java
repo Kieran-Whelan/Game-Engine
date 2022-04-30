@@ -1,4 +1,4 @@
-package me.frogdog.engine.core;
+package me.frogdog.engine.core.maths;
 
 import org.joml.Vector3f;
 

@@ -1,6 +1,5 @@
 package me.frogdog.engine.core.maths;
 
-import me.frogdog.engine.core.Camera;
 import me.frogdog.engine.core.entity.Entity;
 import me.frogdog.engine.core.entity.terrain.Terrain;
 import me.frogdog.engine.core.rendering.hud.HudTexture;

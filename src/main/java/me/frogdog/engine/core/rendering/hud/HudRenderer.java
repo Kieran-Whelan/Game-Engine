@@ -1,6 +1,6 @@
 package me.frogdog.engine.core.rendering.hud;
 
-import me.frogdog.engine.core.Camera;
+import me.frogdog.engine.core.maths.Camera;
 import me.frogdog.engine.core.ShaderManager;
 import me.frogdog.engine.core.maths.Transformation;
 import me.frogdog.engine.core.entity.Model;
@@ -12,7 +12,6 @@ import me.frogdog.engine.utils.ObjectLoader;
 import me.frogdog.engine.utils.Utils;
 import me.frogdog.engine.utils.interfaces.IRenderer;
 import org.joml.Matrix4f;
-import org.joml.Vector2f;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
@@ -47,17 +46,17 @@ public class HudRenderer implements IRenderer {
     @Override
     public void render(Camera camera, PointLight[] pointLights, SpotLight[] spotLights, DirectionalLight directionalLight) {
         shader.bind();
-        bind(quad);
         for (HudTexture hudTexture : hudTextures) {
+            bind(quad);
+            prepare(hudTexture, camera);
             GL13.glActiveTexture(GL13.GL_TEXTURE0);
             GL11.glBindTexture(GL11.GL_TEXTURE_2D, hudTexture.getId());
             GL11.glEnable(GL11.GL_BLEND);
             GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-            Matrix4f matrix = Transformation.createTransformationMatrix(hudTexture);
-            shader.setUniform("transformationMatrix", matrix);
             GL11.glDrawArrays(GL11.GL_TRIANGLE_STRIP, 0, quad.getVertexCount());
+            unbind();
         }
-        unbind();
+        hudTextures.clear();
         shader.unbind();
     }
 
@@ -74,8 +73,9 @@ public class HudRenderer implements IRenderer {
     }
 
     @Override
-    public void prepare(Object o, Camera camera) {
-
+    public void prepare(Object hudTexture, Camera camera) {
+        Matrix4f matrix = Transformation.createTransformationMatrix((HudTexture) hudTexture);
+        shader.setUniform("transformationMatrix", matrix);
     }
 
     @Override

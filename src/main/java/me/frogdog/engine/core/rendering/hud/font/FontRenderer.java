@@ -1,6 +1,6 @@
 package me.frogdog.engine.core.rendering.hud.font;
 
-import me.frogdog.engine.core.Camera;
+import me.frogdog.engine.core.maths.Camera;
 import me.frogdog.engine.core.ShaderManager;
 import me.frogdog.engine.core.entity.Model;
 import me.frogdog.engine.core.lighting.DirectionalLight;
@@ -8,14 +8,11 @@ import me.frogdog.engine.core.lighting.PointLight;
 import me.frogdog.engine.core.lighting.SpotLight;
 import me.frogdog.engine.core.maths.Transformation;
 import me.frogdog.engine.core.rendering.hud.HudTexture;
-import me.frogdog.engine.core.rendering.hud.font.text.Text;
 import me.frogdog.engine.utils.Consts;
 import me.frogdog.engine.utils.ObjectLoader;
 import me.frogdog.engine.utils.Utils;
 import me.frogdog.engine.utils.interfaces.IRenderer;
 import org.joml.Matrix4f;
-import org.joml.Vector2f;
-import org.joml.Vector4f;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
@@ -28,21 +25,18 @@ public class FontRenderer implements IRenderer {
 
     private ShaderManager shader;
     private ObjectLoader loader;
-    private Text text;
     private final Model quad;
-    private List<Glyph> glyphList;
+    private List<Glyph> glyphs;
 
     public FontRenderer() throws Exception {
         shader = new ShaderManager();
         loader = new ObjectLoader();
-        text = new Text("font/Dubai.png");
         quad = loader.loadModel(Consts.HUD_VERTICES);
-        glyphList = new ArrayList<>();
+        glyphs = new ArrayList<>();
     }
 
     @Override
     public void init() throws Exception {
-        text.drawString("Keran", new Vector2f(-0.8f, 0.8f), 4, new Vector4f(1.0f, 1.0f, 0.0f, 1.0f));
         shader.createVertexShader(Utils.loadResource("/shaders/font_vertex.glsl"));
         shader.createFragmentShader(Utils.loadResource("/shaders/font_fragment.glsl"));
         shader.link();
@@ -55,8 +49,8 @@ public class FontRenderer implements IRenderer {
     @Override
     public void render(Camera camera, PointLight[] pointLights, SpotLight[] spotLights, DirectionalLight directionalLight) {
         shader.bind();
-        bind(quad);
-        for (HudTexture glyph : glyphList) {
+        for (HudTexture glyph : glyphs) {
+            bind(quad);
             prepare(glyph, camera);
             GL13.glActiveTexture(GL13.GL_TEXTURE0);
             GL11.glBindTexture(GL11.GL_TEXTURE_2D, glyph.getId());
@@ -64,8 +58,9 @@ public class FontRenderer implements IRenderer {
             GL11.glEnable(GL11.GL_BLEND);
             GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
             GL11.glDrawArrays(GL11.GL_TRIANGLE_STRIP, 0, quad.getVertexCount());
+            unbind();
         }
-        unbind();
+        glyphs.clear();
         shader.unbind();
     }
 
@@ -95,6 +90,6 @@ public class FontRenderer implements IRenderer {
     }
 
     public List<Glyph> getGlyphs() {
-        return glyphList;
+        return glyphs;
     }
 }

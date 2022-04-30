@@ -1,6 +1,5 @@
 package me.frogdog.engine.game;
 
-import me.frogdog.engine.core.*;
 import me.frogdog.engine.core.audio.Sound;
 import me.frogdog.engine.core.entity.*;
 import me.frogdog.engine.core.entity.terrain.BlendMapTerrain;
@@ -11,8 +10,9 @@ import me.frogdog.engine.core.input.Mouse;
 import me.frogdog.engine.core.lighting.DirectionalLight;
 import me.frogdog.engine.core.lighting.PointLight;
 import me.frogdog.engine.core.lighting.SpotLight;
+import me.frogdog.engine.core.maths.Camera;
 import me.frogdog.engine.core.rendering.RenderManager;
-import me.frogdog.engine.core.rendering.hud.font.Font;
+import me.frogdog.engine.core.rendering.hud.font.text.Text;
 import me.frogdog.engine.utils.Consts;
 import me.frogdog.engine.utils.ObjectLoader;
 import me.frogdog.engine.utils.interfaces.ILoigc;
@@ -20,7 +20,6 @@ import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 import org.lwjgl.glfw.GLFW;
-import org.lwjgl.stb.STBPerlin;
 
 import java.util.Random;
 
@@ -32,6 +31,7 @@ public class Game implements ILoigc {
     private Camera camera;
     private Keyboard keyboard;
     private Sound sound;
+    private Text text;
 
     private float cameraSpeed = 0.5f;
 
@@ -49,6 +49,7 @@ public class Game implements ILoigc {
     @Override
     public void init() throws Exception {
         renderer.init();
+        text = new Text("font/Dubai.png");
         camera.setPosition(0 ,0 ,0);
 
         float[] vertices = new float[] {
@@ -215,6 +216,7 @@ public class Game implements ILoigc {
     public void update(float interval, Mouse mouseManager) {
         //camera.movePosition(cameraInc.x * Consts.CAMERA_MOVE_SPEED, cameraInc.y * Consts.CAMERA_MOVE_SPEED, cameraInc.z * Consts.CAMERA_MOVE_SPEED);
         camera.movePosition(cameraInc.x * cameraSpeed, cameraInc.y * cameraSpeed, cameraInc.z * cameraSpeed);
+        text.drawString("XYZ: " + (int) camera.getPosition().x + " " + (int) camera.getPosition().y + " " + (int) camera.getPosition().z, new Vector2f(-0.8f, 0.8f), 6);
 
         //sound.play();
 

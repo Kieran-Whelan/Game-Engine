@@ -1,6 +1,6 @@
 package me.frogdog.engine.core.rendering;
 
-import me.frogdog.engine.core.Camera;
+import me.frogdog.engine.core.maths.Camera;
 import me.frogdog.engine.core.ShaderManager;
 import me.frogdog.engine.core.maths.Transformation;
 import me.frogdog.engine.core.entity.Entity;
@@ -12,7 +12,6 @@ import me.frogdog.engine.game.Main;
 import me.frogdog.engine.utils.Consts;
 import me.frogdog.engine.utils.Utils;
 import me.frogdog.engine.utils.interfaces.IRenderer;
-import org.joml.Vector2f;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
