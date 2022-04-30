@@ -7,6 +7,7 @@ import me.frogdog.engine.core.entity.Model;
 import me.frogdog.engine.core.lighting.DirectionalLight;
 import me.frogdog.engine.core.lighting.PointLight;
 import me.frogdog.engine.core.lighting.SpotLight;
+import me.frogdog.engine.utils.Consts;
 import me.frogdog.engine.utils.ObjectLoader;
 import me.frogdog.engine.utils.Utils;
 import me.frogdog.engine.utils.interfaces.IRenderer;
@@ -27,23 +28,15 @@ public class HudRenderer implements IRenderer {
     private final Model quad;
     private List<HudTexture> hudTextures;
 
-    float[] vertices = new float[] {
-            -1, 1,
-            -1, -1,
-            1, 1,
-            1, -1
-    };
-
     public HudRenderer() throws Exception {
         loader = new ObjectLoader();
         shader = new ShaderManager();
         hudTextures = new ArrayList<>();
-        quad = loader.loadModel(vertices);
+        quad = loader.loadModel(Consts.HUD_VERTICES);
     }
 
     @Override
     public void init() throws Exception {
-        HudTexture test = new HudTexture(loader.loadTexture("font/Dubai.png"), new Vector2f(0.0f, 0.0f), new Vector2f(0.125f, 0.25f));
         shader.createVertexShader(Utils.loadResource("/shaders/hud_vertex.glsl"));
         shader.createFragmentShader(Utils.loadResource("/shaders/hud_fragment.glsl"));
         shader.link();
@@ -54,8 +47,7 @@ public class HudRenderer implements IRenderer {
     @Override
     public void render(Camera camera, PointLight[] pointLights, SpotLight[] spotLights, DirectionalLight directionalLight) {
         shader.bind();
-        GL30.glBindVertexArray(quad.getId());
-        GL20.glEnableVertexAttribArray(0);
+        bind(quad);
         for (HudTexture hudTexture : hudTextures) {
             GL13.glActiveTexture(GL13.GL_TEXTURE0);
             GL11.glBindTexture(GL11.GL_TEXTURE_2D, hudTexture.getId());
@@ -65,20 +57,20 @@ public class HudRenderer implements IRenderer {
             shader.setUniform("transformationMatrix", matrix);
             GL11.glDrawArrays(GL11.GL_TRIANGLE_STRIP, 0, quad.getVertexCount());
         }
-
-        GL20.glDisableVertexAttribArray(0);
-        GL30.glBindVertexArray(0);
+        unbind();
         shader.unbind();
     }
 
     @Override
     public void bind(Model model) {
-
+        GL30.glBindVertexArray(quad.getId());
+        GL20.glEnableVertexAttribArray(0);
     }
 
     @Override
     public void unbind() {
-
+        GL20.glDisableVertexAttribArray(0);
+        GL30.glBindVertexArray(0);
     }
 
     @Override

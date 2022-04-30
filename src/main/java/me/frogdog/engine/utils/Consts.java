@@ -21,4 +21,6 @@ public class Consts {
     public static final int MAX_SPOT_LIGHTS = 5;
     public static final int MAX_POINT_LIGHTS = 5;
 
+    public static final float[] HUD_VERTICES = {-1, 1, -1, -1, 1, 1, 1, -1};
+
 }

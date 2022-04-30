@@ -18,6 +18,10 @@ public class HudTexture {
         return id;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public Vector2f getPosition() {
         return position;
     }
