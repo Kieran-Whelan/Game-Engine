@@ -94,4 +94,5 @@ public class Material {
     public void setDisableCulling(boolean disableCulling) {
         this.disableCulling = disableCulling;
     }
+
 }

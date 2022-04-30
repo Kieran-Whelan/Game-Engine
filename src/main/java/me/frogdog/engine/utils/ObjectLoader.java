@@ -130,6 +130,14 @@ public class ObjectLoader {
         return new Model(id, vertices.length / 2);
     }
 
+    public Model loadModel(float[] vertices, float[] textureCoords) {
+        int id = createVAO();
+        storeDataInAttribList(0, 2, vertices);
+        storeDataInAttribList(1, 2, textureCoords);
+        unbind();
+        return new Model(id, vertices.length / 2);
+    }
+
     public Model loadModel(float[] vertices, float[] textureCoords, int[] indices) {
         int id = createVAO();
         storeIndicesBuffer(indices);

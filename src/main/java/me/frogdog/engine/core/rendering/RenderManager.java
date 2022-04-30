@@ -11,6 +11,7 @@ import me.frogdog.engine.core.lighting.DirectionalLight;
 import me.frogdog.engine.core.lighting.PointLight;
 import me.frogdog.engine.core.lighting.SpotLight;
 import me.frogdog.engine.core.rendering.hud.HudRenderer;
+import me.frogdog.engine.core.rendering.hud.font.FontRenderer;
 import me.frogdog.engine.utils.Consts;
 import me.frogdog.engine.game.Main;
 import org.lwjgl.opengl.GL11;
@@ -26,6 +27,7 @@ public class RenderManager {
     private EntityRenderer entityRenderer;
     private TerrainRenderer terrainRenderer;
     private HudRenderer hudRenderer;
+    private FontRenderer fontRenderer;
 
     private static boolean isCulling = false;
 
@@ -39,9 +41,11 @@ public class RenderManager {
         entityRenderer = new EntityRenderer();
         terrainRenderer = new TerrainRenderer();
         hudRenderer = new HudRenderer();
+        fontRenderer = new FontRenderer();
         entityRenderer.init();
         terrainRenderer.init();
         hudRenderer.init();
+        fontRenderer.init();
     }
 
     public static void renderLights(PointLight[] pointLights, SpotLight[] spotLights, DirectionalLight directionalLight, ShaderManager shader) {
@@ -70,6 +74,8 @@ public class RenderManager {
         terrainRenderer.render(camera, scene.getPointLights(), scene.getSpotLights(), scene.getDirectionalLight());
         entityRenderer.render(camera, scene.getPointLights(), scene.getSpotLights(), scene.getDirectionalLight());
         hudRenderer.render(camera, scene.getPointLights(), scene.getSpotLights(), scene.getDirectionalLight());
+        fontRenderer.render(camera, scene.getPointLights(), scene.getSpotLights(), scene.getDirectionalLight());
+
     }
 
     public static void enableCulling() {
@@ -110,5 +116,6 @@ public class RenderManager {
         entityRenderer.cleanup();
         terrainRenderer.cleanup();
         hudRenderer.cleanup();
+        fontRenderer.cleanup();
     }
 }
