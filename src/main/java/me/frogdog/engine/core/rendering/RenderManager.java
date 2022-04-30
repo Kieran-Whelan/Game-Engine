@@ -23,6 +23,7 @@ import java.util.Map;
 
 public class RenderManager {
 
+    private static RenderManager instance = null;
     private final WindowManager window;
     private EntityRenderer entityRenderer;
     private TerrainRenderer terrainRenderer;
@@ -34,6 +35,7 @@ public class RenderManager {
     private Map<Model, List<Entity>> entities = new HashMap<>();
 
     public RenderManager() {
+        instance = this;
         window = Main.getWindow();
     }
 
@@ -117,5 +119,13 @@ public class RenderManager {
         terrainRenderer.cleanup();
         hudRenderer.cleanup();
         fontRenderer.cleanup();
+    }
+
+    public static RenderManager getInstance() {
+        return instance;
+    }
+
+    public FontRenderer getFontRenderer() {
+        return fontRenderer;
     }
 }
