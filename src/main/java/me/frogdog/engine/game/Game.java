@@ -1,5 +1,6 @@
 package me.frogdog.engine.game;
 
+import me.frogdog.engine.core.SceneManager;
 import me.frogdog.engine.core.audio.Sound;
 import me.frogdog.engine.core.entity.*;
 import me.frogdog.engine.core.entity.terrain.BlendMapTerrain;
@@ -21,8 +22,6 @@ import org.joml.Vector3f;
 import org.joml.Vector4f;
 import org.lwjgl.glfw.GLFW;
 
-import java.util.Random;
-
 public class Game implements ILoigc {
 
     private final RenderManager renderer;
@@ -34,6 +33,7 @@ public class Game implements ILoigc {
     private Text text;
 
     private float cameraSpeed = 0.5f;
+    private boolean debugMode = false;
 
     Vector3f cameraInc;
 
@@ -52,96 +52,22 @@ public class Game implements ILoigc {
         text = new Text("font/Dubai.png");
         camera.setPosition(0 ,0 ,0);
 
-        float[] vertices = new float[] {
-                -0.5f, 0.5f, 0.5f,
-                -0.5f, -0.5f, 0.5f,
-                0.5f, -0.5f, 0.5f,
-                0.5f, 0.5f, 0.5f,
-                -0.5f, 0.5f, -0.5f,
-                0.5f, 0.5f, -0.5f,
-                -0.5f, -0.5f, -0.5f,
-                0.5f, -0.5f, -0.5f,
-                -0.5f, 0.5f, -0.5f,
-                0.5f, 0.5f, -0.5f,
-                -0.5f, 0.5f, 0.5f,
-                0.5f, 0.5f, 0.5f,
-                0.5f, 0.5f, 0.5f,
-                0.5f, -0.5f, 0.5f,
-                -0.5f, 0.5f, 0.5f,
-                -0.5f, -0.5f, 0.5f,
-                -0.5f, -0.5f, -0.5f,
-                0.5f, -0.5f, -0.5f,
-                -0.5f, -0.5f, 0.5f,
-                0.5f, -0.5f, 0.5f,
-        };
-
-        float[] textCoords = new float[] {
-                0.0f, 0.0f,
-                0.0f, 0.5f,
-                0.5f, 0.5f,
-                0.5f, 0.0f,
-                0.0f, 0.0f,
-                0.5f, 0.0f,
-                0.0f, 0.5f,
-                0.5f, 0.5f,
-                0.0f, 0.5f,
-                0.5f, 0.5f,
-                0.0f, 1.0f,
-                0.5f, 1.0f,
-                0.0f, 0.0f,
-                0.0f, 0.5f,
-                0.5f, 0.0f,
-                0.5f, 0.5f,
-                0.5f, 0.0f,
-                1.0f, 0.0f,
-                0.5f, 0.5f,
-                1.0f, 0.5f,
-        };
-
-        int[] indices = new int[] {
-                0, 1, 3,
-                3, 1, 2,
-                8, 10, 11,
-                9, 8, 11,
-                12, 13, 7,
-                5, 12, 7,
-                14, 15, 6,
-                4, 14, 6,
-                16, 18, 19,
-                17, 16, 19,
-                4, 6, 7,
-                5, 4, 7
-        };
-
-        Model model = loader.loadModel(vertices, textCoords, indices);
-        //Model model = loader.loadOBLModel("/models/bunny.obj");
-        model.setMaterial(new Material(new Texture(loader.loadTexture("textures/grass.png")), 1.0f));
-        model.getMaterial().setDisableCulling(true);
-
-        Random r = new Random();
-
-        for (int i = 0; i < 2000; i++) {
-            float x = r.nextFloat(-400, 400);
-            float z = r.nextFloat() * -400;
-            sceneManager.addEntity(new Entity(model, new Vector3f(x, 2, z), new Vector3f(0, 0, 0), 1));
-        }
-        sceneManager.addEntity(new Entity(model, new Vector3f(0, 2, 5), new Vector3f(0, 0, 0), 1));
-
         //sound = new Sound("audio/unlock.wav");
+
+        Model player = new Model(loader.loadOBLModel("/models/player.obj"), new Texture(loader.loadTexture("textures/texture.png")));
+        player.getMaterial().setDisableCulling(true);
+        sceneManager.addEntity(new Entity(player, new Vector3f(0.0f, 0.0f, -10.0f), new Vector3f(0.0f, 0.0f, 0.0f), 1.0f));
 
         TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("textures/terrain.png"));
         TerrainTexture redTexture = new TerrainTexture(loader.loadTexture("textures/flowers.png"));
         TerrainTexture greenTexture = new TerrainTexture(loader.loadTexture("textures/stone.png"));
         TerrainTexture blueTexture = new TerrainTexture(loader.loadTexture("textures/dirt.png"));
-        TerrainTexture blendMap = new TerrainTexture(loader.loadTexture("textures/blendMap.png"));
+        TerrainTexture blendMap = new TerrainTexture(loader.loadTexture("textures/maps/blendmap.png"));
 
         BlendMapTerrain blendMapTerrain = new BlendMapTerrain(backgroundTexture, redTexture, greenTexture, blueTexture);
 
-        Terrain terrain = new Terrain(new Vector3f(-400, -1, -400), loader, new Material(new Vector4f(0.0f, 0.0f, 0.0f, 0.0f), 0.1f), blendMapTerrain, blendMap);
-        Terrain terrain1 = new Terrain(new Vector3f(0, -1, -400), loader, new Material(new Vector4f(0.0f, 0.0f, 0.0f, 0.0f), 0.1f), blendMapTerrain, blendMap);
-        //Terrain terrain1 = new Terrain(new Vector3f(0, -1, -400), loader, new Material(new Texture(loader.loadTexture("textures/terrain.png")), 0.1f));
+        Terrain terrain = new Terrain(new Vector3f(-200, -1, -200), loader, new Material(new Vector4f(0.0f, 0.0f, 0.0f, 0.0f), 0.1f), blendMapTerrain, blendMap, "textures/maps/heightmap.png");
         sceneManager.addTerrain(terrain);
-        sceneManager.addTerrain(terrain1);
 
         float lightIntensity = 1.0f;
         //point light
@@ -210,13 +136,22 @@ public class Game implements ILoigc {
         if (keyboard.isKeyPressed(GLFW.GLFW_KEY_M)) {
             sceneManager.getSpotLights()[0].getPointLight().getPosition().z = lightPos - 0.1f;
         }
+
+        if (keyboard.isKeyPressed(GLFW.GLFW_KEY_F3)) {
+            debugMode = !debugMode;
+        }
     }
 
     @Override
     public void update(float interval, Mouse mouseManager) {
         //camera.movePosition(cameraInc.x * Consts.CAMERA_MOVE_SPEED, cameraInc.y * Consts.CAMERA_MOVE_SPEED, cameraInc.z * Consts.CAMERA_MOVE_SPEED);
         camera.movePosition(cameraInc.x * cameraSpeed, cameraInc.y * cameraSpeed, cameraInc.z * cameraSpeed);
-        text.drawString("XYZ: " + (int) camera.getPosition().x + " " + (int) camera.getPosition().y + " " + (int) camera.getPosition().z, new Vector2f(-0.8f, 0.8f), 6);
+        if (debugMode) {
+            text.drawString("Frog Engine dev 0.01", new Vector2f(-0.975f, 0.965f), 8);
+            text.drawString("XYZ: " + (int) camera.getPosition().x + " " + (int) camera.getPosition().y + " " + (int) camera.getPosition().z, new Vector2f(-0.975f, 0.925f), 8);
+            text.drawString("OpenGL version 3.3", new Vector2f(-0.975f, 0.885f), 8);
+
+        }
 
         //sound.play();
 

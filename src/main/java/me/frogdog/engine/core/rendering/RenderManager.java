@@ -5,7 +5,7 @@ import me.frogdog.engine.core.ShaderManager;
 import me.frogdog.engine.core.WindowManager;
 import me.frogdog.engine.core.entity.Entity;
 import me.frogdog.engine.core.entity.Model;
-import me.frogdog.engine.core.entity.SceneManager;
+import me.frogdog.engine.core.SceneManager;
 import me.frogdog.engine.core.entity.terrain.Terrain;
 import me.frogdog.engine.core.lighting.DirectionalLight;
 import me.frogdog.engine.core.lighting.PointLight;
