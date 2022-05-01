@@ -1,6 +1,6 @@
 package me.frogdog.engine.core;
 
-import me.frogdog.engine.core.entity.Material;
+import me.frogdog.engine.core.world.Material;
 import me.frogdog.engine.core.lighting.DirectionalLight;
 import me.frogdog.engine.core.lighting.PointLight;
 import me.frogdog.engine.core.lighting.SpotLight;
@@ -9,9 +9,7 @@ import org.lwjgl.opengl.GL20;
 import org.lwjgl.system.MemoryStack;
 
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
-import java.util.Objects;
 
 public class ShaderManager {
 

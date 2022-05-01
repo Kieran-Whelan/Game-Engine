@@ -1,9 +1,9 @@
-package me.frogdog.engine.core.entity.terrain;
+package me.frogdog.engine.core.world.terrain;
 
 import me.frogdog.engine.utils.ObjectLoader;
-import me.frogdog.engine.core.entity.Material;
-import me.frogdog.engine.core.entity.Model;
-import me.frogdog.engine.core.entity.Texture;
+import me.frogdog.engine.core.world.Material;
+import me.frogdog.engine.core.world.Model;
+import me.frogdog.engine.core.world.Texture;
 import org.joml.Vector3f;
 
 import javax.imageio.ImageIO;

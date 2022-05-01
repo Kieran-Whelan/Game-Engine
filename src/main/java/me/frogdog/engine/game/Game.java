@@ -2,10 +2,11 @@ package me.frogdog.engine.game;
 
 import me.frogdog.engine.core.SceneManager;
 import me.frogdog.engine.core.audio.Sound;
-import me.frogdog.engine.core.entity.*;
-import me.frogdog.engine.core.entity.terrain.BlendMapTerrain;
-import me.frogdog.engine.core.entity.terrain.Terrain;
-import me.frogdog.engine.core.entity.terrain.TerrainTexture;
+import me.frogdog.engine.core.world.*;
+import me.frogdog.engine.core.world.entity.Entity;
+import me.frogdog.engine.core.world.terrain.BlendMapTerrain;
+import me.frogdog.engine.core.world.terrain.Terrain;
+import me.frogdog.engine.core.world.terrain.TerrainTexture;
 import me.frogdog.engine.core.input.Keyboard;
 import me.frogdog.engine.core.input.Mouse;
 import me.frogdog.engine.core.lighting.DirectionalLight;

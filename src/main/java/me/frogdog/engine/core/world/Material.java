@@ -1,4 +1,4 @@
-package me.frogdog.engine.core.entity;
+package me.frogdog.engine.core.world;
 
 import me.frogdog.engine.utils.Consts;
 import org.joml.Vector4f;

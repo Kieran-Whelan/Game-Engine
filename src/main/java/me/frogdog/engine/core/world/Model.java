@@ -1,4 +1,4 @@
-package me.frogdog.engine.core.entity;
+package me.frogdog.engine.core.world;
 
 public class Model {
 

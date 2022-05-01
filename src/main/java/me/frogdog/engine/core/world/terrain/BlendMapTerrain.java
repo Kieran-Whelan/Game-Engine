@@ -1,4 +1,4 @@
-package me.frogdog.engine.core.entity.terrain;
+package me.frogdog.engine.core.world.terrain;
 
 public class BlendMapTerrain {
 

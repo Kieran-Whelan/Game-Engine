@@ -1,5 +1,6 @@
-package me.frogdog.engine.core.entity;
+package me.frogdog.engine.core.world.entity;
 
+import me.frogdog.engine.core.world.Model;
 import org.joml.Vector3f;
 
 public class Entity {
