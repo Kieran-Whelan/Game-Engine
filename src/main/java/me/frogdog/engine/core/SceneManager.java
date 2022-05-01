@@ -1,7 +1,7 @@
 package me.frogdog.engine.core;
 
-import me.frogdog.engine.core.entity.Entity;
-import me.frogdog.engine.core.entity.terrain.Terrain;
+import me.frogdog.engine.core.world.entity.Entity;
+import me.frogdog.engine.core.world.terrain.Terrain;
 import me.frogdog.engine.core.lighting.DirectionalLight;
 import me.frogdog.engine.core.lighting.PointLight;
 import me.frogdog.engine.core.lighting.SpotLight;

@@ -1,7 +1,7 @@
 package me.frogdog.engine.utils.interfaces;
 
 import me.frogdog.engine.core.maths.Camera;
-import me.frogdog.engine.core.entity.Model;
+import me.frogdog.engine.core.world.Model;
 import me.frogdog.engine.core.lighting.DirectionalLight;
 import me.frogdog.engine.core.lighting.PointLight;
 import me.frogdog.engine.core.lighting.SpotLight;

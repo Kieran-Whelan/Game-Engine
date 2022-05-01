@@ -4,6 +4,7 @@ import me.frogdog.engine.core.SceneManager;
 import me.frogdog.engine.core.audio.Sound;
 import me.frogdog.engine.core.world.*;
 import me.frogdog.engine.core.world.entity.Entity;
+import me.frogdog.engine.core.world.entity.player.Player;
 import me.frogdog.engine.core.world.terrain.BlendMapTerrain;
 import me.frogdog.engine.core.world.terrain.Terrain;
 import me.frogdog.engine.core.world.terrain.TerrainTexture;
@@ -32,6 +33,7 @@ public class Game implements ILoigc {
     private Keyboard keyboard;
     private Sound sound;
     private Text text;
+    private Player player;
 
     private float cameraSpeed = 0.5f;
     private boolean debugMode = false;
@@ -55,9 +57,9 @@ public class Game implements ILoigc {
 
         //sound = new Sound("audio/unlock.wav");
 
-        Model player = new Model(loader.loadOBLModel("/models/player.obj"), new Texture(loader.loadTexture("textures/texture.png")));
-        player.getMaterial().setDisableCulling(true);
-        sceneManager.addEntity(new Entity(player, new Vector3f(0.0f, 0.0f, -10.0f), new Vector3f(0.0f, 0.0f, 0.0f), 1.0f));
+        player = new Player(camera, new Model((loader.loadOBLModel("/models/player.obj")), new Texture(loader.loadTexture("textures/player.png"))), new Vector3f(0.0f, 0.0f, 0.0f), new Vector3f(0.0f, 0.0f, 0.0f), 1.0f);
+        player.getModel().getMaterial().setDisableCulling(true);
+        sceneManager.addEntity(player);
 
         TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("textures/terrain.png"));
         TerrainTexture redTexture = new TerrainTexture(loader.loadTexture("textures/flowers.png"));
@@ -96,46 +98,12 @@ public class Game implements ILoigc {
 
     @Override
     public void input() {
-        cameraInc.set(0, 0, 0);
-        if (keyboard.isKeyPressed(GLFW.GLFW_KEY_W)) {
-            cameraInc.z = -1;
+        if (keyboard.isKeyDown(GLFW.GLFW_KEY_X)) {
+            camera.getPosition().y -= cameraSpeed;
         }
 
-        if (keyboard.isKeyPressed(GLFW.GLFW_KEY_S)) {
-            cameraInc.z = 1;
-        }
-
-        if (keyboard.isKeyPressed(GLFW.GLFW_KEY_A)) {
-            cameraInc.x = -1;
-        }
-
-        if (keyboard.isKeyPressed(GLFW.GLFW_KEY_D)) {
-            cameraInc.x = 1;
-        }
-
-        if (keyboard.isKeyPressed(GLFW.GLFW_KEY_LEFT_SHIFT)) {
-            cameraSpeed = 5.0f;
-        }
-
-        if (keyboard.isKeyReleased(GLFW.GLFW_KEY_LEFT_SHIFT)) {
-            cameraSpeed = 0.5f;
-        }
-
-        if (keyboard.isKeyPressed(GLFW.GLFW_KEY_Z)) {
-            cameraInc.y = -1;
-        }
-
-        if (keyboard.isKeyPressed(GLFW.GLFW_KEY_X)) {
-            cameraInc.y = 1;
-        }
-
-        float lightPos = sceneManager.getSpotLights()[0].getPointLight().getPosition().z;
-        if (keyboard.isKeyPressed(GLFW.GLFW_KEY_N)) {
-            sceneManager.getSpotLights()[0].getPointLight().getPosition().z = lightPos + 0.1f;
-        }
-
-        if (keyboard.isKeyPressed(GLFW.GLFW_KEY_M)) {
-            sceneManager.getSpotLights()[0].getPointLight().getPosition().z = lightPos - 0.1f;
+        if (keyboard.isKeyDown(GLFW.GLFW_KEY_Z)) {
+            camera.getPosition().y += cameraSpeed;
         }
 
         if (keyboard.isKeyPressed(GLFW.GLFW_KEY_F3)) {
@@ -153,6 +121,9 @@ public class Game implements ILoigc {
             text.drawString("OpenGL version 3.3", new Vector2f(-0.975f, 0.885f), 8);
 
         }
+
+
+        player.update(keyboard);
 
         //sound.play();
 

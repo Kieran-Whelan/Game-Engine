@@ -1,7 +1,7 @@
 package me.frogdog.engine.core.maths;
 
-import me.frogdog.engine.core.entity.Entity;
-import me.frogdog.engine.core.entity.terrain.Terrain;
+import me.frogdog.engine.core.world.entity.Entity;
+import me.frogdog.engine.core.world.terrain.Terrain;
 import me.frogdog.engine.core.rendering.hud.HudTexture;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;

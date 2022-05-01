@@ -1,7 +1,6 @@
 package me.frogdog.engine.utils;
 
-import me.frogdog.engine.core.entity.Model;
-import me.frogdog.engine.utils.Utils;
+import me.frogdog.engine.core.world.Model;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.joml.Vector3i;

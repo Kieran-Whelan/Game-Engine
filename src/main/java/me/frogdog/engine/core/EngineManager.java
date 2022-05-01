@@ -15,6 +15,8 @@ public class EngineManager {
 
     private static int fps;
     private static float frametime = 1.0f / FRAMERATE;
+    private static long lastFrameTime;
+    private static float delta;
 
     private boolean isRunning;
 
@@ -38,6 +40,7 @@ public class EngineManager {
 
     public void start() throws Exception {
         init();
+        lastFrameTime= System.currentTimeMillis();
         if (isRunning) {
             return;
         }
@@ -108,6 +111,9 @@ public class EngineManager {
 
     private void update(float interval) {
         gameLogic.update(interval, mouse);
+        long currentFrameTime = System.currentTimeMillis();
+        delta = (currentFrameTime - lastFrameTime) / 1000f;
+        lastFrameTime = currentFrameTime;
     }
 
     private void cleanup() {
@@ -123,5 +129,9 @@ public class EngineManager {
 
     public static void setFps(int fps) {
         EngineManager.fps = fps;
+    }
+
+    public static float getFrameTimeSeconds() {
+        return delta;
     }
 }
