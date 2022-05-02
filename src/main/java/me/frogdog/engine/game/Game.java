@@ -119,9 +119,7 @@ public class Game implements ILoigc {
             text.drawString("Frog Engine dev 0.01", new Vector2f(-0.975f, 0.965f), 8);
             text.drawString("XYZ: " + (int) camera.getPosition().x + " " + (int) camera.getPosition().y + " " + (int) camera.getPosition().z, new Vector2f(-0.975f, 0.925f), 8);
             text.drawString("OpenGL version 3.3", new Vector2f(-0.975f, 0.885f), 8);
-
         }
-
 
         player.update(keyboard);
 
