@@ -37,10 +37,14 @@ public class Mouse {
         GLFW.glfwSetScrollCallback(Main.getWindow().getWindow(), ((window, xoffset, yoffset) -> {
             if (yoffset > 0) {
                 scrollUp = true;
+            } else {
+                scrollUp = false;
             }
 
             if (yoffset < 0) {
                 scrollDown = true;
+            } else {
+                scrollDown = false;
             }
         }));
     }

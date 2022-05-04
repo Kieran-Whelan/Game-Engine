@@ -44,8 +44,7 @@ public class Game implements ILoigc {
         renderer = new RenderManager();
         keyboard = new Keyboard();
         loader = new ObjectLoader();
-        camera = new Camera();
-        cameraInc = new Vector3f(0, 0, 0);
+        //cameraInc = new Vector3f(0, 0, 0);
         sceneManager = new SceneManager(-90);
     }
 
@@ -53,11 +52,12 @@ public class Game implements ILoigc {
     public void init() throws Exception {
         renderer.init();
         text = new Text("font/Dubai.png");
-        camera.setPosition(0 ,0 ,0);
+        //camera.setPosition(0 ,0 ,0);
 
         //sound = new Sound("audio/unlock.wav");
 
-        player = new Player(camera, new Model((loader.loadOBLModel("/models/player.obj")), new Texture(loader.loadTexture("textures/player.png"))), new Vector3f(0.0f, 0.0f, 0.0f), new Vector3f(0.0f, 0.0f, 0.0f), 1.0f);
+        player = new Player(new Model((loader.loadOBLModel("/models/player.obj")), new Texture(loader.loadTexture("textures/player.png"))), new Vector3f(0.0f, 0.0f, 0.0f), new Vector3f(0.0f, 0.0f, 0.0f), 1.0f);
+        camera = new Camera(player);
         player.getModel().getMaterial().setDisableCulling(true);
         sceneManager.addEntity(player);
 
@@ -69,7 +69,7 @@ public class Game implements ILoigc {
 
         BlendMapTerrain blendMapTerrain = new BlendMapTerrain(backgroundTexture, redTexture, greenTexture, blueTexture);
 
-        Terrain terrain = new Terrain(new Vector3f(-200, -1, -200), loader, new Material(new Vector4f(0.0f, 0.0f, 0.0f, 0.0f), 0.1f), blendMapTerrain, blendMap, "textures/maps/heightmap.png");
+        Terrain terrain = new Terrain(new Vector3f(-200, -1, -200), loader, new Material(new Vector4f(0.0f, 0.0f, 0.0f, 0.0f), 0.1f), blendMapTerrain, blendMap);
         sceneManager.addTerrain(terrain);
 
         float lightIntensity = 1.0f;
@@ -98,37 +98,31 @@ public class Game implements ILoigc {
 
     @Override
     public void input() {
-        if (keyboard.isKeyDown(GLFW.GLFW_KEY_X)) {
-            camera.getPosition().y -= cameraSpeed;
-        }
-
-        if (keyboard.isKeyDown(GLFW.GLFW_KEY_Z)) {
-            camera.getPosition().y += cameraSpeed;
-        }
-
         if (keyboard.isKeyPressed(GLFW.GLFW_KEY_F3)) {
             debugMode = !debugMode;
         }
     }
 
     @Override
-    public void update(float interval, Mouse mouseManager) {
+    public void update(float interval, Mouse mouse) {
         //camera.movePosition(cameraInc.x * Consts.CAMERA_MOVE_SPEED, cameraInc.y * Consts.CAMERA_MOVE_SPEED, cameraInc.z * Consts.CAMERA_MOVE_SPEED);
-        camera.movePosition(cameraInc.x * cameraSpeed, cameraInc.y * cameraSpeed, cameraInc.z * cameraSpeed);
+        //camera.movePosition(cameraInc.x * cameraSpeed, cameraInc.y * cameraSpeed, cameraInc.z * cameraSpeed);
         if (debugMode) {
             text.drawString("Frog Engine dev 0.01", new Vector2f(-0.975f, 0.965f), 8);
             text.drawString("XYZ: " + (int) camera.getPosition().x + " " + (int) camera.getPosition().y + " " + (int) camera.getPosition().z, new Vector2f(-0.975f, 0.925f), 8);
-            text.drawString("OpenGL version 3.3", new Vector2f(-0.975f, 0.885f), 8);
+            text.drawString("XYZ: " + (int) player.getPosition().x + " " + (int) player.getPosition().y + " " + (int) player.getPosition().z, new Vector2f(-0.975f, 0.885f), 8);
+            text.drawString("OpenGL version 3.3", new Vector2f(-0.975f, 0.845f), 8);
         }
 
+        camera.update(mouse);
         player.update(keyboard);
 
         //sound.play();
 
-        if (mouseManager.isRightButtonPress()) {
-            Vector2f rotVec = mouseManager.getDisplVec();
-            camera.moveRotation(rotVec.x * Consts.MOUSE_SENSITIVITY, rotVec.y * Consts.MOUSE_SENSITIVITY, 0);
-        }
+        //if (mouse.isRightButtonPress()) {
+            //Vector2f rotVec = mouse.getDisplVec();
+            //camera.moveRotation(rotVec.x * Consts.MOUSE_SENSITIVITY, rotVec.y * Consts.MOUSE_SENSITIVITY, 0);
+        //}
 
         //entity.incRotation(0.0f, 0.25f, 0.0f);
 

@@ -44,7 +44,7 @@ public class Entity {
         return model;
     }
 
-    public Vector3f getPos() {
+    public Vector3f getPosition() {
         return pos;
     }
 
