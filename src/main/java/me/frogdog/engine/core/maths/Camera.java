@@ -1,12 +1,9 @@
 package me.frogdog.engine.core.maths;
 
-import me.frogdog.engine.core.EngineManager;
-import me.frogdog.engine.core.input.Keyboard;
 import me.frogdog.engine.core.input.Mouse;
 import me.frogdog.engine.core.world.entity.player.Player;
 import me.frogdog.engine.utils.Consts;
 import org.joml.Vector3f;
-import org.lwjgl.glfw.GLFW;
 
 public class Camera {
 
@@ -15,20 +12,18 @@ public class Camera {
     private float distanceFromPlayer = 50;
     private float angleAroundPlayer = 0;
 
-    private Vector3f position;
+    private Vector3f position = new Vector3f(0, 0, 0);
     private float pitch;
     private float yaw;
     private float roll;
 
     public Camera() {
-        position = new Vector3f(0, 0, 0);
         this.pitch = 20f;
         this.yaw = yaw;
         this.roll = roll;
     }
 
     public Camera(Player player) {
-        position = new Vector3f(0, 0, 0);
         this.pitch = 20f;
         this.yaw = yaw;
         this.roll = roll;
@@ -42,7 +37,7 @@ public class Camera {
         float horizontalDistance = calcHorizontalDistanceFromPlayer();
         float verticalDistance = calcVerticalDistanceFromPlayer();
         calcCameraPos(horizontalDistance, verticalDistance);
-        this.yaw = 180 - (player.getRotation().y + angleAroundPlayer);
+        this.yaw = 180 - (player.getRotation().y  + angleAroundPlayer) * 1;
     }
 
     private void calcZoom(Mouse mouse) {

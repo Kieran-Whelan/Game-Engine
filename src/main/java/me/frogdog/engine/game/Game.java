@@ -56,7 +56,7 @@ public class Game implements ILoigc {
 
         //sound = new Sound("audio/unlock.wav");
 
-        player = new Player(new Model((loader.loadOBLModel("/models/player.obj")), new Texture(loader.loadTexture("textures/player.png"))), new Vector3f(0.0f, 0.0f, 0.0f), new Vector3f(0.0f, 0.0f, 0.0f), 1.0f);
+        player = new Player(new Model((loader.loadOBLModel("/models/cube.obj")), new Texture(loader.loadTexture("textures/player.png"))), new Vector3f(0.0f, 0.0f, 0.0f), new Vector3f(0.0f, 0.0f, 0.0f), 1.0f);
         camera = new Camera(player);
         player.getModel().getMaterial().setDisableCulling(true);
         sceneManager.addEntity(player);
@@ -69,7 +69,7 @@ public class Game implements ILoigc {
 
         BlendMapTerrain blendMapTerrain = new BlendMapTerrain(backgroundTexture, redTexture, greenTexture, blueTexture);
 
-        Terrain terrain = new Terrain(new Vector3f(-200, -1, -200), loader, new Material(new Vector4f(0.0f, 0.0f, 0.0f, 0.0f), 0.1f), blendMapTerrain, blendMap);
+        Terrain terrain = new Terrain(new Vector3f(-200, -1, -200), loader, new Material(new Vector4f(0.0f, 0.0f, 0.0f, 0.0f), 0.1f), blendMapTerrain, blendMap /*,"textures/maps/heightmap.png"*/);
         sceneManager.addTerrain(terrain);
 
         float lightIntensity = 1.0f;
@@ -111,7 +111,9 @@ public class Game implements ILoigc {
             text.drawString("Frog Engine dev 0.01", new Vector2f(-0.975f, 0.965f), 8);
             text.drawString("XYZ: " + (int) camera.getPosition().x + " " + (int) camera.getPosition().y + " " + (int) camera.getPosition().z, new Vector2f(-0.975f, 0.925f), 8);
             text.drawString("XYZ: " + (int) player.getPosition().x + " " + (int) player.getPosition().y + " " + (int) player.getPosition().z, new Vector2f(-0.975f, 0.885f), 8);
-            text.drawString("OpenGL version 3.3", new Vector2f(-0.975f, 0.845f), 8);
+            text.drawString("Rotation: " + (int) player.getRotation().x + " " + (int) player.getRotation().y + " " + (int) player.getRotation().z, new Vector2f(-0.975f, 0.845f), 8);
+            text.drawString("Rotation: " + (int) camera.getYaw() + " " + (int) camera.getPitch() + " " + (int) camera.getRoll(), new Vector2f(-0.975f, 0.805f), 8);
+            text.drawString("OpenGL version 3.3", new Vector2f(-0.975f, 0.765f), 8);
         }
 
         camera.update(mouse);

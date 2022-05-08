@@ -10,7 +10,7 @@ import org.lwjgl.glfw.GLFW;
 public class Player extends Entity {
 
     private static final float SPEED = 20.0f;
-    private static final float TURN_SPEED = 20.0f;
+    private static final float TURN_SPEED = 160.0f;
     private static final float GRAVITY = -50.0f;
     private static final float JUMP_POWER = 30.0f;
     private static final float TERRAIN_HEIGHT = 0.0f;
@@ -51,9 +51,9 @@ public class Player extends Entity {
         }
 
         if (keyboard.isKeyDown(GLFW.GLFW_KEY_A)) {
-            this.currentTurnSpeed = -TURN_SPEED;
-        } else if (keyboard.isKeyDown(GLFW.GLFW_KEY_D)) {
             this.currentTurnSpeed = TURN_SPEED;
+        } else if (keyboard.isKeyDown(GLFW.GLFW_KEY_D)) {
+            this.currentTurnSpeed = -TURN_SPEED;
         } else {
             this.currentTurnSpeed = 0;
         }
