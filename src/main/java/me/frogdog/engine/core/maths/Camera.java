@@ -1,57 +1,122 @@
 package me.frogdog.engine.core.maths;
 
+import me.frogdog.engine.core.input.Mouse;
+import me.frogdog.engine.core.world.entity.player.Player;
+import me.frogdog.engine.utils.Consts;
 import org.joml.Vector3f;
 
 public class Camera {
 
-    private Vector3f position, rotation;
+    private Player player;
+
+    private float distanceFromPlayer = 50;
+    private float angleAroundPlayer = 0;
+
+    private Vector3f position = new Vector3f(0, 0, 0);
+    private float pitch;
+    private float yaw;
+    private float roll;
 
     public Camera() {
-        position = new Vector3f(0, 0, 0);
-        rotation = new Vector3f(0, 0, 0);
+        this.pitch = 20f;
+        this.yaw = yaw;
+        this.roll = roll;
     }
 
-    public Camera(Vector3f position, Vector3f rotation) {
-        this.position = position;
-        this.rotation = rotation;
+    public Camera(Player player) {
+        this.pitch = 20f;
+        this.yaw = yaw;
+        this.roll = roll;
+        this.player = player;
     }
 
-    public void movePosition(float x, float y, float z) {
-        if (z != 0) {
-            position.x += (float) Math.sin(Math.toRadians(rotation.y)) * -1.0f * z;
-            position.z += (float) Math.cos(Math.toRadians(rotation.y)) * z;
+    public void update(Mouse mouse) {
+        calcZoom(mouse);
+        calcPitch(mouse);
+        calcAngleAroundPlayer(mouse);
+        float horizontalDistance = calcHorizontalDistanceFromPlayer();
+        float verticalDistance = calcVerticalDistanceFromPlayer();
+        calcCameraPos(horizontalDistance, verticalDistance);
+        this.yaw = 180 - (player.getRotation().y  + angleAroundPlayer) * 1;
+    }
+
+    private void calcZoom(Mouse mouse) {
+        float zoom = 0;
+        if (mouse.isScrollUp()) {
+            zoom = -0.01f;
         }
 
-        if (x != 0) {
-            position.x += (float) Math.sin(Math.toRadians(rotation.y - 90)) * -1.0f * x;
-            position.z += (float) Math.cos(Math.toRadians(rotation.y - 90)) * x;
+        if (mouse.isScrollDown()) {
+            zoom = 0.01f;
         }
-        position.y += y;
+
+        distanceFromPlayer -= zoom;
     }
 
-    public void setPosition(float x, float y, float z) {
-        this.position.x = x;
-        this.position.y = y;
-        this.position.z = z;
+    private void calcPitch(Mouse mouse) {
+        if (mouse.isRightButtonPress()) {
+            float pitchChange = mouse.getDisplVec().y * Consts.MOUSE_SENSITIVITY;
+            pitch -= pitchChange;
+        }
     }
 
-    public void setRotation(float x, float y, float z) {
-        this.rotation.x = x;
-        this.rotation.y = y;
-        this.rotation.z = z;
+    private void calcAngleAroundPlayer(Mouse mouse) {
+        if (mouse.isLeftButtonPress()) {
+            float angleChange = mouse.getDisplVec().x * Consts.MOUSE_SENSITIVITY;
+            angleAroundPlayer -= angleChange;
+        }
     }
 
-    public void moveRotation(float x, float y, float z) {
-        this.rotation.x += x;
-        this.rotation.y += y;
-        this.rotation.z += z;
+    private float calcHorizontalDistanceFromPlayer() {
+        return (float) (distanceFromPlayer * Math.cos(Math.toRadians(pitch)));
+    }
+
+    private float calcVerticalDistanceFromPlayer() {
+        return (float) (distanceFromPlayer * Math.sin(Math.toRadians(pitch)));
+    }
+
+    private void calcCameraPos(float hd, float vd) {
+        float angle = player.getRotation().y + angleAroundPlayer;
+        float offsetX = (float) (hd * Math.sin(Math.toRadians(angle)));
+        float offsetZ = (float) (hd * Math.cos(Math.toRadians(angle)));
+        position.x = player.getPosition().x - offsetX;
+        position.z = player.getPosition().z - offsetZ;
+        position.y = player.getPosition().y + vd;
     }
 
     public Vector3f getPosition() {
         return position;
     }
 
-    public Vector3f getRotation() {
-        return rotation;
+    public float getDistanceFromPlayer() {
+        return distanceFromPlayer;
+    }
+
+    public float getAngleAroundPlayer() {
+        return angleAroundPlayer;
+    }
+
+    public float getPitch() {
+        return pitch;
+    }
+
+    public void setPitch(float pitch) {
+        this.pitch = pitch;
+    }
+
+    public float getYaw() {
+        return yaw;
+    }
+
+    public void setYaw(float yaw) {
+        this.yaw = yaw;
+    }
+
+    public float getRoll() {
+        return roll;
+    }
+
+    public void setRoll(float roll) {
+        this.roll = roll;
     }
 }

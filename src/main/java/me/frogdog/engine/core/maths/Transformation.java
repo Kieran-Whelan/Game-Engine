@@ -1,6 +1,7 @@
 package me.frogdog.engine.core.maths;
 
 import me.frogdog.engine.core.world.entity.Entity;
+import me.frogdog.engine.core.world.entity.player.Player;
 import me.frogdog.engine.core.world.terrain.Terrain;
 import me.frogdog.engine.core.rendering.hud.HudTexture;
 import org.joml.Matrix4f;
@@ -17,11 +18,12 @@ public class Transformation {
 
     public static Matrix4f createTransformationMatrix(Entity entity) {
         Matrix4f matrix = new Matrix4f();
-        matrix.identity().translate(entity.getPos()).
-                rotateX((float) Math.toRadians(entity.getRotation().x)).
-                rotateY((float) Math.toRadians(entity.getRotation().y)).
-                rotateZ((float) Math.toRadians(entity.getRotation().z)).
-                scale(entity.getScale());
+        // divide by two to fix speed
+        matrix.identity().translate(entity.getPosition())
+                .rotateX((float) Math.toRadians(entity.getRotation().x))
+                .rotateY((float) Math.toRadians(entity.getRotation().y))
+                .rotateZ((float) Math.toRadians(entity.getRotation().z))
+                .scale(entity.getScale());
 
         return matrix;
     }
@@ -34,12 +36,11 @@ public class Transformation {
 
     public static Matrix4f getViewMatrix(Camera camera) {
         Vector3f pos = camera.getPosition();
-        Vector3f rot = camera.getRotation();
         Matrix4f matrix = new Matrix4f();
         matrix.identity();
-        matrix.rotate((float) Math.toRadians(rot.x), new Vector3f(1, 0, 0))
-                .rotate((float) Math.toRadians(rot.y), new Vector3f(0, 1, 0))
-                .rotate((float) Math.toRadians(rot.z), new Vector3f(0, 0, 1));
+        matrix.rotate((float) Math.toRadians(camera.getPitch()), new Vector3f(1, 0, 0))
+                .rotate((float) Math.toRadians(camera.getYaw()), new Vector3f(0, 1, 0))
+                .rotate((float) Math.toRadians(camera.getRoll()), new Vector3f(0, 0, 1));
         matrix.translate(-pos.x, -pos.y, -pos.z);
 
         return matrix;

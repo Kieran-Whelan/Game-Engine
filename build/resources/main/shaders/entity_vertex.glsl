@@ -14,7 +14,8 @@ uniform mat4 viewMatrix;
 
 void main() {
     vec4 worldPos = transformationMatrix * vec4(position, 1.0);
-    gl_Position = projectionMatrix * viewMatrix * transformationMatrix * worldPos;
+    vec4 positionRelativeToCam = viewMatrix * worldPos;
+    gl_Position = projectionMatrix * positionRelativeToCam;
 
     fragNormal = normalize(worldPos).xyz;
     fragPos = worldPos.xyz;
