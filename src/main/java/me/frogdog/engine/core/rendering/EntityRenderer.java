@@ -12,6 +12,7 @@ import me.frogdog.engine.game.Main;
 import me.frogdog.engine.utils.Consts;
 import me.frogdog.engine.utils.Utils;
 import me.frogdog.engine.utils.interfaces.IRenderer;
+import org.joml.Vector3f;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
@@ -37,6 +38,7 @@ public class EntityRenderer implements IRenderer {
         shader.createFragmentShader(Utils.loadResource("/shaders/entity_fragment.glsl"));
         shader.link();
         shader.createUniform("textureSampler");
+        shader.createUniform("skyColour");
         shader.createUniform("transformationMatrix");
         shader.createUniform("projectionMatrix");
         shader.createUniform("viewMatrix");
@@ -97,6 +99,7 @@ public class EntityRenderer implements IRenderer {
     @Override
     public void prepare(Object entity, Camera camera) {
         shader.setUniform("textureSampler", 0);
+        shader.setUniform("skyColour", new Vector3f(Consts.SKY_COLOUR.x, Consts.SKY_COLOUR.y, Consts.SKY_COLOUR.z));
         shader.setUniform("transformationMatrix", Transformation.createTransformationMatrix((Entity) entity));
         shader.setUniform("viewMatrix", Transformation.getViewMatrix(camera));
     }

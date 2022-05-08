@@ -15,6 +15,7 @@ import me.frogdog.engine.core.rendering.hud.font.FontRenderer;
 import me.frogdog.engine.utils.Consts;
 import me.frogdog.engine.game.Main;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.system.CallbackI;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -112,6 +113,7 @@ public class RenderManager {
 
     public void clear() {
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
+        GL11.glClearColor(Consts.SKY_COLOUR.x, Consts.SKY_COLOUR.y, Consts.SKY_COLOUR.z, Consts.SKY_COLOUR.w);
     }
 
     public void cleanup() {

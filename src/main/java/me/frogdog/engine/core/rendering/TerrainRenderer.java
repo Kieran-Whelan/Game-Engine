@@ -12,6 +12,7 @@ import me.frogdog.engine.game.Main;
 import me.frogdog.engine.utils.Consts;
 import me.frogdog.engine.utils.Utils;
 import me.frogdog.engine.utils.interfaces.IRenderer;
+import org.joml.Vector3f;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
@@ -35,6 +36,7 @@ public class TerrainRenderer implements IRenderer {
         shader.createVertexShader(Utils.loadResource("/shaders/terrain_vertex.glsl"));
         shader.createFragmentShader(Utils.loadResource("/shaders/terrain_fragment.glsl"));
         shader.link();
+        shader.createUniform("skyColour");
         shader.createUniform("backgroundTexture");
         shader.createUniform("redTexture");
         shader.createUniform("greenTexture");
@@ -107,6 +109,7 @@ public class TerrainRenderer implements IRenderer {
         GL13.glActiveTexture(GL13.GL_TEXTURE4);
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, ((Terrain) terrain).getBlendMap().getId());
 
+        shader.setUniform("skyColour", new Vector3f(Consts.SKY_COLOUR.x, Consts.SKY_COLOUR.y, Consts.SKY_COLOUR.z));
         shader.setUniform("transformationMatrix", Transformation.createTransformationMatrix((Terrain) terrain));
         shader.setUniform("viewMatrix", Transformation.getViewMatrix(camera));
     }

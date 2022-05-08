@@ -6,6 +6,7 @@ const int MAX_SPOT_LIGHTS = 5;
 in vec2 fragTextureCoord;
 in vec3 fragNormal;
 in vec3 fragPos;
+in float visibility;
 
 out vec4 fragColour;
 
@@ -40,6 +41,7 @@ struct SpotLight {
 
 uniform sampler2D textureSampler;
 uniform vec3 ambientLight;
+uniform vec3 skyColour;
 uniform Material material;
 uniform float specularPower;
 uniform DirectionalLight directionalLight;
@@ -131,4 +133,5 @@ void main() {
     }
 
     fragColour = ambientC * vec4(ambientLight, 1) + diffuseSpecularComp;
+    fragColour = mix(vec4(skyColour, 1.0), fragColour, visibility);
 }

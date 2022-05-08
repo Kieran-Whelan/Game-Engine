@@ -7,10 +7,14 @@ in vec3 normal;
 out vec2 fragTextureCoord;
 out vec3 fragNormal;
 out vec3 fragPos;
+out float visibility;
 
 uniform mat4 transformationMatrix;
 uniform mat4 projectionMatrix;
 uniform mat4 viewMatrix;
+
+const float density = 0.007;
+const float gradient = 1.5;
 
 void main() {
     vec4 worldPos = transformationMatrix * vec4(position, 1.0);
@@ -20,4 +24,8 @@ void main() {
     fragNormal = normalize(worldPos).xyz;
     fragPos = worldPos.xyz;
     fragTextureCoord = textureCoord;
+
+    float distance = length(positionRelativeToCam.xyz);
+    visibility = exp(-pow((distance * density), gradient));
+    visibility = clamp(visibility, 0.0, 1.0);
 }
