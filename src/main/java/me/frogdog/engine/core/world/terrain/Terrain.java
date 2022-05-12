@@ -1,9 +1,11 @@
 package me.frogdog.engine.core.world.terrain;
 
+import me.frogdog.engine.core.maths.Maths;
 import me.frogdog.engine.utils.ObjectLoader;
 import me.frogdog.engine.core.world.Material;
 import me.frogdog.engine.core.world.Model;
 import me.frogdog.engine.core.world.Texture;
+import org.joml.Vector2f;
 import org.joml.Vector3f;
 
 import javax.imageio.ImageIO;
@@ -15,13 +17,15 @@ public class Terrain {
 
     private static final float SIZE = 800;
     private static final int VERTEX_COUNT = 128;
-    private static final float MAX_HEIGHT = 120.0f;
+    private static final float MAX_HEIGHT = 40.0f;
     private static final float MAX_PIXEL_COLOUR = 256.0f * 256.0f * 256.0f;
 
     private Vector3f position;
     private Model model;
     private TerrainTexture blendMap;
     private BlendMapTerrain blendMapTerrain;
+
+    private float[][] heights;
 
     public Terrain(Vector3f position, ObjectLoader loader, Material material) {
         this.position = position;
@@ -97,6 +101,7 @@ public class Terrain {
         assert image != null;
         int VERTEX_COUNT = image.getHeight();
 
+        heights = new float[VERTEX_COUNT][VERTEX_COUNT];
         int count = VERTEX_COUNT * VERTEX_COUNT;
         float[] vertices = new float[count * 3];
         float[] normals = new float[count * 3];
@@ -108,7 +113,9 @@ public class Terrain {
         for (int i = 0; i < VERTEX_COUNT; i++) {
             for (int j = 0; j < VERTEX_COUNT; j++) {
                 vertices[vertexPointer * 3] = j / (VERTEX_COUNT - 1.0f) * SIZE;
-                vertices[vertexPointer * 3 + 1] = getHeight(j, i, image);
+                float height = getHeight(j, i, image);
+                heights[j][i] = height;
+                vertices[vertexPointer * 3 + 1] = height;
                 vertices[vertexPointer * 3 + 2] = i / (VERTEX_COUNT - 1.0f) * SIZE;
                 Vector3f normal = calcNormal(j, i, image);
                 normals[vertexPointer * 3] = normal.x;
@@ -181,5 +188,28 @@ public class Terrain {
 
     public BlendMapTerrain getBlendMapTerrain() {
         return blendMapTerrain;
+    }
+
+    public float getTerrainHeight(float worldX, float worldZ) {
+        float terrainX = worldX - this.position.x;
+        float terrainZ = worldZ - this.position.z;
+        float gridSquareSize = SIZE / (float) (heights.length - 1);
+        int gridX = (int) Math.floor(terrainX / gridSquareSize);
+        int gridZ = (int) Math.floor(terrainZ / gridSquareSize);
+        if (gridX >= heights.length - 1 || gridZ >= heights.length - 1 || gridX < 0 || gridZ < 0) {
+            return 0;
+        }
+
+        float xCoord = (terrainX % gridSquareSize) / gridSquareSize;
+        float zCoord = (terrainZ % gridSquareSize) / gridSquareSize;
+
+        float result;
+        if (xCoord <= (1 - zCoord)) {
+            result = Maths.barryCentric(new Vector3f(0, heights[gridX][gridZ], 0), new Vector3f(1, heights[gridX + 1][gridZ], 0), new Vector3f(0, heights[gridX][gridZ + 1], 1), new Vector2f(xCoord, zCoord));
+        } else {
+            result = Maths.barryCentric(new Vector3f(1, heights[gridX + 1][gridZ], 0), new Vector3f(1, heights[gridX + 1][gridZ + 1], 1), new Vector3f(0, heights[gridX][gridZ + 1], 1), new Vector2f(xCoord, zCoord));
+        }
+
+        return result;
     }
 }

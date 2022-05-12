@@ -69,7 +69,7 @@ public class Game implements ILoigc {
 
         BlendMapTerrain blendMapTerrain = new BlendMapTerrain(backgroundTexture, redTexture, greenTexture, blueTexture);
 
-        Terrain terrain = new Terrain(new Vector3f(-200, -1, -200), loader, new Material(new Vector4f(0.0f, 0.0f, 0.0f, 0.0f), 0.1f), blendMapTerrain, blendMap ,"textures/maps/heightmap.png");
+        Terrain terrain = new Terrain(new Vector3f(-200, 0, -200), loader, new Material(new Vector4f(0.0f, 0.0f, 0.0f, 0.0f), 0.1f), blendMapTerrain, blendMap ,"textures/maps/heightmap.png");
         sceneManager.addTerrain(terrain);
 
         float lightIntensity = 1.0f;
@@ -117,7 +117,7 @@ public class Game implements ILoigc {
         }
 
         camera.update(mouse);
-        player.update(keyboard);
+        player.update(keyboard, sceneManager.getTerrains().get(0));
 
         //sound.play();
 
