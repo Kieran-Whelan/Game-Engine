@@ -3,6 +3,7 @@ package me.frogdog.engine.core.rendering;
 import me.frogdog.engine.core.maths.Camera;
 import me.frogdog.engine.core.ShaderManager;
 import me.frogdog.engine.core.WindowManager;
+import me.frogdog.engine.core.rendering.skybox.SkyboxRenderer;
 import me.frogdog.engine.core.world.entity.Entity;
 import me.frogdog.engine.core.world.Model;
 import me.frogdog.engine.core.SceneManager;
@@ -28,6 +29,7 @@ public class RenderManager {
     private final WindowManager window;
     private EntityRenderer entityRenderer;
     private TerrainRenderer terrainRenderer;
+    private SkyboxRenderer skyboxRenderer;
     private HudRenderer hudRenderer;
     private FontRenderer fontRenderer;
 
@@ -43,10 +45,12 @@ public class RenderManager {
     public void init() throws Exception {
         entityRenderer = new EntityRenderer();
         terrainRenderer = new TerrainRenderer();
+        skyboxRenderer = new SkyboxRenderer();
         hudRenderer = new HudRenderer();
         fontRenderer = new FontRenderer();
         entityRenderer.init();
         terrainRenderer.init();
+        skyboxRenderer.init();
         hudRenderer.init();
         fontRenderer.init();
     }
@@ -76,6 +80,7 @@ public class RenderManager {
 
         terrainRenderer.render(camera, scene.getPointLights(), scene.getSpotLights(), scene.getDirectionalLight());
         entityRenderer.render(camera, scene.getPointLights(), scene.getSpotLights(), scene.getDirectionalLight());
+        skyboxRenderer.render(camera, scene.getPointLights(), scene.getSpotLights(), scene.getDirectionalLight());
         hudRenderer.render(camera, scene.getPointLights(), scene.getSpotLights(), scene.getDirectionalLight());
         fontRenderer.render(camera, scene.getPointLights(), scene.getSpotLights(), scene.getDirectionalLight());
 
@@ -119,6 +124,7 @@ public class RenderManager {
     public void cleanup() {
         entityRenderer.cleanup();
         terrainRenderer.cleanup();
+        skyboxRenderer.cleanup();
         hudRenderer.cleanup();
         fontRenderer.cleanup();
     }

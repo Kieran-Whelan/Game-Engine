@@ -1,6 +1,7 @@
 package me.frogdog.engine.utils;
 
 import me.frogdog.engine.core.world.Model;
+import me.frogdog.engine.core.world.Texture;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.joml.Vector3i;
@@ -127,6 +128,13 @@ public class ObjectLoader {
         return new Model(id, vertices.length / 2);
     }
 
+    public Model loadModel(float[] vertices, int dimensions) {
+        int id = createVAO();
+        storeDataInAttribList(0, dimensions, vertices);
+        unbind();
+        return new Model(id, vertices.length / dimensions);
+    }
+
     public Model loadModel(float[] vertices, float[] textureCoords) {
         int id = createVAO();
         storeDataInAttribList(0, 2, vertices);
@@ -180,6 +188,36 @@ public class ObjectLoader {
         GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR_MIPMAP_LINEAR);
         GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL14.GL_TEXTURE_LOD_BIAS, -0.4f); //level of detail
         STBImage.stbi_image_free(buffer);
+        return id;
+    }
+
+    public int loadCubeMap(String[] texturesFiles) throws Exception {
+        int id = GL11.glGenTextures();
+        GL13.glActiveTexture(GL13.GL_TEXTURE0);
+        GL11.glBindTexture(GL13.GL_TEXTURE_CUBE_MAP, id);
+
+        int i = 0;
+        for (String file : texturesFiles) {
+            int width, height;
+            ByteBuffer buffer;
+            try (MemoryStack stack = MemoryStack.stackPush()) {
+                IntBuffer w = stack.mallocInt(1);
+                IntBuffer h = stack.mallocInt(1);
+                IntBuffer c = stack.mallocInt(1);
+
+                buffer = STBImage.stbi_load(file, w, h, c, 4);
+                if (buffer == null) {
+                    throw new Exception("Image file " + file + " not loaded " + STBImage.stbi_failure_reason());
+                }
+
+                width = w.get();
+                height = h.get();
+            }
+            GL11.glTexImage2D(GL13.GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL11.GL_RGBA, width, height, 0, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, buffer);
+            i++;
+        }
+        GL11.glTexParameteri(GL13.GL_TEXTURE_CUBE_MAP, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_NEAREST);
+        GL11.glTexParameteri(GL13.GL_TEXTURE_CUBE_MAP, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_NEAREST);
         return id;
     }
 

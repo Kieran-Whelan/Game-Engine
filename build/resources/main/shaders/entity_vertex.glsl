@@ -13,8 +13,10 @@ uniform mat4 transformationMatrix;
 uniform mat4 projectionMatrix;
 uniform mat4 viewMatrix;
 
-const float density = 0.007;
-const float gradient = 1.5;
+const float density = 0.0035;
+//const float density = 0.007;
+const float gradient = 5.0;
+//const float gradient = 1.5;
 
 void main() {
     vec4 worldPos = transformationMatrix * vec4(position, 1.0);
