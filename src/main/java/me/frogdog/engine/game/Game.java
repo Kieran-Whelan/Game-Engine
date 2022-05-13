@@ -76,7 +76,8 @@ public class Game implements ILoigc {
         for(int i = 0; i < 200; i++) {
             float x = Random.randRange(-400f, 400f);
             float z = Random.randRange(-400f, 400f);
-            //sceneManager.addEntity(new Model(loader.loadOBLModel("/models/lowpolytree.obj")), new Vector3f(x, terrain.getTerrainHeight(x, z), z));
+            Entity entity = new Entity(new Model((loader.loadOBLModel("/models/player.obj")), new Texture(loader.loadTexture("textures/player.png"))), new Vector3f(x, terrain.getTerrainHeight(x, z), z) , new Vector3f(0.0f, 0.0f, 0.0f), 1.0f);
+            sceneManager.addEntity(entity);
         }
 
         float lightIntensity = 1.0f;
