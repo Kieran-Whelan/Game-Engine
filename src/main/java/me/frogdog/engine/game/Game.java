@@ -134,7 +134,7 @@ public class Game implements ILoigc {
             text.drawString("XYZ: " + (int) player.getPosition().x + " " + (int) player.getPosition().y + " " + (int) player.getPosition().z, new Vector2f(-0.975f, 0.885f), 8);
             text.drawString("Rotation: " + (int) player.getRotation().x + " " + (int) player.getRotation().y + " " + (int) player.getRotation().z, new Vector2f(-0.975f, 0.845f), 8);
             text.drawString("Rotation: " + (int) camera.getYaw() + " " + (int) camera.getPitch() + " " + (int) camera.getRoll(), new Vector2f(-0.975f, 0.805f), 8);
-            text.drawString("Rotation: " + (int) mouse.getDisplVec().x + " " + (int) mouse.getDisplVec().y + " ", new Vector2f(-0.975f, 0.765f), 8);
+            text.drawString("Rotation: " + (int) mouse.getCurrentPos().x + " " + (int) mouse.getCurrentPos().y + " ", new Vector2f(-0.975f, 0.765f), 8);
             text.drawString("OpenGL version 3.3", new Vector2f(-0.975f, 0.725f), 8);
         }
 

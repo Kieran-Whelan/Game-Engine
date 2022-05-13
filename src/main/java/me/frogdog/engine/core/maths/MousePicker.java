@@ -23,7 +23,6 @@ public class MousePicker {
     private Terrain terrain;
     private Vector3f currentTerrainPoint;
 
-    // for multiple terrain it is Terrain[][] terrain
     public MousePicker(Mouse mouse, Camera cam, Matrix4f projection, Terrain terrain) {
         this.mouse = mouse;
         this.camera = cam;
@@ -50,10 +49,9 @@ public class MousePicker {
         }
     }
 
-
+    //concept from blog post
     private Vector3f calculateMouseRay() {
         /* Viewport Space */
-        // gets mouse point from bottom left corner
         float mouseX = mouse.getCurrentPos().x;
         float mouseY = mouse.getCurrentPos().y;
 
@@ -70,7 +68,6 @@ public class MousePicker {
         return worldRay;
     }
 
-    // inverse view matrix
     private Vector3f toWorldCoords(Vector4f eyeCoords) {
         Matrix4f invertedView = viewMatrix.invert();
         Vector4f rayWorld = invertedView.transform(eyeCoords);
@@ -79,21 +76,17 @@ public class MousePicker {
         return mouseRay;
     }
 
-    // inverse projection matrix
     private Vector4f toEyeCoords(Vector4f clipCoords) {
-        Matrix4f invertedProjection = projectionMatrix.invert(); // null is dest
+        Matrix4f invertedProjection = projectionMatrix.invert();
         Vector4f eyeCoords = invertedProjection.transform(clipCoords);
         return new Vector4f(eyeCoords.x, eyeCoords.y, -1f, 0f); // z is set to point into the screen
     }
 
-    // simple equation
     private Vector2f getNormalizedDeviceCoords(float mouseX, float mouseY) {
         float x = (2f * mouseX) / Main.getWindow().getWidth() - 1;
         float y = (2f * mouseY) / Main.getWindow().getHeight() - 1f;
         return new Vector2f(x, y);
     }
-
-    //**********************  COPIED AND PASTED CODE ************************************
 
     private Vector3f getPointOnRay(Vector3f ray, float distance) {
         Vector3f camPos = camera.getPosition();
@@ -143,16 +136,7 @@ public class MousePicker {
         }
     }
 
-    // if multiple terrain would have return the current terrain for the worldX and worldZ coords
-    /*
-     * int x = worldX / Terrain.SIZE;
-     * int z = worldZ / Terrain.SIZE;
-     * return terrains[x][z];
-     */
-    private Terrain getTerrain(float worldX, float worldZ) {
+    private Terrain getTerrain(float worldPosX, float worldPosZ) {
         return terrain;
     }
-
-
-
 }
