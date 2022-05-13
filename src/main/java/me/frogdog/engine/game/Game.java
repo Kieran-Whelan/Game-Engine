@@ -8,6 +8,7 @@ import me.frogdog.engine.core.world.*;
 import me.frogdog.engine.core.world.entity.Entity;
 import me.frogdog.engine.core.world.entity.player.Player;
 import me.frogdog.engine.core.world.terrain.BlendMapTerrain;
+import me.frogdog.engine.core.world.terrain.HeightGenerator;
 import me.frogdog.engine.core.world.terrain.Terrain;
 import me.frogdog.engine.core.world.terrain.TerrainTexture;
 import me.frogdog.engine.core.input.Keyboard;
@@ -76,7 +77,9 @@ public class Game implements ILoigc {
 
         BlendMapTerrain blendMapTerrain = new BlendMapTerrain(backgroundTexture, redTexture, greenTexture, blueTexture);
 
-        Terrain terrain = new Terrain(new Vector3f(-400, -1, -400), loader, new Material(new Vector4f(0.0f, 0.0f, 0.0f, 0.0f), 0.1f), blendMapTerrain, blendMap ,"textures/maps/heightmap.png");
+        //Terrain terrain = new Terrain(new Vector3f(-400, -1, -400), loader, new Material(new Vector4f(0.0f, 0.0f, 0.0f, 0.0f), 0.1f), blendMapTerrain, blendMap ,"textures/maps/heightmap.png");
+        HeightGenerator heightGenerator = new HeightGenerator();
+        Terrain terrain = new Terrain(new Vector3f(-400, -1, -400), loader, new Material(new Vector4f(0.0f, 0.0f, 0.0f, 0.0f), 0.1f), blendMapTerrain, blendMap , heightGenerator);
         sceneManager.addTerrain(terrain);
 
         picker = new MousePicker(mouse, camera, Main.getWindow().updateProjectionMatrix(), terrain);
@@ -144,10 +147,10 @@ public class Game implements ILoigc {
 
         Vector3f terrainPoint = picker.getCurrentTerrainPoint();
 
-        if (terrainPoint != null) {
-            Entity cyl = sceneManager.getEntities().get(sceneManager.getEntities().size() - 1);
-            cyl.setPos(terrainPoint.x, terrainPoint.y, terrainPoint.z);
-        }
+        //if (terrainPoint != null) {
+            //Entity cyl = sceneManager.getEntities().get(sceneManager.getEntities().size() - 1);
+            //cyl.setPos(terrainPoint.x, terrainPoint.y, terrainPoint.z);
+        //}
 
         //sound.play();
 
