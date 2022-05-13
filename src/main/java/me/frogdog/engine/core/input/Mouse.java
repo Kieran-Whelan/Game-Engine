@@ -74,6 +74,10 @@ public class Mouse {
         return displVec;
     }
 
+    public Vector2f getCurrentPos() {
+        return new Vector2f((float) currentPos.x, (float) currentPos.y);
+    }
+
     public boolean isLeftButtonPress() {
         return leftButtonPress;
     }

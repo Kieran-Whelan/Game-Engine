@@ -23,19 +23,13 @@ public class EngineManager {
     private WindowManager window;
     private GLFWErrorCallback errorCallback;
     private ILoigc gameLogic;
-    private Mouse mouse;
-    private Keyboard keyboard;
 
     public void init() throws Exception {
         GLFW.glfwSetErrorCallback(errorCallback = GLFWErrorCallback.createPrint(System.err));
         window = Main.getWindow();
         gameLogic = Main.getGame();
-        mouse = new Mouse();
-        keyboard = new Keyboard();
         window.init();
         gameLogic.init();
-        mouse.init();
-        keyboard.init();
     }
 
     public void start() throws Exception {
@@ -100,7 +94,6 @@ public class EngineManager {
     }
 
     private void input() {
-        mouse.input();
         gameLogic.input();
     }
 
@@ -110,7 +103,7 @@ public class EngineManager {
     }
 
     private void update(float interval) {
-        gameLogic.update(interval, mouse);
+        gameLogic.update(interval);
         long currentFrameTime = System.currentTimeMillis();
         delta = (currentFrameTime - lastFrameTime) / 1000f;
         lastFrameTime = currentFrameTime;

@@ -2,6 +2,7 @@ package me.frogdog.engine.game;
 
 import me.frogdog.engine.core.SceneManager;
 import me.frogdog.engine.core.audio.Sound;
+import me.frogdog.engine.core.maths.MousePicker;
 import me.frogdog.engine.core.maths.Random;
 import me.frogdog.engine.core.world.*;
 import me.frogdog.engine.core.world.entity.Entity;
@@ -35,6 +36,8 @@ public class Game implements ILoigc {
     private Sound sound;
     private Text text;
     private Player player;
+    private Mouse mouse;
+    private MousePicker picker;
 
     private float cameraSpeed = 0.5f;
     private boolean debugMode = false;
@@ -44,6 +47,7 @@ public class Game implements ILoigc {
     public Game() {
         renderer = new RenderManager();
         keyboard = new Keyboard();
+        mouse = new Mouse();
         loader = new ObjectLoader();
         //cameraInc = new Vector3f(0, 0, 0);
         sceneManager = new SceneManager(-90);
@@ -52,6 +56,8 @@ public class Game implements ILoigc {
     @Override
     public void init() throws Exception {
         renderer.init();
+        mouse.init();
+        keyboard.init();
         text = new Text("font/Dubai.png");
         //camera.setPosition(0 ,0 ,0);
 
@@ -73,12 +79,17 @@ public class Game implements ILoigc {
         Terrain terrain = new Terrain(new Vector3f(-400, -1, -400), loader, new Material(new Vector4f(0.0f, 0.0f, 0.0f, 0.0f), 0.1f), blendMapTerrain, blendMap ,"textures/maps/heightmap.png");
         sceneManager.addTerrain(terrain);
 
+        picker = new MousePicker(mouse, camera, Main.getWindow().updateProjectionMatrix(), terrain);
+
         for(int i = 0; i < 200; i++) {
             float x = Random.randRange(-400f, 400f);
             float z = Random.randRange(-400f, 400f);
             Entity entity = new Entity(new Model((loader.loadOBLModel("/models/player.obj")), new Texture(loader.loadTexture("textures/player.png"))), new Vector3f(x, terrain.getTerrainHeight(x, z), z) , new Vector3f(0.0f, 0.0f, 0.0f), 1.0f);
             sceneManager.addEntity(entity);
         }
+
+        Entity cyl = new Entity(new Model((loader.loadOBLModel("/models/player.obj")), new Texture(loader.loadTexture("textures/player.png"))), new Vector3f(0, 0, 0) , new Vector3f(0.0f, 0.0f, 0.0f), 1.0f);
+        sceneManager.addEntity(cyl);
 
         float lightIntensity = 1.0f;
         //point light
@@ -106,13 +117,15 @@ public class Game implements ILoigc {
 
     @Override
     public void input() {
+        mouse.input();
+
         if (keyboard.isKeyPressed(GLFW.GLFW_KEY_F3)) {
             debugMode = !debugMode;
         }
     }
 
     @Override
-    public void update(float interval, Mouse mouse) {
+    public void update(float interval) {
         //camera.movePosition(cameraInc.x * Consts.CAMERA_MOVE_SPEED, cameraInc.y * Consts.CAMERA_MOVE_SPEED, cameraInc.z * Consts.CAMERA_MOVE_SPEED);
         //camera.movePosition(cameraInc.x * cameraSpeed, cameraInc.y * cameraSpeed, cameraInc.z * cameraSpeed);
         if (debugMode) {
@@ -121,11 +134,20 @@ public class Game implements ILoigc {
             text.drawString("XYZ: " + (int) player.getPosition().x + " " + (int) player.getPosition().y + " " + (int) player.getPosition().z, new Vector2f(-0.975f, 0.885f), 8);
             text.drawString("Rotation: " + (int) player.getRotation().x + " " + (int) player.getRotation().y + " " + (int) player.getRotation().z, new Vector2f(-0.975f, 0.845f), 8);
             text.drawString("Rotation: " + (int) camera.getYaw() + " " + (int) camera.getPitch() + " " + (int) camera.getRoll(), new Vector2f(-0.975f, 0.805f), 8);
-            text.drawString("OpenGL version 3.3", new Vector2f(-0.975f, 0.765f), 8);
+            text.drawString("Rotation: " + (int) mouse.getDisplVec().x + " " + (int) mouse.getDisplVec().y + " ", new Vector2f(-0.975f, 0.765f), 8);
+            text.drawString("OpenGL version 3.3", new Vector2f(-0.975f, 0.725f), 8);
         }
 
         camera.update(mouse);
         player.update(keyboard, sceneManager.getTerrains().get(0));
+        picker.update();
+
+        Vector3f terrainPoint = picker.getCurrentTerrainPoint();
+
+        if (terrainPoint != null) {
+            Entity cyl = sceneManager.getEntities().get(sceneManager.getEntities().size() - 1);
+            cyl.setPos(terrainPoint.x, terrainPoint.y, terrainPoint.z);
+        }
 
         //sound.play();
 
