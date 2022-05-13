@@ -3,7 +3,9 @@ package me.frogdog.engine.core.rendering;
 import me.frogdog.engine.core.maths.Camera;
 import me.frogdog.engine.core.ShaderManager;
 import me.frogdog.engine.core.WindowManager;
+import me.frogdog.engine.core.rendering.skybox.Skybox;
 import me.frogdog.engine.core.rendering.skybox.SkyboxRenderer;
+import me.frogdog.engine.core.rendering.water.WaterRenderer;
 import me.frogdog.engine.core.world.entity.Entity;
 import me.frogdog.engine.core.world.Model;
 import me.frogdog.engine.core.SceneManager;
@@ -16,7 +18,6 @@ import me.frogdog.engine.core.rendering.hud.font.FontRenderer;
 import me.frogdog.engine.utils.Consts;
 import me.frogdog.engine.game.Main;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.system.CallbackI;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,6 +31,7 @@ public class RenderManager {
     private EntityRenderer entityRenderer;
     private TerrainRenderer terrainRenderer;
     private SkyboxRenderer skyboxRenderer;
+    private WaterRenderer waterRenderer;
     private HudRenderer hudRenderer;
     private FontRenderer fontRenderer;
 
@@ -46,11 +48,13 @@ public class RenderManager {
         entityRenderer = new EntityRenderer();
         terrainRenderer = new TerrainRenderer();
         skyboxRenderer = new SkyboxRenderer();
+        waterRenderer = new WaterRenderer();
         hudRenderer = new HudRenderer();
         fontRenderer = new FontRenderer();
         entityRenderer.init();
         terrainRenderer.init();
         skyboxRenderer.init();
+        waterRenderer.init();
         hudRenderer.init();
         fontRenderer.init();
     }
@@ -81,6 +85,7 @@ public class RenderManager {
         terrainRenderer.render(camera, scene.getPointLights(), scene.getSpotLights(), scene.getDirectionalLight());
         entityRenderer.render(camera, scene.getPointLights(), scene.getSpotLights(), scene.getDirectionalLight());
         skyboxRenderer.render(camera, scene.getPointLights(), scene.getSpotLights(), scene.getDirectionalLight());
+        waterRenderer.render(camera, scene.getPointLights(), scene.getSpotLights(), scene.getDirectionalLight());
         hudRenderer.render(camera, scene.getPointLights(), scene.getSpotLights(), scene.getDirectionalLight());
         fontRenderer.render(camera, scene.getPointLights(), scene.getSpotLights(), scene.getDirectionalLight());
 
@@ -116,6 +121,10 @@ public class RenderManager {
         terrainRenderer.getTerrain().add(terrain);
     }
 
+    public void processSkybox(Skybox skybox) {
+        skyboxRenderer.setSkybox(skybox);
+    }
+
     public void clear() {
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
         GL11.glClearColor(Consts.SKY_COLOUR.x, Consts.SKY_COLOUR.y, Consts.SKY_COLOUR.z, Consts.SKY_COLOUR.w);
@@ -125,6 +134,7 @@ public class RenderManager {
         entityRenderer.cleanup();
         terrainRenderer.cleanup();
         skyboxRenderer.cleanup();
+        waterRenderer.cleanup();
         hudRenderer.cleanup();
         fontRenderer.cleanup();
     }

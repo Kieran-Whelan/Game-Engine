@@ -1,5 +1,6 @@
 package me.frogdog.engine.core;
 
+import me.frogdog.engine.core.rendering.skybox.Skybox;
 import me.frogdog.engine.core.world.entity.Entity;
 import me.frogdog.engine.core.world.terrain.Terrain;
 import me.frogdog.engine.core.lighting.DirectionalLight;
@@ -15,6 +16,7 @@ public class SceneManager {
 
     private List<Entity> entities;
     private List<Terrain> terrains;
+    private Skybox skybox;
 
     private Vector3f ambientLight;
     private SpotLight[] spotLights;
@@ -121,5 +123,13 @@ public class SceneManager {
 
     public void setDirectionalLight(DirectionalLight directionalLight) {
         this.directionalLight = directionalLight;
+    }
+
+    public Skybox getSkybox() {
+        return skybox;
+    }
+
+    public void setSkybox(Skybox skybox) {
+        this.skybox = skybox;
     }
 }
