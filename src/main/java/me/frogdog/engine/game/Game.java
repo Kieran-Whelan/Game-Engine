@@ -2,6 +2,7 @@ package me.frogdog.engine.game;
 
 import me.frogdog.engine.core.SceneManager;
 import me.frogdog.engine.core.audio.Sound;
+import me.frogdog.engine.core.maths.Random;
 import me.frogdog.engine.core.world.*;
 import me.frogdog.engine.core.world.entity.Entity;
 import me.frogdog.engine.core.world.entity.player.Player;
@@ -69,8 +70,14 @@ public class Game implements ILoigc {
 
         BlendMapTerrain blendMapTerrain = new BlendMapTerrain(backgroundTexture, redTexture, greenTexture, blueTexture);
 
-        Terrain terrain = new Terrain(new Vector3f(-200, 0, -200), loader, new Material(new Vector4f(0.0f, 0.0f, 0.0f, 0.0f), 0.1f), blendMapTerrain, blendMap ,"textures/maps/heightmap.png");
+        Terrain terrain = new Terrain(new Vector3f(-400, -1, -400), loader, new Material(new Vector4f(0.0f, 0.0f, 0.0f, 0.0f), 0.1f), blendMapTerrain, blendMap ,"textures/maps/heightmap.png");
         sceneManager.addTerrain(terrain);
+
+        for(int i = 0; i < 200; i++) {
+            float x = Random.randRange(-400f, 400f);
+            float z = Random.randRange(-400f, 400f);
+            //sceneManager.addEntity(new Model(loader.loadOBLModel("/models/lowpolytree.obj")), new Vector3f(x, terrain.getTerrainHeight(x, z), z));
+        }
 
         float lightIntensity = 1.0f;
         //point light

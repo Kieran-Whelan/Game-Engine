@@ -7,6 +7,7 @@ import me.frogdog.engine.core.world.Model;
 import me.frogdog.engine.core.world.Texture;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
+import org.lwjgl.system.CallbackI;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
