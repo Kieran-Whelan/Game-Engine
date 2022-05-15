@@ -1,6 +1,6 @@
 package me.frogdog.engine.core;
 
-import me.frogdog.engine.core.rendering.skybox.Skybox;
+import me.frogdog.engine.core.world.skybox.Skybox;
 import me.frogdog.engine.core.world.entity.Entity;
 import me.frogdog.engine.core.world.terrain.Terrain;
 import me.frogdog.engine.core.lighting.DirectionalLight;

@@ -4,8 +4,8 @@ import java.util.Random;
 
 public class HeightGenerator {
 
-    private static final float AMPLITUDE = 50f;
-    private static final int OCTAVES = 3;
+    private static final float AMPLITUDE = 125f;
+    private static final int OCTAVES = 5;
     private static final float ROUGHNESS = 0.023f;
 
     private Random random = new Random();

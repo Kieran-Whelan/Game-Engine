@@ -12,6 +12,7 @@ import me.frogdog.engine.utils.ObjectLoader;
 import me.frogdog.engine.utils.Utils;
 import me.frogdog.engine.utils.interfaces.IRenderer;
 import org.joml.Matrix4f;
+import org.joml.Vector2f;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
@@ -56,7 +57,7 @@ public class HudRenderer implements IRenderer {
             GL11.glDrawArrays(GL11.GL_TRIANGLE_STRIP, 0, quad.getVertexCount());
             unbind();
         }
-        hudTextures.clear();
+        //hudTextures.clear();
         shader.unbind();
     }
 

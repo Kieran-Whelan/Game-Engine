@@ -1,7 +1,6 @@
 package me.frogdog.engine.utils;
 
 import me.frogdog.engine.core.world.Model;
-import me.frogdog.engine.core.world.Texture;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.joml.Vector3i;
@@ -29,7 +28,7 @@ public class ObjectLoader {
         List<Vector2f> textures = new ArrayList<>();
         List<Vector3i> faces = new ArrayList<>();
 
-        for(String line : lines) {
+        for (String line : lines) {
             String[] tokens = line.split("\\s");
             switch (tokens[0]) {
                 case "v":

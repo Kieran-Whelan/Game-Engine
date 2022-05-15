@@ -4,7 +4,6 @@ import me.frogdog.engine.core.SceneManager;
 import me.frogdog.engine.core.audio.Sound;
 import me.frogdog.engine.core.maths.MousePicker;
 import me.frogdog.engine.core.maths.Random;
-import me.frogdog.engine.core.rendering.skybox.Skybox;
 import me.frogdog.engine.core.world.*;
 import me.frogdog.engine.core.world.entity.Entity;
 import me.frogdog.engine.core.world.entity.player.Player;
@@ -20,7 +19,6 @@ import me.frogdog.engine.core.lighting.SpotLight;
 import me.frogdog.engine.core.maths.Camera;
 import me.frogdog.engine.core.rendering.RenderManager;
 import me.frogdog.engine.core.rendering.hud.font.text.Text;
-import me.frogdog.engine.utils.Consts;
 import me.frogdog.engine.utils.ObjectLoader;
 import me.frogdog.engine.utils.interfaces.ILoigc;
 import org.joml.Vector2f;
@@ -148,10 +146,10 @@ public class Game implements ILoigc {
 
         Vector3f terrainPoint = picker.getCurrentTerrainPoint();
 
-        //if (terrainPoint != null) {
-            //Entity cyl = sceneManager.getEntities().get(sceneManager.getEntities().size() - 1);
-            //cyl.setPos(terrainPoint.x, terrainPoint.y, terrainPoint.z);
-        //}
+        if (terrainPoint != null) {
+            Entity cyl = sceneManager.getEntities().get(sceneManager.getEntities().size() - 1);
+            cyl.setPos(terrainPoint.x, terrainPoint.y, terrainPoint.z);
+        }
 
         //sound.play();
 

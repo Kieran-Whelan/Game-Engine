@@ -1,4 +1,4 @@
-package me.frogdog.engine.core.rendering.skybox;
+package me.frogdog.engine.core.rendering;
 
 import me.frogdog.engine.core.EngineManager;
 import me.frogdog.engine.core.ShaderManager;
@@ -7,6 +7,7 @@ import me.frogdog.engine.core.lighting.PointLight;
 import me.frogdog.engine.core.lighting.SpotLight;
 import me.frogdog.engine.core.maths.Camera;
 import me.frogdog.engine.core.maths.Transformation;
+import me.frogdog.engine.core.world.skybox.Skybox;
 import me.frogdog.engine.core.world.Model;
 import me.frogdog.engine.game.Main;
 import me.frogdog.engine.utils.Consts;

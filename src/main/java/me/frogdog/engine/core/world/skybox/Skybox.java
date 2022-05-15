@@ -1,4 +1,4 @@
-package me.frogdog.engine.core.rendering.skybox;
+package me.frogdog.engine.core.world.skybox;
 
 import me.frogdog.engine.core.world.Model;
 import me.frogdog.engine.utils.ObjectLoader;
