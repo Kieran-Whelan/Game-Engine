@@ -11,7 +11,7 @@ public class Font {
     public Font(String filename) throws Exception {
         this.loader = new ObjectLoader();
         this.filename = filename;
-        this.fontSheet = loader.loadTexture(filename);
+        this.fontSheet = loader.loadTextureSheet(filename);
     }
 
     public int getFontSheet() {

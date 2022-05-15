@@ -190,6 +190,38 @@ public class ObjectLoader {
         return id;
     }
 
+    public int loadTextureSheet(String filename) throws Exception {
+        int width, height;
+        ByteBuffer buffer;
+        try (MemoryStack stack = MemoryStack.stackPush()) {
+            IntBuffer w = stack.mallocInt(1);
+            IntBuffer h = stack.mallocInt(1);
+            IntBuffer c = stack.mallocInt(1);
+
+            buffer = STBImage.stbi_load(filename, w, h, c, 4);
+            if (buffer == null) {
+                throw new Exception("Image file " + filename + " not loaded " + STBImage.stbi_failure_reason());
+            }
+
+            width = w.get();
+            height = h.get();
+        }
+
+        int id = GL11.glGenTextures();
+        textures.add(id);
+        GL11.glBindTexture(GL11.GL_TEXTURE_2D, id);
+        GL11.glPixelStorei(GL11.GL_UNPACK_ALIGNMENT, 1);
+        GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA, width, height, 0, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, buffer);
+        GL30.glGenerateMipmap(GL11.GL_TEXTURE_2D);
+        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
+        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);
+        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL11.GL_CLAMP);
+        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL11.GL_CLAMP);
+        GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL14.GL_TEXTURE_LOD_BIAS, -0.4f); //level of detail
+        STBImage.stbi_image_free(buffer);
+        return id;
+    }
+
     public int loadCubeMap(String[] texturesFiles) throws Exception {
         int id = GL11.glGenTextures();
         GL13.glActiveTexture(GL13.GL_TEXTURE0);
