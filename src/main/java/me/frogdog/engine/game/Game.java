@@ -8,6 +8,7 @@ import me.frogdog.engine.core.world.*;
 import me.frogdog.engine.core.world.entity.Entity;
 import me.frogdog.engine.core.world.entity.player.Player;
 import me.frogdog.engine.core.world.particle.Particle;
+import me.frogdog.engine.core.world.particle.ParticleEffect;
 import me.frogdog.engine.core.world.terrain.BlendMapTerrain;
 import me.frogdog.engine.core.world.terrain.HeightGenerator;
 import me.frogdog.engine.core.world.terrain.Terrain;
@@ -39,6 +40,7 @@ public class Game implements ILoigc {
     private Player player;
     private Mouse mouse;
     private MousePicker picker;
+    private ParticleEffect effect;
 
     private float cameraSpeed = 0.5f;
     private boolean debugMode = false;
@@ -50,6 +52,11 @@ public class Game implements ILoigc {
         keyboard = new Keyboard();
         mouse = new Mouse();
         loader = new ObjectLoader();
+        effect = new ParticleEffect(50, 25, 0.3f, 4, 1);
+        effect.randomizeRotation();
+        effect.setLifeError(0.1f);
+        effect.setSpeedError(0.4f);
+        effect.setScaleError(0.8f);
         //cameraInc = new Vector3f(0, 0, 0);
         sceneManager = new SceneManager(-90);
     }
@@ -134,8 +141,6 @@ public class Game implements ILoigc {
 
     @Override
     public void update(float interval) {
-        //camera.movePosition(cameraInc.x * Consts.CAMERA_MOVE_SPEED, cameraInc.y * Consts.CAMERA_MOVE_SPEED, cameraInc.z * Consts.CAMERA_MOVE_SPEED);
-        //camera.movePosition(cameraInc.x * cameraSpeed, cameraInc.y * cameraSpeed, cameraInc.z * cameraSpeed);
         if (debugMode) {
             text.drawString("Frog Engine dev 0.01", new Vector2f(-0.975f, 0.965f), 8);
             text.drawString("XYZ: " + (int) camera.getPosition().x + " " + (int) camera.getPosition().y + " " + (int) camera.getPosition().z, new Vector2f(-0.975f, 0.925f), 8);
@@ -149,6 +154,7 @@ public class Game implements ILoigc {
         camera.update(mouse);
         player.update(keyboard, sceneManager.getTerrains().get(0));
         picker.update();
+        effect.generateParticles(new Vector3f(player.getPosition()));
 
         Vector3f terrainPoint = picker.getCurrentTerrainPoint();
 
