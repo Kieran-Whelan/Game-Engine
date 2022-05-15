@@ -5,6 +5,7 @@ import me.frogdog.engine.core.input.Keyboard;
 import me.frogdog.engine.core.world.Model;
 import me.frogdog.engine.core.world.entity.Entity;
 import me.frogdog.engine.core.world.terrain.Terrain;
+import me.frogdog.engine.utils.Consts;
 import org.joml.Vector3f;
 import org.lwjgl.glfw.GLFW;
 
@@ -12,7 +13,6 @@ public class Player extends Entity {
 
     private static final float SPEED = 20.0f;
     private static final float TURN_SPEED = 100.0f;
-    private static final float GRAVITY = -50.0f;
     private static final float JUMP_POWER = 30.0f;
     private static final float TERRAIN_HEIGHT = 0.0f;
 
@@ -33,7 +33,7 @@ public class Player extends Entity {
         float dx = (float) (distance * Math.sin(Math.toRadians(super.getRotation().y)));
         float dz = (float) (distance * Math.cos(Math.toRadians(super.getRotation().y)));
         super.incPos(dx, 0, dz);
-        this.currentUpSpeed += GRAVITY * EngineManager.getFrameTimeSeconds();
+        this.currentUpSpeed += Consts.GRAVITY * EngineManager.getFrameTimeSeconds();
         float terrainHeight = terrain.getTerrainHeight(super.getPosition().x, super.getPosition().z);
         if (super.getPosition().y < terrainHeight) {
             this.currentUpSpeed = 0;

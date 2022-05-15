@@ -30,6 +30,7 @@ public class RenderManager {
     private TerrainRenderer terrainRenderer;
     private SkyboxRenderer skyboxRenderer;
     private WaterRenderer waterRenderer;
+    private ParticleRenderer particleRenderer;
     private HudRenderer hudRenderer;
     private FontRenderer fontRenderer;
 
@@ -47,12 +48,14 @@ public class RenderManager {
         terrainRenderer = new TerrainRenderer();
         skyboxRenderer = new SkyboxRenderer();
         waterRenderer = new WaterRenderer();
+        particleRenderer = new ParticleRenderer();
         hudRenderer = new HudRenderer();
         fontRenderer = new FontRenderer();
         entityRenderer.init();
         terrainRenderer.init();
         skyboxRenderer.init();
         waterRenderer.init();
+        particleRenderer.init();
         hudRenderer.init();
         fontRenderer.init();
     }
@@ -84,6 +87,7 @@ public class RenderManager {
         entityRenderer.render(camera, scene.getPointLights(), scene.getSpotLights(), scene.getDirectionalLight());
         skyboxRenderer.render(camera, scene.getPointLights(), scene.getSpotLights(), scene.getDirectionalLight());
         waterRenderer.render(camera, scene.getPointLights(), scene.getSpotLights(), scene.getDirectionalLight());
+        particleRenderer.render(camera, scene.getPointLights(), scene.getSpotLights(), scene.getDirectionalLight());
         hudRenderer.render(camera, scene.getPointLights(), scene.getSpotLights(), scene.getDirectionalLight());
         fontRenderer.render(camera, scene.getPointLights(), scene.getSpotLights(), scene.getDirectionalLight());
 
@@ -133,6 +137,7 @@ public class RenderManager {
         terrainRenderer.cleanup();
         skyboxRenderer.cleanup();
         waterRenderer.cleanup();
+        particleRenderer.cleanup();
         hudRenderer.cleanup();
         fontRenderer.cleanup();
     }
@@ -143,5 +148,9 @@ public class RenderManager {
 
     public FontRenderer getFontRenderer() {
         return fontRenderer;
+    }
+
+    public ParticleRenderer getParticleRenderer() {
+        return particleRenderer;
     }
 }

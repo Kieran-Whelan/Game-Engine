@@ -7,6 +7,7 @@ import me.frogdog.engine.core.maths.Random;
 import me.frogdog.engine.core.world.*;
 import me.frogdog.engine.core.world.entity.Entity;
 import me.frogdog.engine.core.world.entity.player.Player;
+import me.frogdog.engine.core.world.particle.Particle;
 import me.frogdog.engine.core.world.terrain.BlendMapTerrain;
 import me.frogdog.engine.core.world.terrain.HeightGenerator;
 import me.frogdog.engine.core.world.terrain.Terrain;
@@ -59,6 +60,7 @@ public class Game implements ILoigc {
         mouse.init();
         keyboard.init();
         text = new Text("font/Dubai.png");
+        sound = new Sound("audio/gun-gunshot-01.wav");
         //camera.setPosition(0 ,0 ,0);
 
         //sound = new Sound("audio/unlock.wav");
@@ -123,6 +125,10 @@ public class Game implements ILoigc {
 
         if (keyboard.isKeyPressed(GLFW.GLFW_KEY_F3)) {
             debugMode = !debugMode;
+        }
+
+        if (keyboard.isKeyDown(GLFW.GLFW_KEY_P)) {
+            new Particle(new Vector3f(player.getPosition().x, player.getPosition().y, player.getPosition().z), new Vector3f(0, 30, 0), 1, 4, 0, 1);
         }
     }
 

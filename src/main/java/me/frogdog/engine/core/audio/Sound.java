@@ -14,9 +14,9 @@ public class Sound {
         audioInputStream = AudioSystem.getAudioInputStream(new File(filePath).getAbsoluteFile());
         clip = AudioSystem.getClip();
         clip.open(audioInputStream);
-        clip.loop(Clip.LOOP_CONTINUOUSLY);
+        //clip.loop(Clip.LOOP_CONTINUOUSLY);
         FloatControl floatControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-        floatControl.setValue(-50.0f); // + 6.0 is highest and -80.0 is lowest
+        floatControl.setValue(-10.0f); // + 6.0 is highest and -80.0 is lowest
     }
 
     public void play() {

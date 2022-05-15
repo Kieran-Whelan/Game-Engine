@@ -24,5 +24,8 @@ public class Consts {
     public static final int MAX_POINT_LIGHTS = 5;
 
     public static final float[] HUD_VERTICES = {-1, 1, -1, -1, 1, 1, 1, -1};
+    public static final float[] PARTICLE_VERTICES = {-0.5f, 0.5f, -0.5f, -0.5f, 0.5f, 0.5f, 0.5f, -0.5f};
+
+    public static final float GRAVITY = -50.0f;
 
 }
