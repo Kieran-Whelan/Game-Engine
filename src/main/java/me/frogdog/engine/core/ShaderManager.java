@@ -75,7 +75,6 @@ public class ShaderManager {
         createUniform(uniformName + ".specular");
         createUniform(uniformName + ".hasTexture");
         createUniform(uniformName + ".reflectance");
-
     }
 
     public void setUniform(String uniformName, Matrix4f value) {

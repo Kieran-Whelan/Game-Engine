@@ -1,10 +1,10 @@
 package me.frogdog.engine.core.rendering.hud.font;
 
-import me.frogdog.engine.core.rendering.hud.gui.HudTexture;
+import me.frogdog.engine.core.rendering.hud.gui.items.GuiTexture;
 import org.joml.Vector2f;
 import org.joml.Vector4f;
 
-public class Glyph extends HudTexture {
+public class Glyph extends GuiTexture {
 
     private Font font;
     private Vector2f index;

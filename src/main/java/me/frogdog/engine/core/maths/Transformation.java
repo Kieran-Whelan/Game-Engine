@@ -1,23 +1,30 @@
 package me.frogdog.engine.core.maths;
 
+import me.frogdog.engine.core.rendering.hud.gui.Item;
 import me.frogdog.engine.core.world.entity.Entity;
 import me.frogdog.engine.core.world.terrain.Terrain;
-import me.frogdog.engine.core.rendering.hud.gui.HudTexture;
+import me.frogdog.engine.core.rendering.hud.gui.items.GuiTexture;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
 public class Transformation {
 
-    public static Matrix4f createTransformationMatrix(HudTexture hudTexture) {
+    public static Matrix4f createTransformationMatrix(GuiTexture hudTexture) {
         Matrix4f matrix = new Matrix4f();
         matrix.identity().translate(hudTexture.getPosition().x, hudTexture.getPosition().y, 0f).
                 scale(hudTexture.getScale().x, hudTexture.getScale().y, 1f);
         return matrix;
     }
 
+    public static Matrix4f createTransformationMatrix(Item item) {
+        Matrix4f matrix = new Matrix4f();
+        matrix.identity().translate(item.getPosition().x, item.getPosition().y, 0f).
+                scale(item.getScale().x, item.getScale().y, 1f);
+        return matrix;
+    }
+
     public static Matrix4f createTransformationMatrix(Entity entity) {
         Matrix4f matrix = new Matrix4f();
-        // divide by two to fix speed
         matrix.identity().translate(entity.getPosition())
                 .rotateX((float) Math.toRadians(entity.getRotation().x))
                 .rotateY((float) Math.toRadians(entity.getRotation().y))

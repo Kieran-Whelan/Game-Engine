@@ -8,7 +8,7 @@ import me.frogdog.engine.core.lighting.DirectionalLight;
 import me.frogdog.engine.core.lighting.PointLight;
 import me.frogdog.engine.core.lighting.SpotLight;
 import me.frogdog.engine.core.maths.Transformation;
-import me.frogdog.engine.core.rendering.hud.gui.HudTexture;
+import me.frogdog.engine.core.rendering.hud.gui.items.GuiTexture;
 import me.frogdog.engine.utils.Consts;
 import me.frogdog.engine.utils.ObjectLoader;
 import me.frogdog.engine.utils.Utils;
@@ -50,7 +50,7 @@ public class FontRenderer implements IRenderer {
     @Override
     public void render(Camera camera, PointLight[] pointLights, SpotLight[] spotLights, DirectionalLight directionalLight) {
         shader.bind();
-        for (HudTexture glyph : glyphs) {
+        for (GuiTexture glyph : glyphs) {
             bind(quad);
             prepare(glyph, camera);
             GL13.glActiveTexture(GL13.GL_TEXTURE0);
