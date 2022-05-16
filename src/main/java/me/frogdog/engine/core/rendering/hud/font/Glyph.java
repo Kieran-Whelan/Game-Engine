@@ -1,6 +1,6 @@
 package me.frogdog.engine.core.rendering.hud.font;
 
-import me.frogdog.engine.core.rendering.hud.HudTexture;
+import me.frogdog.engine.core.rendering.hud.gui.HudTexture;
 import org.joml.Vector2f;
 import org.joml.Vector4f;
 
@@ -11,13 +11,13 @@ public class Glyph extends HudTexture {
     private Vector4f colour;
 
     public Glyph(Font font, Vector2f position, Vector2f scale, Vector2f index) {
-        super(font.getFontSheet(), position, scale);
+        super(font.getFont(), position, scale);
         this.index = index;
         this.colour = new Vector4f(1.0f, 1.0f, 1.0f, 1.0f);
     }
 
     public Glyph(Font font, Vector2f position, Vector2f scale, Vector2f index, Vector4f colour) {
-        super(font.getFontSheet(), position, scale);
+        super(font.getFont(), position, scale);
         this.index = index;
         this.colour = colour;
     }

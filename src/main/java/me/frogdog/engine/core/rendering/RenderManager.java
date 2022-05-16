@@ -11,8 +11,8 @@ import me.frogdog.engine.core.world.terrain.Terrain;
 import me.frogdog.engine.core.lighting.DirectionalLight;
 import me.frogdog.engine.core.lighting.PointLight;
 import me.frogdog.engine.core.lighting.SpotLight;
-import me.frogdog.engine.core.rendering.hud.HudRenderer;
-import me.frogdog.engine.core.rendering.hud.font.FontRenderer;
+import me.frogdog.engine.core.rendering.hud.GuiRenderer;
+import me.frogdog.engine.core.rendering.hud.FontRenderer;
 import me.frogdog.engine.utils.Consts;
 import me.frogdog.engine.game.Main;
 import org.lwjgl.opengl.GL11;
@@ -31,7 +31,7 @@ public class RenderManager {
     private SkyboxRenderer skyboxRenderer;
     private WaterRenderer waterRenderer;
     private ParticleRenderer particleRenderer;
-    private HudRenderer hudRenderer;
+    private GuiRenderer hudRenderer;
     private FontRenderer fontRenderer;
 
     private static boolean isCulling = false;
@@ -49,7 +49,7 @@ public class RenderManager {
         skyboxRenderer = new SkyboxRenderer();
         waterRenderer = new WaterRenderer();
         particleRenderer = new ParticleRenderer();
-        hudRenderer = new HudRenderer();
+        hudRenderer = new GuiRenderer();
         fontRenderer = new FontRenderer();
         entityRenderer.init();
         terrainRenderer.init();

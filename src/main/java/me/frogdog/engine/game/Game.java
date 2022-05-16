@@ -4,6 +4,7 @@ import me.frogdog.engine.core.SceneManager;
 import me.frogdog.engine.core.audio.Sound;
 import me.frogdog.engine.core.maths.MousePicker;
 import me.frogdog.engine.core.maths.Random;
+import me.frogdog.engine.core.rendering.hud.font.Font;
 import me.frogdog.engine.core.world.*;
 import me.frogdog.engine.core.world.entity.Entity;
 import me.frogdog.engine.core.world.entity.player.Player;
@@ -20,7 +21,6 @@ import me.frogdog.engine.core.lighting.PointLight;
 import me.frogdog.engine.core.lighting.SpotLight;
 import me.frogdog.engine.core.maths.Camera;
 import me.frogdog.engine.core.rendering.RenderManager;
-import me.frogdog.engine.core.rendering.hud.font.text.Text;
 import me.frogdog.engine.utils.ObjectLoader;
 import me.frogdog.engine.utils.interfaces.ILoigc;
 import org.joml.Vector2f;
@@ -36,7 +36,7 @@ public class Game implements ILoigc {
     private Camera camera;
     private Keyboard keyboard;
     private Sound sound;
-    private Text text;
+    private Font text;
     private Player player;
     private Mouse mouse;
     private MousePicker picker;
@@ -66,7 +66,7 @@ public class Game implements ILoigc {
         renderer.init();
         mouse.init();
         keyboard.init();
-        text = new Text("font/Dubai.png");
+        text = new Font("font/Dubai.png");
         sound = new Sound("audio/gun-gunshot-01.wav");
         //camera.setPosition(0 ,0 ,0);
 
