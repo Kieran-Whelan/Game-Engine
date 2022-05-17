@@ -46,7 +46,7 @@ public class GuiRenderer implements IRenderer {
         shader.createUniform("hudTexture");
         shader.createUniform("hasTexture");
         shader.createUniform("transformationMatrix");
-        guiItems.add(new Button(new Vector2f(0.0f, 0.0f), new Vector2f(0.25f, 0.1f)));
+        //guiItems.add(new Button(new Vector2f(0.0f, 0.0f), new Vector2f(0.25f, 0.1f)));
     }
 
     @Override

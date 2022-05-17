@@ -23,7 +23,6 @@ public class Particle {
         this.lifeLength = lifeLength;
         this.rotation = rotation;
         this.scale = scale;
-        RenderManager.getInstance().getParticleRenderer().getParticles().add(this);
     }
 
     public boolean update() {

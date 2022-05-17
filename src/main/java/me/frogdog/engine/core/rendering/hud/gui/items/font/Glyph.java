@@ -1,4 +1,4 @@
-package me.frogdog.engine.core.rendering.hud.font;
+package me.frogdog.engine.core.rendering.hud.gui.items.font;
 
 import me.frogdog.engine.core.rendering.hud.gui.items.GuiTexture;
 import org.joml.Vector2f;

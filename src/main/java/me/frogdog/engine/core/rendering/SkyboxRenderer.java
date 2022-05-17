@@ -20,6 +20,9 @@ import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SkyboxRenderer implements IRenderer {
 
     private ShaderManager shader;

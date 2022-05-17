@@ -3,6 +3,9 @@ package me.frogdog.engine.core.rendering;
 import me.frogdog.engine.core.maths.Camera;
 import me.frogdog.engine.core.ShaderManager;
 import me.frogdog.engine.core.WindowManager;
+import me.frogdog.engine.core.rendering.hud.gui.items.font.Glyph;
+import me.frogdog.engine.core.rendering.hud.gui.items.font.text.Text;
+import me.frogdog.engine.core.world.particle.Particle;
 import me.frogdog.engine.core.world.skybox.Skybox;
 import me.frogdog.engine.core.world.entity.Entity;
 import me.frogdog.engine.core.world.Model;
@@ -123,8 +126,18 @@ public class RenderManager {
         terrainRenderer.getTerrain().add(terrain);
     }
 
+    public void processParticle(Particle particle) {
+        particleRenderer.getParticles().add(particle);
+    }
+
     public void processSkybox(Skybox skybox) {
         skyboxRenderer.setSkybox(skybox);
+    }
+
+    public void processText(Text text) {
+        for (Glyph glyph : text.getText()) {
+            fontRenderer.getGlyphs().add(glyph);
+        }
     }
 
     public void clear() {
@@ -142,15 +155,4 @@ public class RenderManager {
         fontRenderer.cleanup();
     }
 
-    public static RenderManager getInstance() {
-        return instance;
-    }
-
-    public FontRenderer getFontRenderer() {
-        return fontRenderer;
-    }
-
-    public ParticleRenderer getParticleRenderer() {
-        return particleRenderer;
-    }
 }

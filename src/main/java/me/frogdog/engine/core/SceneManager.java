@@ -1,5 +1,6 @@
 package me.frogdog.engine.core;
 
+import me.frogdog.engine.core.world.particle.Particle;
 import me.frogdog.engine.core.world.skybox.Skybox;
 import me.frogdog.engine.core.world.entity.Entity;
 import me.frogdog.engine.core.world.terrain.Terrain;
@@ -16,7 +17,8 @@ public class SceneManager {
 
     private List<Entity> entities;
     private List<Terrain> terrains;
-    private Skybox skybox;
+    private List<Particle> particles;
+    private List<Skybox> skyboxes;
 
     private Vector3f ambientLight;
     private SpotLight[] spotLights;
@@ -29,16 +31,14 @@ public class SceneManager {
     public SceneManager(float lightAngle) {
         entities = new ArrayList<>();
         terrains = new ArrayList<>();
+        particles = new ArrayList<>();
+        skyboxes = new ArrayList<>();
         ambientLight = Consts.AMBIENT_LIGHT;
         this.lightAngle = lightAngle;
     }
 
     public List<Entity> getEntities() {
         return entities;
-    }
-
-    public void setEntities(List<Entity> entities) {
-        this.entities = entities;
     }
 
     public void addEntity(Entity entity) {
@@ -49,12 +49,24 @@ public class SceneManager {
         return terrains;
     }
 
-    public void setTerrains(List<Terrain> terrains) {
-        this.terrains = terrains;
-    }
-
     public void addTerrain(Terrain terrain) {
         this.terrains.add(terrain);
+    }
+
+    public List<Skybox> getSkybox() {
+        return skyboxes;
+    }
+
+    public void addSkybox(Skybox skybox) {
+        skyboxes.add(skybox);
+    }
+
+    public List<Particle> getParticles() {
+        return particles;
+    }
+
+    public void addParticle(Particle particle)   {
+        particles.add(particle);
     }
 
     public Vector3f getAmbientLight() {
@@ -123,13 +135,5 @@ public class SceneManager {
 
     public void setDirectionalLight(DirectionalLight directionalLight) {
         this.directionalLight = directionalLight;
-    }
-
-    public Skybox getSkybox() {
-        return skybox;
-    }
-
-    public void setSkybox(Skybox skybox) {
-        this.skybox = skybox;
     }
 }

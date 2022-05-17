@@ -1,36 +1,38 @@
-package me.frogdog.engine.core.rendering.hud.font;
+package me.frogdog.engine.core.rendering.hud.gui.items.font.text;
 
 import me.frogdog.engine.core.rendering.RenderManager;
-import me.frogdog.engine.utils.ObjectLoader;
+import me.frogdog.engine.core.rendering.hud.gui.items.font.Font;
+import me.frogdog.engine.core.rendering.hud.gui.items.font.Glyph;
 import org.joml.Vector2f;
 import org.joml.Vector4f;
 
-public class Font {
+import java.util.ArrayList;
+import java.util.List;
 
-    private final ObjectLoader loader;
-    private String filename;
-    private int fontSheet;
-    private float space = 0.15f;
+public class Text {
 
-    public Font(String filename) throws Exception {
-        this.loader = new ObjectLoader();
-        this.filename = filename;
-        this.fontSheet = loader.loadTextureSheet(filename);
+    private List<Glyph> text;
+    private final float space = 0.15f;
+    private final int factor = 8;
+    private final char[] lowerCase = {'a', 'g', 'b', 'c', 'd', 'e', 'f', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
+    private final char[] upperCase = {'A', 'G', 'B', 'C', 'D', 'E', 'F', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
+
+    public Text(Font font, String string, float x, float y) {
+        text = getGlyphString(font, string, new Vector2f(x, y));
     }
 
-    private char[] lowerCase = {'a', 'g', 'b', 'c', 'd', 'e', 'f', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
-    private char[] upperCase = {'A', 'G', 'B', 'C', 'D', 'E', 'F', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
-
-
-    public void drawString(String text, Vector2f pos) {
+    public List<Glyph> getGlyphString(Font font, String text, Vector2f pos) {
+        List<Glyph> glyphs = new ArrayList<>();
         char[] textGlyphs = text.toCharArray();
         float x = 0;
         for (char glyph : textGlyphs) {
-            RenderManager.getInstance().getFontRenderer().getGlyphs().add(new Glyph(this, new Vector2f(pos.x + x, pos.y), new Vector2f(0.125f, 0.25f), getGlyphIndex(glyph)));
+            glyphs.add(new Glyph(font, new Vector2f(pos.x + x, pos.y), new Vector2f(0.125f / factor, 0.25f / factor), getGlyphIndex(glyph)));
             x += space * getSpaceMultiplier(glyph);
         }
+        return glyphs;
     }
 
+    /*
     public void drawString(String text, Vector2f pos, Vector4f colour) {
         char[] textGlyphs = text.toCharArray();
         float x = 0;
@@ -57,6 +59,8 @@ public class Font {
             x += (space / factor) * getSpaceMultiplier(glyph);
         }
     }
+
+     */
 
     //shadowJar doesnt build this function
     /*
@@ -497,7 +501,7 @@ public class Font {
         return false;
     }
 
-    protected int getFont() {
-        return fontSheet;
+    public List<Glyph> getText() {
+        return text;
     }
 }

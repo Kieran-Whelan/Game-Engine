@@ -57,6 +57,7 @@ public class ParticleRenderer implements IRenderer {
             updateModelViewMatrix(particle.getPosition(), particle.getRotation(), particle.getScale(), Transformation.getViewMatrix(camera));
             GL11.glDrawArrays(GL11.GL_TRIANGLE_STRIP, 0, quad.getVertexCount());
         }
+        particles.clear();
         unbind();
         shader.unbind();
     }

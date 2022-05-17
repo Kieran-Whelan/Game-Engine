@@ -1,6 +1,8 @@
 package me.frogdog.engine.core.world.particle;
 
 import me.frogdog.engine.core.EngineManager;
+import me.frogdog.engine.core.HudManager;
+import me.frogdog.engine.core.SceneManager;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
@@ -63,20 +65,20 @@ public class ParticleEffect {
         this.scaleError = error * averageScale;
     }
 
-    public void generateParticles(Vector3f systemCenter) {
+    public void generateParticles(SceneManager scene, Vector3f systemCenter) {
         float delta = EngineManager.getFrameTimeSeconds();
         float particlesToCreate = pps * delta;
         int count = (int) Math.floor(particlesToCreate);
         float partialParticle = particlesToCreate % 1;
         for (int i = 0; i < count; i++) {
-            emitParticle(systemCenter);
+            emitParticle(scene, systemCenter);
         }
         if (Math.random() < partialParticle) {
-            emitParticle(systemCenter);
+            emitParticle(scene, systemCenter);
         }
     }
 
-    private void emitParticle(Vector3f center) {
+    private void emitParticle(SceneManager scene, Vector3f center) {
         Vector3f velocity = null;
         if (direction!=null) {
             velocity = generateRandomUnitVectorWithinCone(direction, directionDeviation);
@@ -87,7 +89,7 @@ public class ParticleEffect {
         velocity.mul(generateValue(averageSpeed, speedError));
         float scale = generateValue(averageScale, scaleError);
         float lifeLength = generateValue(averageLifeLength, lifeError);
-        new Particle(new Vector3f(center), velocity, gravityComplient, lifeLength, generateRotation(), scale);
+        scene.addParticle(new Particle(new Vector3f(center), velocity, gravityComplient, lifeLength, generateRotation(), scale));
     }
 
     private float generateValue(float average, float errorMargin) {

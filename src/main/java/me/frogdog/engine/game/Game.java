@@ -1,15 +1,19 @@
 package me.frogdog.engine.game;
 
+import me.frogdog.engine.core.HudManager;
 import me.frogdog.engine.core.SceneManager;
 import me.frogdog.engine.core.audio.Sound;
 import me.frogdog.engine.core.maths.MousePicker;
 import me.frogdog.engine.core.maths.Random;
-import me.frogdog.engine.core.rendering.hud.font.Font;
+import me.frogdog.engine.core.rendering.hud.gui.items.font.Font;
+import me.frogdog.engine.core.rendering.hud.gui.items.font.Glyph;
+import me.frogdog.engine.core.rendering.hud.gui.items.font.text.Text;
 import me.frogdog.engine.core.world.*;
 import me.frogdog.engine.core.world.entity.Entity;
 import me.frogdog.engine.core.world.entity.player.Player;
 import me.frogdog.engine.core.world.particle.Particle;
 import me.frogdog.engine.core.world.particle.ParticleEffect;
+import me.frogdog.engine.core.world.skybox.Skybox;
 import me.frogdog.engine.core.world.terrain.BlendMapTerrain;
 import me.frogdog.engine.core.world.terrain.HeightGenerator;
 import me.frogdog.engine.core.world.terrain.Terrain;
@@ -21,6 +25,7 @@ import me.frogdog.engine.core.lighting.PointLight;
 import me.frogdog.engine.core.lighting.SpotLight;
 import me.frogdog.engine.core.maths.Camera;
 import me.frogdog.engine.core.rendering.RenderManager;
+import me.frogdog.engine.utils.Consts;
 import me.frogdog.engine.utils.ObjectLoader;
 import me.frogdog.engine.utils.interfaces.ILoigc;
 import org.joml.Vector2f;
@@ -32,11 +37,12 @@ public class Game implements ILoigc {
 
     private final RenderManager renderer;
     private final ObjectLoader loader;
-    private SceneManager sceneManager;
+    private SceneManager scene;
+    private HudManager hud;
     private Camera camera;
     private Keyboard keyboard;
     private Sound sound;
-    private Font text;
+    private Font font;
     private Player player;
     private Mouse mouse;
     private MousePicker picker;
@@ -58,7 +64,8 @@ public class Game implements ILoigc {
         effect.setSpeedError(0.4f);
         effect.setScaleError(0.8f);
         //cameraInc = new Vector3f(0, 0, 0);
-        sceneManager = new SceneManager(-90);
+        scene = new SceneManager(-90);
+        hud = new HudManager();
     }
 
     @Override
@@ -66,7 +73,7 @@ public class Game implements ILoigc {
         renderer.init();
         mouse.init();
         keyboard.init();
-        text = new Font("font/Dubai.png");
+        font = new Font("font/Dubai.png");
         sound = new Sound("audio/gun-gunshot-01.wav");
         //camera.setPosition(0 ,0 ,0);
 
@@ -75,7 +82,7 @@ public class Game implements ILoigc {
         player = new Player(new Model((loader.loadOBLModel("/models/cube.obj")), new Texture(loader.loadTexture("textures/player.png"))), new Vector3f(0.0f, 0.0f, 0.0f), new Vector3f(0.0f, 0.0f, 0.0f), 1.0f);
         camera = new Camera(player);
         player.getModel().getMaterial().setDisableCulling(true);
-        sceneManager.addEntity(player);
+        scene.addEntity(player);
 
         TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("textures/terrain.png"));
         TerrainTexture redTexture = new TerrainTexture(loader.loadTexture("textures/flowers.png"));
@@ -88,7 +95,7 @@ public class Game implements ILoigc {
         //Terrain terrain = new Terrain(new Vector3f(-400, -1, -400), loader, new Material(new Vector4f(0.0f, 0.0f, 0.0f, 0.0f), 0.1f), blendMapTerrain, blendMap ,"textures/maps/heightmap.png");
         HeightGenerator heightGenerator = new HeightGenerator();
         Terrain terrain = new Terrain(new Vector3f(-400, -1, -400), loader, new Material(new Vector4f(0.0f, 0.0f, 0.0f, 0.0f), 0.1f), blendMapTerrain, blendMap , heightGenerator);
-        sceneManager.addTerrain(terrain);
+        scene.addTerrain(terrain);
 
         picker = new MousePicker(mouse, camera, Main.getWindow().updateProjectionMatrix(), terrain);
 
@@ -96,11 +103,11 @@ public class Game implements ILoigc {
             float x = Random.randRange(-400f, 400f);
             float z = Random.randRange(-400f, 400f);
             Entity entity = new Entity(new Model((loader.loadOBLModel("/models/player.obj")), new Texture(loader.loadTexture("textures/player.png"))), new Vector3f(x, terrain.getTerrainHeight(x, z), z) , new Vector3f(0.0f, 0.0f, 0.0f), 1.0f);
-            sceneManager.addEntity(entity);
+            scene.addEntity(entity);
         }
 
         Entity cyl = new Entity(new Model((loader.loadOBLModel("/models/player.obj")), new Texture(loader.loadTexture("textures/player.png"))), new Vector3f(0, 0, 0) , new Vector3f(0.0f, 0.0f, 0.0f), 1.0f);
-        sceneManager.addEntity(cyl);
+        scene.addEntity(cyl);
 
         float lightIntensity = 1.0f;
         //point light
@@ -120,10 +127,13 @@ public class Game implements ILoigc {
         lightIntensity = 1f;
         lightPosition = new Vector3f(0, 10, 0);
         lightColour =  new Vector3f(1, 1, 1);
-        sceneManager.setDirectionalLight(new DirectionalLight(lightColour, lightPosition, lightIntensity));
+        scene.setDirectionalLight(new DirectionalLight(lightColour, lightPosition, lightIntensity));
 
-        sceneManager.setPointLights(new PointLight[] {pointLight});
-        sceneManager.setSpotLights(new SpotLight[] {spotLight, spotLight1});
+        scene.setPointLights(new PointLight[] {pointLight});
+        scene.setSpotLights(new SpotLight[] {spotLight, spotLight1});
+
+        hud.addText(new Text(font, "Frog Engine Dev 0.1", -0.975f, 0.965f));
+        hud.addText(new Text(font, "OpenGL version 3.3", -0.975f, 0.725f));
     }
 
     @Override
@@ -135,91 +145,97 @@ public class Game implements ILoigc {
         }
 
         if (keyboard.isKeyDown(GLFW.GLFW_KEY_P)) {
-            new Particle(new Vector3f(player.getPosition().x, player.getPosition().y, player.getPosition().z), new Vector3f(0, 30, 0), 1, 4, 0, 1);
+            scene.addParticle(new Particle(new Vector3f(player.getPosition().x, player.getPosition().y, player.getPosition().z), new Vector3f(0, 30, 0), 1, 4, 0, 1));
         }
     }
 
     @Override
     public void update(float interval) {
         if (debugMode) {
-            text.drawString("Frog Engine dev 0.01", new Vector2f(-0.975f, 0.965f), 8);
-            text.drawString("XYZ: " + (int) camera.getPosition().x + " " + (int) camera.getPosition().y + " " + (int) camera.getPosition().z, new Vector2f(-0.975f, 0.925f), 8);
-            text.drawString("XYZ: " + (int) player.getPosition().x + " " + (int) player.getPosition().y + " " + (int) player.getPosition().z, new Vector2f(-0.975f, 0.885f), 8);
-            text.drawString("Rotation: " + (int) player.getRotation().x + " " + (int) player.getRotation().y + " " + (int) player.getRotation().z, new Vector2f(-0.975f, 0.845f), 8);
-            text.drawString("Rotation: " + (int) camera.getYaw() + " " + (int) camera.getPitch() + " " + (int) camera.getRoll(), new Vector2f(-0.975f, 0.805f), 8);
-            text.drawString("Rotation: " + (int) mouse.getCurrentPos().x + " " + (int) mouse.getCurrentPos().y + " ", new Vector2f(-0.975f, 0.765f), 8);
-            text.drawString("OpenGL version 3.3", new Vector2f(-0.975f, 0.725f), 8);
+
         }
 
         camera.update(mouse);
-        player.update(keyboard, sceneManager.getTerrains().get(0));
+        player.update(keyboard, scene.getTerrains().get(0));
         picker.update();
-        effect.generateParticles(new Vector3f(player.getPosition()));
+        effect.generateParticles(scene, new Vector3f(player.getPosition()));
 
         Vector3f terrainPoint = picker.getCurrentTerrainPoint();
 
         if (terrainPoint != null) {
-            Entity cyl = sceneManager.getEntities().get(sceneManager.getEntities().size() - 1);
+            Entity cyl = scene.getEntities().get(scene.getEntities().size() - 1);
             cyl.setPos(terrainPoint.x, terrainPoint.y, terrainPoint.z);
         }
 
         //sound.play();
 
-        //if (mouse.isRightButtonPress()) {
-            //Vector2f rotVec = mouse.getDisplVec();
-            //camera.moveRotation(rotVec.x * Consts.MOUSE_SENSITIVITY, rotVec.y * Consts.MOUSE_SENSITIVITY, 0);
-        //}
+        if (mouse.isRightButtonPress()) {
+            Vector2f rotVec = mouse.getDisplVec();
+            player.incRotation(0, rotVec.x * Consts.MOUSE_SENSITIVITY, 0);
+        }
 
         //entity.incRotation(0.0f, 0.25f, 0.0f);
 
-        sceneManager.incSpotAngle(0.15f);
-        if (sceneManager.getSpotAngle() > 9600) {
-            sceneManager.setSpotInc(-1);
-        } else if (sceneManager.getSpotAngle() <= -9600) {
-            sceneManager.setSpotAngle(-1);
+        scene.incSpotAngle(0.15f);
+        if (scene.getSpotAngle() > 9600) {
+            scene.setSpotInc(-1);
+        } else if (scene.getSpotAngle() <= -9600) {
+            scene.setSpotAngle(-1);
         }
 
-        double spotAngleRad = Math.toRadians(sceneManager.getSpotAngle());
-        Vector3f coneDir = sceneManager.getSpotLights()[0].getPointLight().getPosition();
+        double spotAngleRad = Math.toRadians(scene.getSpotAngle());
+        Vector3f coneDir = scene.getSpotLights()[0].getPointLight().getPosition();
         coneDir.x = (float) Math.sin(spotAngleRad);
 
-        coneDir = sceneManager.getSpotLights()[1].getPointLight().getPosition();
+        coneDir = scene.getSpotLights()[1].getPointLight().getPosition();
         coneDir.x = (float) Math.cos(spotAngleRad * 0.15);
 
-        sceneManager.incLightAngle(0.1f);
-        if (sceneManager.getLightAngle() > 90) {
-            sceneManager.getDirectionalLight().setIntensity(0);
-            if (sceneManager.getLightAngle() >= 360) {
-                sceneManager.setLightAngle(-90);
+        scene.incLightAngle(0.1f);
+        if (scene.getLightAngle() > 90) {
+            scene.getDirectionalLight().setIntensity(0);
+            if (scene.getLightAngle() >= 360) {
+                scene.setLightAngle(-90);
             }
-        } else if (sceneManager.getLightAngle() <= -80 || sceneManager.getLightAngle() >= 80) {
-            float factor = 1 - (Math.abs(sceneManager.getLightAngle()) - 80) / 10.0f;
-            sceneManager.getDirectionalLight().setIntensity(factor);
-            sceneManager.getDirectionalLight().getColour().y = Math.max(factor, 0.9f);
-            sceneManager.getDirectionalLight().getColour().z = Math.max(factor, 0.5f);
+        } else if (scene.getLightAngle() <= -80 || scene.getLightAngle() >= 80) {
+            float factor = 1 - (Math.abs(scene.getLightAngle()) - 80) / 10.0f;
+            scene.getDirectionalLight().setIntensity(factor);
+            scene.getDirectionalLight().getColour().y = Math.max(factor, 0.9f);
+            scene.getDirectionalLight().getColour().z = Math.max(factor, 0.5f);
         } else {
-            sceneManager.getDirectionalLight().setIntensity(1);
-            sceneManager.getDirectionalLight().getColour().x = 1;
-            sceneManager.getDirectionalLight().getColour().y = 1;
-            sceneManager.getDirectionalLight().getColour().z = 1;
+            scene.getDirectionalLight().setIntensity(1);
+            scene.getDirectionalLight().getColour().x = 1;
+            scene.getDirectionalLight().getColour().y = 1;
+            scene.getDirectionalLight().getColour().z = 1;
         }
 
-        double angRad = Math.toRadians(sceneManager.getLightAngle());
-        sceneManager.getDirectionalLight().getDirection().x = (float) Math.sin(angRad);
-        sceneManager.getDirectionalLight().getDirection().y = (float) Math.cos(angRad);
+        double angRad = Math.toRadians(scene.getLightAngle());
+        scene.getDirectionalLight().getDirection().x = (float) Math.sin(angRad);
+        scene.getDirectionalLight().getDirection().y = (float) Math.cos(angRad);
 
-        for (Terrain terrain : sceneManager.getTerrains()) {
+        for (Terrain terrain : scene.getTerrains()) {
             renderer.processTerrain(terrain);
         }
 
-        for (Entity entity : sceneManager.getEntities()) {
+        for (Entity entity : scene.getEntities()) {
             renderer.processEntity(entity);
+        }
+
+        for (Skybox skybox : scene.getSkybox()) {
+            renderer.processSkybox(skybox);
+        }
+
+        for (Particle particle : scene.getParticles()) {
+            renderer.processParticle(particle);
+        }
+
+        for (Text text : hud.getText()) {
+            renderer.processText(text);
         }
     }
 
     @Override
     public void render() {
-        renderer.render(camera, sceneManager);
+        renderer.render(camera, scene);
     }
 
     @Override
