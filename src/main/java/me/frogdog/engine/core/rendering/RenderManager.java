@@ -131,7 +131,7 @@ public class RenderManager {
     }
 
     public void processSkybox(Skybox skybox) {
-        skyboxRenderer.setSkybox(skybox);
+        skyboxRenderer.getSkyboxes().add(skybox);
     }
 
     public void processText(Text text) {

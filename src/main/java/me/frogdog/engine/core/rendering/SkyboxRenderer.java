@@ -26,13 +26,13 @@ import java.util.List;
 public class SkyboxRenderer implements IRenderer {
 
     private ShaderManager shader;
-    private Skybox skybox;
+    private List<Skybox> skyboxes;
     private float rotation = 0;
     private float time = 0;
 
     public SkyboxRenderer() throws Exception {
         shader = new ShaderManager();
-        skybox = new Skybox();
+        skyboxes = new ArrayList<>();
     }
 
     @Override
@@ -52,48 +52,21 @@ public class SkyboxRenderer implements IRenderer {
     public void render(Camera camera, PointLight[] pointLights, SpotLight[] spotLights, DirectionalLight directionalLight) {
         shader.bind();
         setupTextureUniforms();
-        shader.setUniform("projectionMatrix", Main.getWindow().updateProjectionMatrix());
-        prepare(skybox.getModel(), camera);
-        bind(skybox.getModel());
-        GL11.glDrawArrays(GL11.GL_TRIANGLES, 0 , skybox.getModel().getVertexCount());
-        unbind();
+        for (Skybox skybox : skyboxes) {
+            shader.setUniform("projectionMatrix", Main.getWindow().updateProjectionMatrix());
+            bind(skybox.getModel());
+            prepare(skybox, camera);
+            GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, skybox.getModel().getVertexCount());
+            unbind();
+        }
+        skyboxes.clear();
         shader.unbind();
     }
 
     @Override
     public void bind(Model model) {
-        time += EngineManager.getFrameTimeSeconds() * 1000;
-        time %= 24000;
-
-        int texture1;
-        int texture2;
-        float blendFactor;
-
-        if (time >= 0 && time < 5000){
-            texture1 = skybox.getNightTextureMap();
-            texture2 = skybox.getNightTextureMap();
-            blendFactor = (time - 0)/(5000 - 0);
-        } else if (time >= 5000 && time < 8000){
-            texture1 = skybox.getNightTextureMap();
-            texture2 = skybox.getDayTextureMap();
-            blendFactor = (time - 5000)/(8000 - 5000);
-        } else if (time >= 8000 && time < 21000){
-            texture1 = skybox.getDayTextureMap();
-            texture2 = skybox.getDayTextureMap();
-            blendFactor = (time - 8000)/(21000 - 8000);
-        } else {
-            texture1 = skybox.getDayTextureMap();
-            texture2 = skybox.getNightTextureMap();
-            blendFactor = (time - 21000)/(24000 - 21000);
-        }
-
-        GL30.glBindVertexArray(skybox.getModel().getId());
+        GL30.glBindVertexArray(model.getId());
         GL20.glEnableVertexAttribArray(0);
-        GL13.glActiveTexture(GL13.GL_TEXTURE0);
-        GL11.glBindTexture(GL13.GL_TEXTURE_CUBE_MAP, texture1);
-        GL13.glActiveTexture(GL13.GL_TEXTURE1);
-        GL11.glBindTexture(GL13.GL_TEXTURE_CUBE_MAP, texture2);
-        shader.setUniform("blendFactor", blendFactor);
     }
 
     @Override
@@ -112,6 +85,36 @@ public class SkyboxRenderer implements IRenderer {
         matrix.rotateY((float) Math.toRadians(rotation));
         shader.setUniform("viewMatrix", matrix);
         shader.setUniform("fogColour", new Vector3f(Consts.SKY_COLOUR.x, Consts.SKY_COLOUR.y, Consts.SKY_COLOUR.z));
+        time += EngineManager.getFrameTimeSeconds() * 1000;
+        time %= 24000;
+
+        int texture1;
+        int texture2;
+        float blendFactor;
+
+        if (time >= 0 && time < 5000){
+            texture1 = ((Skybox)skybox).getNightTextureMap();
+            texture2 = ((Skybox)skybox).getNightTextureMap();
+            blendFactor = (time - 0)/(5000 - 0);
+        } else if (time >= 5000 && time < 8000){
+            texture1 = ((Skybox)skybox).getNightTextureMap();
+            texture2 = ((Skybox)skybox).getDayTextureMap();
+            blendFactor = (time - 5000)/(8000 - 5000);
+        } else if (time >= 8000 && time < 21000){
+            texture1 = ((Skybox)skybox).getDayTextureMap();
+            texture2 = ((Skybox)skybox).getDayTextureMap();
+            blendFactor = (time - 8000)/(21000 - 8000);
+        } else {
+            texture1 = ((Skybox)skybox).getDayTextureMap();
+            texture2 = ((Skybox)skybox).getNightTextureMap();
+            blendFactor = (time - 21000)/(24000 - 21000);
+        }
+
+        GL13.glActiveTexture(GL13.GL_TEXTURE0);
+        GL11.glBindTexture(GL13.GL_TEXTURE_CUBE_MAP, texture1);
+        GL13.glActiveTexture(GL13.GL_TEXTURE1);
+        GL11.glBindTexture(GL13.GL_TEXTURE_CUBE_MAP, texture2);
+        shader.setUniform("blendFactor", blendFactor);
     }
 
     @Override
@@ -124,11 +127,7 @@ public class SkyboxRenderer implements IRenderer {
         shader.setUniform("cubeMap2", 1);
     }
 
-    public Skybox getSkybox() {
-        return skybox;
-    }
-
-    public void setSkybox(Skybox skybox) {
-        this.skybox = skybox;
+    public List<Skybox> getSkyboxes() {
+        return skyboxes;
     }
 }

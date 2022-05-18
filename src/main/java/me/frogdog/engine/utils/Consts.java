@@ -28,4 +28,50 @@ public class Consts {
 
     public static final float GRAVITY = -50.0f;
 
+    //Skybox
+    public static final float SIZE = 500f;
+    public static final float[] VERTICES = {
+            -SIZE,  SIZE, -SIZE,
+            -SIZE, -SIZE, -SIZE,
+            SIZE, -SIZE, -SIZE,
+            SIZE, -SIZE, -SIZE,
+            SIZE,  SIZE, -SIZE,
+            -SIZE,  SIZE, -SIZE,
+
+            -SIZE, -SIZE,  SIZE,
+            -SIZE, -SIZE, -SIZE,
+            -SIZE,  SIZE, -SIZE,
+            -SIZE,  SIZE, -SIZE,
+            -SIZE,  SIZE,  SIZE,
+            -SIZE, -SIZE,  SIZE,
+
+            SIZE, -SIZE, -SIZE,
+            SIZE, -SIZE,  SIZE,
+            SIZE,  SIZE,  SIZE,
+            SIZE,  SIZE,  SIZE,
+            SIZE,  SIZE, -SIZE,
+            SIZE, -SIZE, -SIZE,
+
+            -SIZE, -SIZE,  SIZE,
+            -SIZE,  SIZE,  SIZE,
+            SIZE,  SIZE,  SIZE,
+            SIZE,  SIZE,  SIZE,
+            SIZE, -SIZE,  SIZE,
+            -SIZE, -SIZE,  SIZE,
+
+            -SIZE,  SIZE, -SIZE,
+            SIZE,  SIZE, -SIZE,
+            SIZE,  SIZE,  SIZE,
+            SIZE,  SIZE,  SIZE,
+            -SIZE,  SIZE,  SIZE,
+            -SIZE,  SIZE, -SIZE,
+
+            -SIZE, -SIZE, -SIZE,
+            -SIZE, -SIZE,  SIZE,
+            SIZE, -SIZE, -SIZE,
+            SIZE, -SIZE, -SIZE,
+            -SIZE, -SIZE,  SIZE,
+            SIZE, -SIZE,  SIZE
+    };
+
 }

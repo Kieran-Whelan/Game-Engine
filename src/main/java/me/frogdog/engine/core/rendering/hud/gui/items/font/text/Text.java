@@ -1,6 +1,5 @@
 package me.frogdog.engine.core.rendering.hud.gui.items.font.text;
 
-import me.frogdog.engine.core.rendering.RenderManager;
 import me.frogdog.engine.core.rendering.hud.gui.items.font.Font;
 import me.frogdog.engine.core.rendering.hud.gui.items.font.Glyph;
 import org.joml.Vector2f;
@@ -13,7 +12,7 @@ public class Text {
 
     private List<Glyph> text;
     private final float space = 0.023f;
-    private final int factor = 8;
+    private final int factor = 7;
     private final char[] lowerCase = {'a', 'g', 'b', 'c', 'd', 'e', 'f', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
     private final char[] upperCase = {'A', 'G', 'B', 'C', 'D', 'E', 'F', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
 
@@ -339,6 +338,7 @@ public class Text {
                 break;
             case 'Y':
                 result = new Vector2f(9.0f, 5.0f);
+                break;
             case 'Z':
                 result = new Vector2f(10.0f, 5.0f);
                 break;

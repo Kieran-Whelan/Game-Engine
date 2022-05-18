@@ -47,9 +47,12 @@ public class Game implements ILoigc {
     private Mouse mouse;
     private MousePicker picker;
     private ParticleEffect effect;
+    private Skybox skybox;
 
     private float cameraSpeed = 0.5f;
     private boolean debugMode = false;
+    private final String[] textureFiles = new String[] {"textures/skybox/day/right.png", "textures/skybox/day/left.png", "textures/skybox/day/top.png", "textures/skybox/day/bottom.png", "textures/skybox/day/back.png", "textures/skybox/day/front.png"};
+    private final String[] nightTextureFiles = new String[] {"textures/skybox/night/nightRight.png", "textures/skybox/night/nightLeft.png", "textures/skybox/night/nightTop.png", "textures/skybox/night/nightBottom.png", "textures/skybox/night/nightBack.png", "textures/skybox/night/nightFront.png"};
 
     Vector3f cameraInc;
 
@@ -79,6 +82,8 @@ public class Game implements ILoigc {
 
         //sound = new Sound("audio/unlock.wav");
 
+        skybox = new Skybox(textureFiles, nightTextureFiles);
+        scene.addSkybox(skybox);
         player = new Player(new Model((loader.loadOBLModel("/models/cube.obj")), new Texture(loader.loadTexture("textures/player.png"))), new Vector3f(0.0f, 0.0f, 0.0f), new Vector3f(0.0f, 0.0f, 0.0f), 1.0f);
         camera = new Camera(player);
         player.getModel().getMaterial().setDisableCulling(true);
@@ -131,9 +136,6 @@ public class Game implements ILoigc {
 
         scene.setPointLights(new PointLight[] {pointLight});
         scene.setSpotLights(new SpotLight[] {spotLight, spotLight1});
-
-        hud.addText(new Text(font, "Frog Engine Dev 0.1", -0.975f, 0.965f));
-        hud.addText(new Text(font, "OpenGL version 3.3", -0.975f, 0.725f));
     }
 
     @Override
@@ -152,7 +154,9 @@ public class Game implements ILoigc {
     @Override
     public void update(float interval) {
         if (debugMode) {
-
+            hud.addText(new Text(font, "Frog Engine Dev 0.1", -0.975f, 0.965f));
+            hud.addText(new Text(font, "Player XYZ: " + (int) player.getPosition().x + " " + (int) player.getPosition().y + " " + (int) player.getPosition().z, -0.975f, 0.915f));
+            hud.addText(new Text(font, "OpenGL version 3.3", -0.975f, 0.725f));
         }
 
         camera.update(mouse);
@@ -231,6 +235,7 @@ public class Game implements ILoigc {
         for (Text text : hud.getText()) {
             renderer.processText(text);
         }
+        hud.getText().clear();
     }
 
     @Override
