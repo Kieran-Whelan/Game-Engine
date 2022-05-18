@@ -3,6 +3,7 @@ package me.frogdog.engine.core.rendering;
 import me.frogdog.engine.core.maths.Camera;
 import me.frogdog.engine.core.ShaderManager;
 import me.frogdog.engine.core.WindowManager;
+import me.frogdog.engine.core.rendering.hud.gui.Item;
 import me.frogdog.engine.core.rendering.hud.gui.items.font.Glyph;
 import me.frogdog.engine.core.rendering.hud.gui.items.font.text.Text;
 import me.frogdog.engine.core.world.particle.Particle;
@@ -132,6 +133,10 @@ public class RenderManager {
 
     public void processSkybox(Skybox skybox) {
         skyboxRenderer.getSkyboxes().add(skybox);
+    }
+
+    public void processGuiItem(Item item) {
+        hudRenderer.getGuiItems().add(item);
     }
 
     public void processText(Text text) {

@@ -69,7 +69,7 @@ public class GuiRenderer implements IRenderer {
             }
             unbind();
         }
-        //hudTextures.clear();
+        guiItems.clear();
         shader.unbind();
     }
 
@@ -96,7 +96,7 @@ public class GuiRenderer implements IRenderer {
         shader.cleanup();
     }
 
-    public void addTexture(GuiTexture texture) {
-        this.guiItems.add(texture);
+    public List<Item> getGuiItems() {
+        return guiItems;
     }
 }

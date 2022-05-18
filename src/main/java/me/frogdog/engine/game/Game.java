@@ -5,6 +5,8 @@ import me.frogdog.engine.core.SceneManager;
 import me.frogdog.engine.core.audio.Sound;
 import me.frogdog.engine.core.maths.MousePicker;
 import me.frogdog.engine.core.maths.Random;
+import me.frogdog.engine.core.rendering.hud.gui.Item;
+import me.frogdog.engine.core.rendering.hud.gui.items.Button;
 import me.frogdog.engine.core.rendering.hud.gui.items.font.Font;
 import me.frogdog.engine.core.rendering.hud.gui.items.font.Glyph;
 import me.frogdog.engine.core.rendering.hud.gui.items.font.text.Text;
@@ -234,6 +236,10 @@ public class Game implements ILoigc {
 
         for (Text text : hud.getText()) {
             renderer.processText(text);
+        }
+
+        for (Item item : hud.getItems()) {
+            renderer.processGuiItem(item);
         }
         hud.getText().clear();
     }

@@ -50,7 +50,7 @@ public class FontRenderer implements IRenderer {
     @Override
     public void render(Camera camera, PointLight[] pointLights, SpotLight[] spotLights, DirectionalLight directionalLight) {
         shader.bind();
-        for (GuiTexture glyph : glyphs) {
+        for (Glyph glyph : glyphs) {
             bind(quad);
             prepare(glyph, camera);
             GL13.glActiveTexture(GL13.GL_TEXTURE0);
