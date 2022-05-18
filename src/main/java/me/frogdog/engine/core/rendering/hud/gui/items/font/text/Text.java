@@ -12,7 +12,7 @@ import java.util.List;
 public class Text {
 
     private List<Glyph> text;
-    private final float space = 0.15f;
+    private final float space = 0.023f;
     private final int factor = 8;
     private final char[] lowerCase = {'a', 'g', 'b', 'c', 'd', 'e', 'f', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
     private final char[] upperCase = {'A', 'G', 'B', 'C', 'D', 'E', 'F', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
