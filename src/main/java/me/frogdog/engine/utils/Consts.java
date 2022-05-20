@@ -74,4 +74,6 @@ public class Consts {
             SIZE, -SIZE,  SIZE
     };
 
+    public static final float[] WATER_VERTICES = {-1, -1, -1, 1, 1, -1, 1, -1, -1, 1, 1, 1};
+
 }

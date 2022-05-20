@@ -1,8 +1,11 @@
 #version 400
 
-in vec3 textureCoords;
+in float visibility;
+
 out vec4 outColour;
 
+uniform vec3 skyColour;
+
 void main() {
-    outColour = vec4(0.0, 0.3, 0.8, 1.0);
+    outColour = mix(vec4(skyColour, 1.0), vec4(0.0, 0.0, 0.9, 1.0), visibility);
 }

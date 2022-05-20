@@ -4,6 +4,8 @@ import me.frogdog.engine.core.rendering.hud.gui.Item;
 import me.frogdog.engine.core.world.entity.Entity;
 import me.frogdog.engine.core.world.terrain.Terrain;
 import me.frogdog.engine.core.rendering.hud.gui.items.GuiTexture;
+import me.frogdog.engine.core.world.water.WaterTile;
+import me.frogdog.engine.game.Main;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
@@ -37,6 +39,12 @@ public class Transformation {
     public static Matrix4f createTransformationMatrix(Terrain terrain) {
         Matrix4f matrix = new Matrix4f();
         matrix.identity().translate(terrain.getPosition()).scale(1);
+        return matrix;
+    }
+
+    public static Matrix4f createTransformationMatrix(WaterTile waterTile) {
+        Matrix4f matrix = new Matrix4f();
+        matrix.identity().translate(waterTile.getPosition()).rotateX((float) Math.toRadians(90)).scale(500);
         return matrix;
     }
 

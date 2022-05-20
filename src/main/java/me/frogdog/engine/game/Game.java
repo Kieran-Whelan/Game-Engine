@@ -158,7 +158,7 @@ public class Game implements ILoigc {
         if (debugMode) {
             hud.addText(new Text(font, "Frog Engine Dev 0.1", -0.975f, 0.965f));
             hud.addText(new Text(font, "Player XYZ: " + (int) player.getPosition().x + " " + (int) player.getPosition().y + " " + (int) player.getPosition().z, -0.975f, 0.915f));
-            hud.addText(new Text(font, "OpenGL version 3.3", -0.975f, 0.725f));
+            hud.addText(new Text(font, "OpenGL version 3.3", -0.975f, 0.865f));
         }
 
         camera.update(mouse);
