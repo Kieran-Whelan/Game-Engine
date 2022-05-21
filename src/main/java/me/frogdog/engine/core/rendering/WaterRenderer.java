@@ -38,8 +38,7 @@ public class WaterRenderer implements IRenderer {
         shader.createUniform("projectionMatrix");
         shader.createUniform("viewMatrix");
         shader.createUniform("transformationMatrix");
-        shader.createUniform("skyColour");
-        waterTiles.add(new WaterTile(new Vector3f(0f, -20f, 10f)));
+        waterTiles.add(new WaterTile(new Vector3f(0f, -20f, 0f), 400));
     }
 
     @Override
@@ -70,7 +69,6 @@ public class WaterRenderer implements IRenderer {
     public void prepare(Object waterTile, Camera camera) {
         shader.setUniform("transformationMatrix", Transformation.createTransformationMatrix((WaterTile) waterTile));
         shader.setUniform("viewMatrix", Transformation.getViewMatrix(camera));
-        shader.setUniform("skyColour", new Vector3f(Consts.SKY_COLOUR.x, Consts.SKY_COLOUR.y, Consts.SKY_COLOUR.z));
     }
 
     @Override

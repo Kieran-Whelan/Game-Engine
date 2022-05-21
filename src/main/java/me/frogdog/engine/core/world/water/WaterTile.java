@@ -10,11 +10,13 @@ public class WaterTile {
     private ObjectLoader loader;
     private Model model;
     private Vector3f position;
+    private float scale;
 
-    public WaterTile(Vector3f position) {
+    public WaterTile(Vector3f position, float scale) {
         loader = new ObjectLoader();
         this.model = loader.loadModel(Consts.WATER_VERTICES, 2);
         this.position = position;
+        this.scale = scale;
     }
 
     public Model getModel() {
@@ -23,5 +25,9 @@ public class WaterTile {
 
     public Vector3f getPosition() {
         return position;
+    }
+
+    public float getScale() {
+        return scale;
     }
 }
