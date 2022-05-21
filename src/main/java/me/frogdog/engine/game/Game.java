@@ -109,12 +109,14 @@ public class Game implements ILoigc {
         for(int i = 0; i < 200; i++) {
             float x = Random.randRange(-400f, 400f);
             float z = Random.randRange(-400f, 400f);
-            Entity entity = new Entity(new Model((loader.loadOBLModel("/models/player.obj")), new Texture(loader.loadTexture("textures/player.png"))), new Vector3f(x, terrain.getTerrainHeight(x, z), z) , new Vector3f(0.0f, 0.0f, 0.0f), 1.0f);
-            scene.addEntity(entity);
+            if (terrain.getTerrainHeight(x, z) >= -18) {
+                Entity entity = new Entity(new Model((loader.loadOBLModel("/models/tree.obj")), new Texture(loader.loadTexture("textures/tree.png"))), new Vector3f(x, terrain.getTerrainHeight(x, z) - 2, z), new Vector3f(0.0f, 0.0f, 0.0f), 2.0f);
+                scene.addEntity(entity);
+            }
         }
 
-        Entity cyl = new Entity(new Model((loader.loadOBLModel("/models/player.obj")), new Texture(loader.loadTexture("textures/player.png"))), new Vector3f(0, 0, 0) , new Vector3f(0.0f, 0.0f, 0.0f), 1.0f);
-        scene.addEntity(cyl);
+        //Entity cyl = new Entity(new Model((loader.loadOBLModel("/models/player.obj")), new Texture(loader.loadTexture("textures/player.png"))), new Vector3f(0, 0, 0) , new Vector3f(0.0f, 0.0f, 0.0f), 1.0f);
+        //scene.addEntity(cyl);
 
         float lightIntensity = 1.0f;
         //point light
@@ -166,12 +168,15 @@ public class Game implements ILoigc {
         picker.update();
         effect.generateParticles(scene, new Vector3f(player.getPosition()));
 
+        /*
         Vector3f terrainPoint = picker.getCurrentTerrainPoint();
 
         if (terrainPoint != null) {
             Entity cyl = scene.getEntities().get(scene.getEntities().size() - 1);
             cyl.setPos(terrainPoint.x, terrainPoint.y, terrainPoint.z);
         }
+
+         */
 
         //sound.play();
 
