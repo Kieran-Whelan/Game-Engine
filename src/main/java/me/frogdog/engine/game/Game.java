@@ -6,9 +6,7 @@ import me.frogdog.engine.core.audio.Sound;
 import me.frogdog.engine.core.maths.MousePicker;
 import me.frogdog.engine.core.maths.Random;
 import me.frogdog.engine.core.rendering.hud.gui.Item;
-import me.frogdog.engine.core.rendering.hud.gui.items.Button;
 import me.frogdog.engine.core.rendering.hud.gui.items.font.Font;
-import me.frogdog.engine.core.rendering.hud.gui.items.font.Glyph;
 import me.frogdog.engine.core.rendering.hud.gui.items.font.text.Text;
 import me.frogdog.engine.core.world.*;
 import me.frogdog.engine.core.world.entity.Entity;
@@ -86,7 +84,7 @@ public class Game implements ILoigc {
 
         skybox = new Skybox(textureFiles, nightTextureFiles);
         scene.addSkybox(skybox);
-        player = new Player(new Model((loader.loadOBLModel("/models/cube.obj")), new Texture(loader.loadTexture("textures/player.png"))), new Vector3f(0.0f, 0.0f, 0.0f), new Vector3f(0.0f, 0.0f, 0.0f), 1.0f);
+        player = new Player(new Model((loader.loadOBJModel("/models/cube.obj")), new Texture(loader.loadTexture("textures/cube.png"))), new Vector3f(0.0f, 0.0f, 0.0f), new Vector3f(0.0f, 0.0f, 0.0f), 1.0f);
         camera = new Camera(player);
         player.getModel().getMaterial().setDisableCulling(true);
         scene.addEntity(player);
@@ -110,7 +108,7 @@ public class Game implements ILoigc {
             float x = Random.randRange(-400f, 400f);
             float z = Random.randRange(-400f, 400f);
             if (terrain.getTerrainHeight(x, z) >= -18) {
-                Entity entity = new Entity(new Model((loader.loadOBLModel("/models/tree.obj")), new Texture(loader.loadTexture("textures/tree.png"))), new Vector3f(x, terrain.getTerrainHeight(x, z) - 2, z), new Vector3f(0.0f, 0.0f, 0.0f), 2.0f);
+                Entity entity = new Entity(new Model((loader.loadOBJModel("/models/tree.obj")), new Texture(loader.loadTexture("textures/tree.png"))), new Vector3f(x, terrain.getTerrainHeight(x, z) - 2, z), new Vector3f(0.0f, 0.0f, 0.0f), 3.0f);
                 scene.addEntity(entity);
             }
         }
