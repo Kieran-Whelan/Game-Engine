@@ -7,6 +7,7 @@ import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL13;
 import org.lwjgl.system.MemoryUtil;
 
 public class WindowManager {
@@ -42,6 +43,7 @@ public class WindowManager {
         GLFW.glfwWindowHint(GLFW.GLFW_CONTEXT_VERSION_MINOR, 2);
         GLFW.glfwWindowHint(GLFW.GLFW_OPENGL_PROFILE, GLFW.GLFW_OPENGL_CORE_PROFILE);
         GLFW.glfwWindowHint(GLFW.GLFW_OPENGL_FORWARD_COMPAT, GL11.GL_TRUE);
+        GLFW.glfwWindowHint(GLFW.GLFW_SAMPLES, 8); //antiasliasing
 
         boolean maximised = false;
         if (width == 0 || height == 0) {
@@ -84,6 +86,7 @@ public class WindowManager {
         GL11.glEnable(GL11.GL_STENCIL_TEST);
         GL11.glEnable(GL11.GL_CULL_FACE);
         GL11.glCullFace(GL11.GL_BACK);
+        GL11.glEnable(GL13.GL_MULTISAMPLE);
     }
 
     public void update() {
