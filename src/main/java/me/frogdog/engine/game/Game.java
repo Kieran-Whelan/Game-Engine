@@ -13,6 +13,7 @@ import me.frogdog.engine.core.world.entity.Entity;
 import me.frogdog.engine.core.world.entity.player.Player;
 import me.frogdog.engine.core.world.particle.Particle;
 import me.frogdog.engine.core.world.particle.ParticleEffect;
+import me.frogdog.engine.core.world.particle.ParticleTexture;
 import me.frogdog.engine.core.world.skybox.Skybox;
 import me.frogdog.engine.core.world.terrain.BlendMapTerrain;
 import me.frogdog.engine.core.world.terrain.HeightGenerator;
@@ -48,6 +49,7 @@ public class Game implements ILoigc {
     private MousePicker picker;
     private ParticleEffect effect;
     private Skybox skybox;
+    ParticleTexture particleTexture;
 
     private float cameraSpeed = 0.5f;
     private boolean debugMode = false;
@@ -61,14 +63,10 @@ public class Game implements ILoigc {
         keyboard = new Keyboard();
         mouse = new Mouse();
         loader = new ObjectLoader();
-        effect = new ParticleEffect(50, 25, 0.3f, 4, 1);
-        effect.randomizeRotation();
-        effect.setLifeError(0.1f);
-        effect.setSpeedError(0.4f);
-        effect.setScaleError(0.8f);
         //cameraInc = new Vector3f(0, 0, 0);
         scene = new SceneManager(-90);
         hud = new HudManager();
+
     }
 
     @Override
@@ -81,6 +79,13 @@ public class Game implements ILoigc {
         //camera.setPosition(0 ,0 ,0);
 
         //sound = new Sound("audio/unlock.wav");
+
+        particleTexture = new ParticleTexture(loader.loadTexture("textures/particleStar.png"), new Vector2f(0.0f, 0.0f), new Vector2f(0.0f, 0.0f), new Vector2f(0.0f, 0.0f));
+        effect = new ParticleEffect(particleTexture, 40, 25, 0.3f, 4, 1);
+        effect.randomizeRotation();
+        effect.setLifeError(0.1f);
+        effect.setSpeedError(0.4f);
+        effect.setScaleError(0.8f);
 
         skybox = new Skybox(textureFiles, nightTextureFiles);
         scene.addSkybox(skybox);
@@ -149,7 +154,7 @@ public class Game implements ILoigc {
         }
 
         if (keyboard.isKeyDown(GLFW.GLFW_KEY_P)) {
-            scene.addParticle(new Particle(new Vector3f(player.getPosition().x, player.getPosition().y, player.getPosition().z), new Vector3f(0, 30, 0), 1, 4, 0, 1));
+            scene.addParticle(new Particle(particleTexture , new Vector3f(player.getPosition().x, player.getPosition().y, player.getPosition().z), new Vector3f(0, 30, 0), 1, 4, 0, 1));
         }
     }
 
@@ -160,6 +165,8 @@ public class Game implements ILoigc {
             hud.addText(new Text(font, "Player XYZ: " + (int) player.getPosition().x + " " + (int) player.getPosition().y + " " + (int) player.getPosition().z, -0.975f, 0.915f));
             hud.addText(new Text(font, "OpenGL version 3.3", -0.975f, 0.865f));
         }
+
+        //hud.addItem(new GuiTexture(waterFrameBuffer.getReflectionTexture(), new Vector2f(0.0f, 0.0f), new Vector2f(1.0f, 1.0f)));
 
         camera.update(mouse);
         player.update(keyboard, scene.getTerrains().get(0));

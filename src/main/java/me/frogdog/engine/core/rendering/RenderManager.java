@@ -20,6 +20,7 @@ import me.frogdog.engine.core.rendering.hud.FontRenderer;
 import me.frogdog.engine.utils.Consts;
 import me.frogdog.engine.game.Main;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.system.CallbackI;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -128,7 +129,12 @@ public class RenderManager {
     }
 
     public void processParticle(Particle particle) {
-        particleRenderer.getParticles().add(particle);
+        List<Particle> list = particleRenderer.getParticles().get(particle.getParticleTexture());
+        if (list == null) {
+            list = new ArrayList<Particle>();
+            particleRenderer.getParticles().put(particle.getParticleTexture(), list);
+        }
+        list.add(particle);
     }
 
     public void processSkybox(Skybox skybox) {

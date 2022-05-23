@@ -7,6 +7,7 @@ import org.joml.Vector3f;
 
 public class Particle {
 
+    private ParticleTexture particleTexture;
     private Vector3f position;
     private Vector3f velocity;
     private float gravityEffect;
@@ -16,7 +17,8 @@ public class Particle {
 
     private float elapsedTime = 0;
 
-    public Particle(Vector3f position, Vector3f velocity, float gravityEffect, float lifeLength, float rotation, float scale) {
+    public Particle(ParticleTexture particleTexture, Vector3f position, Vector3f velocity, float gravityEffect, float lifeLength, float rotation, float scale) {
+        this.particleTexture = particleTexture;
         this.position = position;
         this.velocity = velocity;
         this.gravityEffect = gravityEffect;
@@ -34,6 +36,10 @@ public class Particle {
         return elapsedTime < lifeLength;
     }
 
+    private void updateStage() {
+        float lifeFactor = elapsedTime / lifeLength;
+    }
+
     public Vector3f getPosition() {
         return position;
     }
@@ -44,5 +50,9 @@ public class Particle {
 
     public float getScale() {
         return scale;
+    }
+
+    public ParticleTexture getParticleTexture() {
+        return particleTexture;
     }
 }

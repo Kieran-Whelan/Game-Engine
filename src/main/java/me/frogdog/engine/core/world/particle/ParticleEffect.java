@@ -17,10 +17,12 @@ public class ParticleEffect {
     private boolean randomRotation = false;
     private Vector3f direction;
     private float directionDeviation = 0;
+    private ParticleTexture particleTexture;
 
     private Random random = new Random();
 
-    public ParticleEffect(float pps, float speed, float gravityComplient, float lifeLength, float scale) {
+    public ParticleEffect(ParticleTexture texture, float pps, float speed, float gravityComplient, float lifeLength, float scale) {
+        this.particleTexture = texture;
         this.pps = pps;
         this.averageSpeed = speed;
         this.gravityComplient = gravityComplient;
@@ -89,7 +91,7 @@ public class ParticleEffect {
         velocity.mul(generateValue(averageSpeed, speedError));
         float scale = generateValue(averageScale, scaleError);
         float lifeLength = generateValue(averageLifeLength, lifeError);
-        scene.addParticle(new Particle(new Vector3f(center), velocity, gravityComplient, lifeLength, generateRotation(), scale));
+        scene.addParticle(new Particle(particleTexture, new Vector3f(center), velocity, gravityComplient, lifeLength, generateRotation(), scale));
     }
 
     private float generateValue(float average, float errorMargin) {

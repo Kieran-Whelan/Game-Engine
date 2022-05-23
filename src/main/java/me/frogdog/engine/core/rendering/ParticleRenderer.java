@@ -8,6 +8,7 @@ import me.frogdog.engine.core.maths.Camera;
 import me.frogdog.engine.core.maths.Transformation;
 import me.frogdog.engine.core.world.Model;
 import me.frogdog.engine.core.world.particle.Particle;
+import me.frogdog.engine.core.world.particle.ParticleTexture;
 import me.frogdog.engine.game.Main;
 import me.frogdog.engine.utils.Consts;
 import me.frogdog.engine.utils.ObjectLoader;
@@ -16,24 +17,23 @@ import me.frogdog.engine.utils.interfaces.IRenderer;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class ParticleRenderer implements IRenderer {
 
     private ShaderManager shader;
     private ObjectLoader loader;
     private Model quad;
-    private List<Particle> particles;
+    private Map<ParticleTexture, List<Particle>> particles;
 
     public ParticleRenderer() throws Exception {
         shader = new ShaderManager();
         loader = new ObjectLoader();
-        particles = new ArrayList<>();
+        particles = new HashMap<>();
         quad = loader.loadModel(Consts.PARTICLE_VERTICES, 2);
 
     }
@@ -53,9 +53,13 @@ public class ParticleRenderer implements IRenderer {
         shader.setUniform("projectionMatrix", Main.getWindow().updateProjectionMatrix());
         update();
         bind(quad);
-        for (Particle particle : particles) {
-            updateModelViewMatrix(particle.getPosition(), particle.getRotation(), particle.getScale(), Transformation.getViewMatrix(camera));
-            GL11.glDrawArrays(GL11.GL_TRIANGLE_STRIP, 0, quad.getVertexCount());
+        for (ParticleTexture particleTexture : particles.keySet()) {
+            GL13.glActiveTexture(GL13.GL_TEXTURE0);
+            GL11.glBindTexture(GL11.GL_TEXTURE_2D, particleTexture.getId());
+            for (Particle particle : particles.get(particleTexture)) {
+                updateModelViewMatrix(particle.getPosition(), particle.getRotation(), particle.getScale(), Transformation.getViewMatrix(camera));
+                GL11.glDrawArrays(GL11.GL_TRIANGLE_STRIP, 0, quad.getVertexCount());
+            }
         }
         particles.clear();
         unbind();
@@ -67,7 +71,7 @@ public class ParticleRenderer implements IRenderer {
         GL30.glBindVertexArray(model.getId());
         GL20.glEnableVertexAttribArray(0);
         GL11.glEnable(GL11.GL_BLEND);
-        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
         GL11.glDepthMask(false);
     }
 
@@ -90,12 +94,19 @@ public class ParticleRenderer implements IRenderer {
     }
 
     private void update() {
-        Iterator<Particle> iterator = particles.iterator();
-        while (iterator.hasNext()) {
-            Particle p = iterator.next();
-            boolean alive = p.update();
-            if (!alive) {
-                iterator.remove();
+        Iterator<Map.Entry<ParticleTexture, List<Particle>>> mapIterator = particles.entrySet().iterator();
+        while (mapIterator.hasNext()) {
+            List<Particle> list = mapIterator.next().getValue();
+            Iterator<Particle> iterator = list.iterator();
+            while (iterator.hasNext()) {
+                Particle p = iterator.next();
+                boolean alive = p.update();
+                if (!alive) {
+                    iterator.remove();
+                    if (list.isEmpty()) {
+                        mapIterator.remove();
+                    }
+                }
             }
         }
     }
@@ -119,7 +130,7 @@ public class ParticleRenderer implements IRenderer {
         shader.setUniform("modelViewMatrix", modelViewMatrix);
     }
 
-    public List<Particle> getParticles() {
+    public Map<ParticleTexture, List<Particle>> getParticles() {
         return particles;
     }
 }
