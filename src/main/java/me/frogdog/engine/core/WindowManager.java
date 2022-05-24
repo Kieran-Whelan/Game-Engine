@@ -86,7 +86,7 @@ public class WindowManager {
         GL11.glEnable(GL11.GL_STENCIL_TEST);
         GL11.glEnable(GL11.GL_CULL_FACE);
         GL11.glCullFace(GL11.GL_BACK);
-        GL11.glEnable(GL13.GL_MULTISAMPLE);
+        GL13.glEnable(GL13.GL_MULTISAMPLE);
     }
 
     public void update() {

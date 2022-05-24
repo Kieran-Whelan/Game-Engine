@@ -89,7 +89,7 @@ public class Game implements ILoigc {
 
         skybox = new Skybox(textureFiles, nightTextureFiles);
         scene.addSkybox(skybox);
-        player = new Player(new Model((loader.loadOBJModel("/models/cube.obj")), new Texture(loader.loadTexture("textures/cube.png"))), new Vector3f(0.0f, 0.0f, 0.0f), new Vector3f(0.0f, 0.0f, 0.0f), 1.0f);
+        player = new Player(new Model((loader.loadOBJModel("/models/player.obj")), new Texture(loader.loadTexture("textures/player.png"))), new Vector3f(0.0f, 0.0f, 0.0f), new Vector3f(0.0f, 0.0f, 0.0f), 1.0f);
         camera = new Camera(player);
         player.getModel().getMaterial().setDisableCulling(true);
         scene.addEntity(player);
@@ -109,7 +109,7 @@ public class Game implements ILoigc {
 
         picker = new MousePicker(mouse, camera, Main.getWindow().updateProjectionMatrix(), terrain);
 
-        for(int i = 0; i < 200; i++) {
+        for (int i = 0; i < 200; i++) {
             float x = Random.randRange(-400f, 400f);
             float z = Random.randRange(-400f, 400f);
             if (terrain.getTerrainHeight(x, z) >= -18) {

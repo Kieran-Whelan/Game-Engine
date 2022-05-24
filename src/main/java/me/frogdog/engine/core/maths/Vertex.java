@@ -29,7 +29,7 @@ public class Vertex {
     }
 
     public boolean isSet(){
-        return textureIndex!=NO_INDEX && normalIndex!=NO_INDEX;
+        return textureIndex != NO_INDEX && normalIndex != NO_INDEX;
     }
 
     public boolean hasSameTextureAndNormal(int textureIndexOther,int normalIndexOther){
