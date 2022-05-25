@@ -35,10 +35,10 @@ public class Player extends Entity {
         super.incPos(dx, 0, dz);
         this.currentUpSpeed += Consts.GRAVITY * EngineManager.getFrameTimeSeconds();
         float terrainHeight = terrain.getTerrainHeight(super.getPosition().x, super.getPosition().z);
-        if (super.getPosition().y < terrainHeight) {
+        if (super.getPosition().y < terrainHeight + 1) { //quick fix
             this.currentUpSpeed = 0;
             isInAir = false;
-            super.getPosition().y = terrainHeight;
+            super.getPosition().y = terrainHeight + 1;
         }
         super.incPos(0, currentUpSpeed * EngineManager.getFrameTimeSeconds(), 0);
     }
