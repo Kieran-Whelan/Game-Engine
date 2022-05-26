@@ -14,6 +14,7 @@ public class Particle {
     private float lifeLength;
     private float rotation;
     private float scale;
+    private float blend;
 
     private float elapsedTime = 0;
 
@@ -54,5 +55,9 @@ public class Particle {
 
     public ParticleTexture getParticleTexture() {
         return particleTexture;
+    }
+
+    public float getBlend() {
+        return blend;
     }
 }

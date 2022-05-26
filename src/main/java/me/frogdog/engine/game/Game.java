@@ -6,6 +6,7 @@ import me.frogdog.engine.core.audio.Sound;
 import me.frogdog.engine.core.maths.MousePicker;
 import me.frogdog.engine.core.maths.Random;
 import me.frogdog.engine.core.rendering.hud.gui.Item;
+import me.frogdog.engine.core.rendering.hud.gui.items.Button;
 import me.frogdog.engine.core.rendering.hud.gui.items.font.Font;
 import me.frogdog.engine.core.rendering.hud.gui.items.font.text.Text;
 import me.frogdog.engine.core.world.*;
@@ -164,6 +165,7 @@ public class Game implements ILoigc {
             hud.addText(new Text(font, "Frog Engine Dev 0.1", -0.975f, 0.965f));
             hud.addText(new Text(font, "Player XYZ: " + (int) player.getPosition().x + " " + (int) player.getPosition().y + " " + (int) player.getPosition().z, -0.975f, 0.915f));
             hud.addText(new Text(font, "OpenGL version 3.3", -0.975f, 0.865f));
+            hud.addItem(new Button(new Vector2f(0.0f, 0.0f), new Vector2f(0.2f, 0.2f)));
         }
 
         //hud.addItem(new GuiTexture(waterFrameBuffer.getReflectionTexture(), new Vector2f(0.0f, 0.0f), new Vector2f(1.0f, 1.0f)));

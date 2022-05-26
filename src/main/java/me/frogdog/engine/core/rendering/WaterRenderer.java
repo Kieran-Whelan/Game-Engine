@@ -49,6 +49,7 @@ public class WaterRenderer implements IRenderer {
             bind(waterTile.getModel());
             prepare(waterTile, camera);
             GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, waterTile.getModel().getVertexCount());
+            unbind();
         }
         shader.unbind();
     }

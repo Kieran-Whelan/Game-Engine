@@ -51,7 +51,6 @@ public class TerrainRenderer implements IRenderer {
         shader.createDirectionalLightUniform("directionalLight");
         shader.createPointLightListUniform("pointLights", Consts.MAX_POINT_LIGHTS);
         shader.createSpotLightListUniform("spotLights", Consts.MAX_SPOT_LIGHTS);
-
     }
 
     @Override
