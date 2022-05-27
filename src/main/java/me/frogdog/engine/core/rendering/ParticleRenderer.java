@@ -61,7 +61,6 @@ public class ParticleRenderer implements IRenderer {
                 GL11.glDrawArrays(GL11.GL_TRIANGLE_STRIP, 0, quad.getVertexCount());
             }
         }
-        particles.clear();
         unbind();
         shader.unbind();
     }

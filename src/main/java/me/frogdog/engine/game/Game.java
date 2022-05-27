@@ -3,6 +3,7 @@ package me.frogdog.engine.game;
 import me.frogdog.engine.core.HudManager;
 import me.frogdog.engine.core.SceneManager;
 import me.frogdog.engine.core.audio.Sound;
+import me.frogdog.engine.core.maths.Maths;
 import me.frogdog.engine.core.maths.MousePicker;
 import me.frogdog.engine.core.maths.Random;
 import me.frogdog.engine.core.rendering.hud.gui.Item;
@@ -165,7 +166,11 @@ public class Game implements ILoigc {
             hud.addText(new Text(font, "Frog Engine Dev 0.1", -0.975f, 0.965f));
             hud.addText(new Text(font, "Player XYZ: " + (int) player.getPosition().x + " " + (int) player.getPosition().y + " " + (int) player.getPosition().z, -0.975f, 0.915f));
             hud.addText(new Text(font, "OpenGL version 3.3", -0.975f, 0.865f));
-            hud.addItem(new Button(new Vector2f(0.0f, 0.0f), new Vector2f(0.2f, 0.2f)));
+            Button btn = new Button(new Vector2f(0.75f, 0.75f), new Vector2f(0.2f, 0.2f));
+            Button btn1 = new Button(new Vector2f(-0.75f, 0.75f), new Vector2f(0.2f, 0.2f));
+            hud.addItem(btn);
+            hud.addItem(btn1);
+            System.out.println(Maths.isCollide2D(btn, btn1));
         }
 
         //hud.addItem(new GuiTexture(waterFrameBuffer.getReflectionTexture(), new Vector2f(0.0f, 0.0f), new Vector2f(1.0f, 1.0f)));
@@ -254,6 +259,10 @@ public class Game implements ILoigc {
             renderer.processGuiItem(item);
         }
         hud.getText().clear();
+        hud.getItems().clear();
+        scene.getParticles().clear();
+
+        System.out.println(scene.getParticles().size());
     }
 
     @Override

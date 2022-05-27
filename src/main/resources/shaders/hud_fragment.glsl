@@ -12,6 +12,6 @@ void main() {
     if (hasTexture == 1) {
         outColour = texture(hudTexture, textureCoords);
     } else {
-        outColour = vec4(1.0, 1.0, 1.0, 1.0);
+        outColour = vec4(1.0, 1.0, 1.0, 0.3);
     }
 }
