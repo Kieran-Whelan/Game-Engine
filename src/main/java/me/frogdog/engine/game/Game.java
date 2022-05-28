@@ -155,6 +155,11 @@ public class Game implements ILoigc {
             debugMode = !debugMode;
         }
 
+        if (keyboard.isKeyPressed(GLFW.GLFW_KEY_F4)) {
+            mouse.getHudPos().x = 0;
+            mouse.getHudPos().y = 0;
+        }
+
         if (keyboard.isKeyDown(GLFW.GLFW_KEY_P)) {
             scene.addParticle(new Particle(particleTexture , new Vector3f(player.getPosition().x, player.getPosition().y, player.getPosition().z), new Vector3f(0, 30, 0), 1, 4, 0, 1));
         }
@@ -162,16 +167,23 @@ public class Game implements ILoigc {
 
     @Override
     public void update(float interval) {
+        Button btn = new Button(new Vector2f(0.75f, 0.75f), new Vector2f(0.2f, 0.2f));
+        Button btn1 = new Button(new Vector2f(-0.75f, 0.75f), new Vector2f(0.2f, 0.2f));
+
         if (debugMode) {
             hud.addText(new Text(font, "Frog Engine Dev 0.1", -0.975f, 0.965f));
             hud.addText(new Text(font, "Player XYZ: " + (int) player.getPosition().x + " " + (int) player.getPosition().y + " " + (int) player.getPosition().z, -0.975f, 0.915f));
             hud.addText(new Text(font, "OpenGL version 3.3", -0.975f, 0.865f));
-            Button btn = new Button(new Vector2f(0.75f, 0.75f), new Vector2f(0.2f, 0.2f));
-            Button btn1 = new Button(new Vector2f(-0.75f, 0.75f), new Vector2f(0.2f, 0.2f));
             hud.addItem(btn);
             hud.addItem(btn1);
-            System.out.println(Maths.isCollide2D(btn, btn1));
         }
+
+        Button mouseItem = new Button(mouse.getHudPos(), new Vector2f(0.25f, 0.25f));
+        hud.addItem(mouseItem);
+        if (Maths.isCollide2D(mouseItem, btn)) {
+            System.out.println(mouseItem.getPosition());
+        }
+        System.out.println(mouseItem.getPosition().x + " Y " + mouseItem.getPosition().y);
 
         //hud.addItem(new GuiTexture(waterFrameBuffer.getReflectionTexture(), new Vector2f(0.0f, 0.0f), new Vector2f(1.0f, 1.0f)));
 
@@ -187,17 +199,7 @@ public class Game implements ILoigc {
             Entity cyl = scene.getEntities().get(scene.getEntities().size() - 1);
             cyl.setPos(terrainPoint.x, terrainPoint.y, terrainPoint.z);
         }
-
          */
-
-        //sound.play();
-
-        if (mouse.isRightButtonPress()) {
-            Vector2f rotVec = mouse.getDisplVec();
-            player.incRotation(0, rotVec.x * Consts.MOUSE_SENSITIVITY, 0);
-        }
-
-        //entity.incRotation(0.0f, 0.25f, 0.0f);
 
         scene.incSpotAngle(0.15f);
         if (scene.getSpotAngle() > 9600) {
@@ -261,8 +263,6 @@ public class Game implements ILoigc {
         hud.getText().clear();
         hud.getItems().clear();
         scene.getParticles().clear();
-
-        System.out.println(scene.getParticles().size());
     }
 
     @Override

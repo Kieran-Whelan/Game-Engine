@@ -78,6 +78,10 @@ public class Mouse {
         return new Vector2f((float) currentPos.x, (float) currentPos.y);
     }
 
+    public Vector2f getHudPos() {
+        return new Vector2f((((float) currentPos.x - Main.getWindow().getWidth() / 2) / 100) / 8, ((((float) currentPos.y - Main.getWindow().getHeight() / 2) / 100) / 4.5f ) * -1);
+    }
+
     public boolean isLeftButtonPress() {
         return leftButtonPress;
     }
