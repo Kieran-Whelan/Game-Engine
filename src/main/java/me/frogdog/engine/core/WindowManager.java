@@ -78,6 +78,7 @@ public class WindowManager {
         }
 
         GLFW.glfwShowWindow(window);
+        GLFW.glfwSetInputMode(window, GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_HIDDEN);
 
         GL.createCapabilities();
 

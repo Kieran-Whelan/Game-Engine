@@ -8,6 +8,7 @@ import me.frogdog.engine.core.maths.MousePicker;
 import me.frogdog.engine.core.maths.Random;
 import me.frogdog.engine.core.rendering.hud.gui.Item;
 import me.frogdog.engine.core.rendering.hud.gui.items.Button;
+import me.frogdog.engine.core.rendering.hud.gui.items.GuiTexture;
 import me.frogdog.engine.core.rendering.hud.gui.items.font.Font;
 import me.frogdog.engine.core.rendering.hud.gui.items.font.text.Text;
 import me.frogdog.engine.core.world.*;
@@ -104,6 +105,9 @@ public class Game implements ILoigc {
 
         BlendMapTerrain blendMapTerrain = new BlendMapTerrain(backgroundTexture, redTexture, greenTexture, blueTexture);
 
+        GuiTexture guiTexture = new GuiTexture(loader.loadTexture("textures/png/cursor-direction-1.png"), new Vector2f(0.0f, 0.0f), new Vector2f(0.025f, 0.025f));
+        hud.addItem(guiTexture);
+
         //Terrain terrain = new Terrain(new Vector3f(-400, -1, -400), loader, new Material(new Vector4f(0.0f, 0.0f, 0.0f, 0.0f), 0.1f), blendMapTerrain, blendMap ,"textures/maps/heightmap.png");
         HeightGenerator heightGenerator = new HeightGenerator();
         Terrain terrain = new Terrain(new Vector3f(-400, -1, -400), loader, new Material(new Vector4f(0.0f, 0.0f, 0.0f, 0.0f), 0.1f), blendMapTerrain, blendMap , heightGenerator);
@@ -167,19 +171,12 @@ public class Game implements ILoigc {
 
     @Override
     public void update(float interval) {
-        Button btn = new Button(new Vector2f(0.75f, 0.75f), new Vector2f(0.2f, 0.2f), "Test");
-        Button btn1 = new Button(new Vector2f(-0.75f, 0.50f), new Vector2f(0.2f, 0.2f), "Test");
-
         if (debugMode) {
             hud.addText(new Text(font, "Frog Engine Dev 0.1", -0.975f, 0.965f));
             hud.addText(new Text(font, "Player XYZ: " + (int) player.getPosition().x + " " + (int) player.getPosition().y + " " + (int) player.getPosition().z, -0.975f, 0.915f));
             hud.addText(new Text(font, "OpenGL version 3.3", -0.975f, 0.865f));
-            hud.addItem(btn);
-            hud.addItem(btn1);
         }
 
-        Button mouseItem = new Button(mouse.getHudPos(), new Vector2f(0.025f, 0.025f), "");
-        hud.addItem(mouseItem);
         //System.out.println(mouseItem.getPosition().x + " Y " + mouseItem.getPosition().y);
 
         camera.update(mouse);
@@ -260,7 +257,7 @@ public class Game implements ILoigc {
         }
 
         hud.getText().clear();
-        hud.getItems().clear();
+        //hud.getItems().clear();
         scene.getParticles().clear();
     }
 
