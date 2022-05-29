@@ -5,7 +5,14 @@ import org.joml.Vector2f;
 
 public class Button extends Item {
 
-    public Button(Vector2f position, Vector2f scale) {
+    private String label;
+
+    public Button(Vector2f position, Vector2f scale, String label) {
         super(position, scale);
+        this.label = label;
+    }
+
+    public String getLabel() {
+        return label;
     }
 }

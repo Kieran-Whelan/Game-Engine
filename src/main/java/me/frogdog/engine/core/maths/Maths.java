@@ -3,8 +3,6 @@ package me.frogdog.engine.core.maths;
 import me.frogdog.engine.core.rendering.hud.gui.Item;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
-import org.joml.primitives.AABBd;
-import org.joml.primitives.AABBf;
 
 public class Maths {
 
@@ -17,12 +15,10 @@ public class Maths {
     }
 
     public static boolean isCollide2D(Item item1, Item item2) {
-        if ((item1.getPosition().x < item2.getPosition().x + item2.getScale().x
-                && item1.getPosition().x + item1.getScale().x > item2.getPosition().x
-                && item1.getPosition().y < item2.getPosition().y + item2.getScale().y
-                && item1.getScale().y + item1.getPosition().y > item2.getPosition().y)) {
-            return true;
-        }
-        return false;
+        boolean collisionX = (item1.getPosition().x - item1.getScale().x) + item1.getScale().x * 2 >= (item2.getPosition().x - item2.getScale().x) &&
+                (item2.getPosition().x - item2.getScale().x) + item2.getScale().x * 2 >= (item1.getPosition().x - item1.getScale().x);
+        boolean collisionY = (item1.getPosition().y - item1.getScale().y) + item1.getScale().y * 2 >= (item2.getPosition().y - item2.getScale().y) &&
+                (item2.getPosition().y - item2.getScale().y) + item2.getScale().y * 2 >= (item1.getPosition().y - item1.getScale().y);
+        return collisionX && collisionY;
     }
 }

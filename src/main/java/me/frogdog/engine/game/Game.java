@@ -167,8 +167,8 @@ public class Game implements ILoigc {
 
     @Override
     public void update(float interval) {
-        Button btn = new Button(new Vector2f(0.75f, 0.75f), new Vector2f(0.2f, 0.2f));
-        Button btn1 = new Button(new Vector2f(-0.75f, 0.75f), new Vector2f(0.2f, 0.2f));
+        Button btn = new Button(new Vector2f(0.75f, 0.75f), new Vector2f(0.2f, 0.2f), "Test");
+        Button btn1 = new Button(new Vector2f(-0.75f, 0.50f), new Vector2f(0.2f, 0.2f), "Test");
 
         if (debugMode) {
             hud.addText(new Text(font, "Frog Engine Dev 0.1", -0.975f, 0.965f));
@@ -178,12 +178,9 @@ public class Game implements ILoigc {
             hud.addItem(btn1);
         }
 
-        Button mouseItem = new Button(mouse.getHudPos(), new Vector2f(0.25f, 0.25f));
+        Button mouseItem = new Button(mouse.getHudPos(), new Vector2f(0.025f, 0.025f), "");
         hud.addItem(mouseItem);
-        if (Maths.isCollide2D(mouseItem, btn)) {
-            System.out.println(mouseItem.getPosition());
-        }
-        System.out.println(mouseItem.getPosition().x + " Y " + mouseItem.getPosition().y);
+        //System.out.println(mouseItem.getPosition().x + " Y " + mouseItem.getPosition().y);
 
         //hud.addItem(new GuiTexture(waterFrameBuffer.getReflectionTexture(), new Vector2f(0.0f, 0.0f), new Vector2f(1.0f, 1.0f)));
 
