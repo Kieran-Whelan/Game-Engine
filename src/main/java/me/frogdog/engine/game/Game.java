@@ -182,8 +182,6 @@ public class Game implements ILoigc {
         hud.addItem(mouseItem);
         //System.out.println(mouseItem.getPosition().x + " Y " + mouseItem.getPosition().y);
 
-        //hud.addItem(new GuiTexture(waterFrameBuffer.getReflectionTexture(), new Vector2f(0.0f, 0.0f), new Vector2f(1.0f, 1.0f)));
-
         camera.update(mouse);
         player.update(keyboard, scene.getTerrains().get(0));
         picker.update();
@@ -250,13 +248,17 @@ public class Game implements ILoigc {
             renderer.processParticle(particle);
         }
 
+        for (Item item : hud.getItems()) {
+            if (item instanceof Button) {
+                hud.addText(new Text(font, ((Button) item).getLabel(), item.getPosition().x, item.getPosition().y));
+            }
+            renderer.processGuiItem(item);
+        }
+
         for (Text text : hud.getText()) {
             renderer.processText(text);
         }
 
-        for (Item item : hud.getItems()) {
-            renderer.processGuiItem(item);
-        }
         hud.getText().clear();
         hud.getItems().clear();
         scene.getParticles().clear();
