@@ -96,11 +96,11 @@ public class ShaderManager {
     }
 
     public void setUniform(String uniformName, boolean value) {
-        float res = 0;
+        int res = 0;
         if (value) {
             res = 1;
         }
-        GL20.glUniform1f(uniforms.get(uniformName), res);
+        GL20.glUniform1i(uniforms.get(uniformName), res);
     }
 
     public void setUniform(String uniformName, int value) {
