@@ -24,12 +24,8 @@ import me.frogdog.engine.core.world.terrain.Terrain;
 import me.frogdog.engine.core.world.terrain.TerrainTexture;
 import me.frogdog.engine.core.input.Keyboard;
 import me.frogdog.engine.core.input.Mouse;
-import me.frogdog.engine.core.lighting.DirectionalLight;
-import me.frogdog.engine.core.lighting.PointLight;
-import me.frogdog.engine.core.lighting.SpotLight;
 import me.frogdog.engine.core.maths.Camera;
 import me.frogdog.engine.core.rendering.RenderManager;
-import me.frogdog.engine.utils.Consts;
 import me.frogdog.engine.utils.ObjectLoader;
 import me.frogdog.engine.utils.interfaces.ILoigc;
 import org.joml.Vector2f;
@@ -46,7 +42,6 @@ public class Game implements ILoigc {
     private Camera camera;
     private Keyboard keyboard;
     private Sound sound;
-    private Font font;
     private Player player;
     private Mouse mouse;
     private MousePicker picker;
@@ -54,22 +49,16 @@ public class Game implements ILoigc {
     private Skybox skybox;
     ParticleTexture particleTexture;
 
-    private float cameraSpeed = 0.5f;
     private boolean debugMode = false;
     private final String[] textureFiles = new String[] {"textures/skybox/day/right.png", "textures/skybox/day/left.png", "textures/skybox/day/top.png", "textures/skybox/day/bottom.png", "textures/skybox/day/back.png", "textures/skybox/day/front.png"};
     private final String[] nightTextureFiles = new String[] {"textures/skybox/night/nightRight.png", "textures/skybox/night/nightLeft.png", "textures/skybox/night/nightTop.png", "textures/skybox/night/nightBottom.png", "textures/skybox/night/nightBack.png", "textures/skybox/night/nightFront.png"};
-
-    Vector3f cameraInc;
 
     public Game() {
         renderer = new RenderManager();
         keyboard = new Keyboard();
         mouse = new Mouse();
         loader = new ObjectLoader();
-        //cameraInc = new Vector3f(0, 0, 0);
         scene = new SceneManager(-90);
-        hud = new HudManager();
-
     }
 
     @Override
@@ -77,11 +66,8 @@ public class Game implements ILoigc {
         renderer.init();
         mouse.init();
         keyboard.init();
-        font = new Font("font/Dubai.png");
+        hud = new HudManager(new Font("font/Dubai.png"));
         sound = new Sound("audio/gun-gunshot-01.wav");
-        //camera.setPosition(0 ,0 ,0);
-
-        //sound = new Sound("audio/unlock.wav");
 
         particleTexture = new ParticleTexture(loader.loadTexture("textures/particleStar.png"), new Vector2f(0.0f, 0.0f), new Vector2f(0.0f, 0.0f), new Vector2f(0.0f, 0.0f));
         effect = new ParticleEffect(particleTexture, 40, 25, 0.3f, 4, 1);
@@ -105,7 +91,6 @@ public class Game implements ILoigc {
 
         BlendMapTerrain blendMapTerrain = new BlendMapTerrain(backgroundTexture, redTexture, greenTexture, blueTexture);
 
-        //Terrain terrain = new Terrain(new Vector3f(-400, -1, -400), loader, new Material(new Vector4f(0.0f, 0.0f, 0.0f, 0.0f), 0.1f), blendMapTerrain, blendMap ,"textures/maps/heightmap.png");
         HeightGenerator heightGenerator = new HeightGenerator();
         Terrain terrain = new Terrain(new Vector3f(-400, -1, -400), loader, new Material(new Vector4f(0.0f, 0.0f, 0.0f, 0.0f), 0.1f), blendMapTerrain, blendMap , heightGenerator);
         scene.addTerrain(terrain);
@@ -120,32 +105,6 @@ public class Game implements ILoigc {
                 scene.addEntity(entity);
             }
         }
-
-        //Entity cyl = new Entity(new Model((loader.loadOBLModel("/models/player.obj")), new Texture(loader.loadTexture("textures/player.png"))), new Vector3f(0, 0, 0) , new Vector3f(0.0f, 0.0f, 0.0f), 1.0f);
-        //scene.addEntity(cyl);
-
-        float lightIntensity = 1.0f;
-        //point light
-        Vector3f lightPosition = new Vector3f(-0.5f, -0.5f, -3.2f);
-        Vector3f lightColour =  new Vector3f(1, 1, 1);
-        PointLight pointLight = new PointLight(lightColour, lightPosition, lightIntensity, 0, 0, 1);
-
-        //spot light
-        Vector3f coneDir = new Vector3f(0, -5, 0);
-        float cutoff = (float) Math.cos(Math.toRadians(100));
-        lightIntensity = 5f;
-        SpotLight spotLight = new SpotLight(new PointLight(new Vector3f(0.25f, 0, 0), new Vector3f(0f, 4f, 5f), lightIntensity, 0, 0, 0.2f), coneDir, cutoff);
-
-        SpotLight spotLight1 = new SpotLight(new PointLight(new Vector3f(0, 0.25f, 0), new Vector3f(0f, 4f, 5f), lightIntensity, 0, 0, 0.2f), coneDir, cutoff);
-
-        //directional light
-        lightIntensity = 1f;
-        lightPosition = new Vector3f(0, 10, 0);
-        lightColour =  new Vector3f(1, 1, 1);
-        scene.setDirectionalLight(new DirectionalLight(lightColour, lightPosition, lightIntensity));
-
-        scene.setPointLights(new PointLight[] {pointLight});
-        scene.setSpotLights(new SpotLight[] {spotLight, spotLight1});
     }
 
     @Override
@@ -169,12 +128,10 @@ public class Game implements ILoigc {
     @Override
     public void update(float interval) {
         if (debugMode) {
-            hud.addText(new Text(font, "Frog Engine Dev 0.1", -0.975f, 0.965f));
-            hud.addText(new Text(font, "Player XYZ: " + (int) player.getPosition().x + " " + (int) player.getPosition().y + " " + (int) player.getPosition().z, -0.975f, 0.915f));
-            hud.addText(new Text(font, "OpenGL version 3.3", -0.975f, 0.865f));
+            hud.drawText("Frog Engine Dev 0.1", -0.975f, 0.965f);
+            hud.drawText("Player XYZ: " + (int) player.getPosition().x + " " + (int) player.getPosition().y + " " + (int) player.getPosition().z, -0.975f, 0.915f);
+            hud.drawText("OpenGL version 3.3", -0.975f, 0.865f);
         }
-
-        //System.out.println(mouseItem.getPosition().x + " Y " + mouseItem.getPosition().y);
 
         camera.update(mouse);
         player.update(keyboard, scene.getTerrains().get(0));
@@ -185,7 +142,7 @@ public class Game implements ILoigc {
         Button button = new Button(new Vector2f(0.0f, 0.0f), new Vector2f(0.2f, 0.2f), "heck");
 
         try {
-            cursor = new GuiTexture(loader.loadTextureSheet("textures/png/cursor-pointer-1.png"), mouse.getHudPos(), new Vector2f(0.02f, 0.02f));
+            cursor = new GuiTexture(loader.loadTextureSheet("textures/png/cursor-pointer-1.png"), mouse.getHudPos(), new Vector2f(0.015f, 0.015f));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -195,7 +152,9 @@ public class Game implements ILoigc {
 
         assert cursor != null;
         if (Maths.isCollide2D(cursor, button)) {
-            System.out.println("x");
+            if (mouse.isLeftButtonPress()) {
+                System.out.println("Button pressed");
+            }
         }
 
         /*
@@ -206,42 +165,6 @@ public class Game implements ILoigc {
             cyl.setPos(terrainPoint.x, terrainPoint.y, terrainPoint.z);
         }
          */
-
-        scene.incSpotAngle(0.15f);
-        if (scene.getSpotAngle() > 9600) {
-            scene.setSpotInc(-1);
-        } else if (scene.getSpotAngle() <= -9600) {
-            scene.setSpotAngle(-1);
-        }
-
-        double spotAngleRad = Math.toRadians(scene.getSpotAngle());
-        Vector3f coneDir = scene.getSpotLights()[0].getPointLight().getPosition();
-        coneDir.x = (float) Math.sin(spotAngleRad);
-
-        coneDir = scene.getSpotLights()[1].getPointLight().getPosition();
-        coneDir.x = (float) Math.cos(spotAngleRad * 0.15);
-
-        scene.incLightAngle(0.1f);
-        if (scene.getLightAngle() > 90) {
-            scene.getDirectionalLight().setIntensity(0);
-            if (scene.getLightAngle() >= 360) {
-                scene.setLightAngle(-90);
-            }
-        } else if (scene.getLightAngle() <= -80 || scene.getLightAngle() >= 80) {
-            float factor = 1 - (Math.abs(scene.getLightAngle()) - 80) / 10.0f;
-            scene.getDirectionalLight().setIntensity(factor);
-            scene.getDirectionalLight().getColour().y = Math.max(factor, 0.9f);
-            scene.getDirectionalLight().getColour().z = Math.max(factor, 0.5f);
-        } else {
-            scene.getDirectionalLight().setIntensity(1);
-            scene.getDirectionalLight().getColour().x = 1;
-            scene.getDirectionalLight().getColour().y = 1;
-            scene.getDirectionalLight().getColour().z = 1;
-        }
-
-        double angRad = Math.toRadians(scene.getLightAngle());
-        scene.getDirectionalLight().getDirection().x = (float) Math.sin(angRad);
-        scene.getDirectionalLight().getDirection().y = (float) Math.cos(angRad);
 
         for (Terrain terrain : scene.getTerrains()) {
             renderer.processTerrain(terrain);
@@ -261,7 +184,7 @@ public class Game implements ILoigc {
 
         for (Item item : hud.getItems()) {
             if (item instanceof Button) {
-                hud.addText(new Text(font, ((Button) item).getLabel(), item.getPosition().x, item.getPosition().y));
+                hud.drawText(((Button) item).getLabel(), (item.getPosition().x - hud.getTextWidth(((Button) item).getLabel())) / 2, item.getPosition().y);
             }
             renderer.processGuiItem(item);
         }

@@ -3,7 +3,6 @@ package me.frogdog.engine.core.rendering.hud.gui.items.font.text;
 import me.frogdog.engine.core.rendering.hud.gui.items.font.Font;
 import me.frogdog.engine.core.rendering.hud.gui.items.font.Glyph;
 import org.joml.Vector2f;
-import org.joml.Vector4f;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,13 +10,16 @@ import java.util.List;
 public class Text {
 
     private List<Glyph> text;
+    private float width;
     private final float space = 0.023f;
-    private final int factor = 7;
+    private final int factor = 8;
     private final char[] lowerCase = {'a', 'g', 'b', 'c', 'd', 'e', 'f', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
     private final char[] upperCase = {'A', 'G', 'B', 'C', 'D', 'E', 'F', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
 
     public Text(Font font, String string, float x, float y) {
         text = getGlyphString(font, string, new Vector2f(x, y));
+        width = getStringWidth(font, string);
+
     }
 
     public List<Glyph> getGlyphString(Font font, String text, Vector2f pos) {
@@ -29,6 +31,17 @@ public class Text {
             x += space * getSpaceMultiplier(glyph);
         }
         return glyphs;
+    }
+
+    public float getStringWidth(Font font, String text) {
+        List<Glyph> glyphs = new ArrayList<>();
+        char[] textGlyphs = text.toCharArray();
+        float x = 0;
+        for (char glyph : textGlyphs) {
+            glyphs.add(new Glyph(font, new Vector2f(0.0f + x, 0.0f), new Vector2f(0.125f / factor, 0.25f / factor), getGlyphIndex(glyph)));
+            x += space * getSpaceMultiplier(glyph);
+        }
+        return x - 0.25f / factor;
     }
 
     /*
@@ -165,7 +178,7 @@ public class Text {
     }
      */
 
-    private Vector2f getGlyphIndex(char glyph) {
+    private static Vector2f getGlyphIndex(char glyph) {
         Vector2f result;
         switch (glyph) {
             case '!':
@@ -460,7 +473,7 @@ public class Text {
         return result;
     }
 
-    private float getSpaceMultiplier(char glyph) {
+     public float getSpaceMultiplier(char glyph) {
         if (glyph == 'i') {
             return 0.65f;
         }
@@ -503,5 +516,9 @@ public class Text {
 
     public List<Glyph> getText() {
         return text;
+    }
+
+    public float getWidth() {
+        return width;
     }
 }

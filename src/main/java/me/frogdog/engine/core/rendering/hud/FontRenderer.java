@@ -2,6 +2,7 @@ package me.frogdog.engine.core.rendering.hud;
 
 import me.frogdog.engine.core.maths.Camera;
 import me.frogdog.engine.core.ShaderManager;
+import me.frogdog.engine.core.rendering.hud.gui.items.font.Font;
 import me.frogdog.engine.core.rendering.hud.gui.items.font.Glyph;
 import me.frogdog.engine.core.world.Model;
 import me.frogdog.engine.core.lighting.DirectionalLight;

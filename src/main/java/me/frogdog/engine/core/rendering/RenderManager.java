@@ -77,7 +77,9 @@ public class RenderManager {
         for (int i = 0; i < numLights; i++) {
             shader.setUniform("pointLights", pointLights[i], i);
         }
-        shader.setUniform("directionalLight", directionalLight);
+        if (directionalLight != null) {
+            shader.setUniform("directionalLight", directionalLight);
+        }
     }
 
     public void render(Camera camera, SceneManager scene) {
