@@ -11,7 +11,7 @@ public class Mouse {
     private final Vector2f displVec;
 
     public boolean erase = true;
-    private boolean inWindow = false, leftButtonPress = false, rightButtonPress = false, scrollUp = false, scrollDown = false;
+    private boolean inWindow = false, leftButtonPress = false, rightButtonPress = false, leftButtonUp = false, rightButtonUp = false, scrollUp = false, scrollDown = false;
 
     public Mouse() {
         previousPos = new Vector2d(-1, -1);
@@ -32,6 +32,9 @@ public class Mouse {
         GLFW.glfwSetMouseButtonCallback(Main.getWindow().getWindow(), ((window, button, action, mods) -> {
             leftButtonPress = button == GLFW.GLFW_MOUSE_BUTTON_1 && action == GLFW.GLFW_PRESS;
             rightButtonPress = button == GLFW.GLFW_MOUSE_BUTTON_2 && action == GLFW.GLFW_PRESS;
+            leftButtonUp = button == GLFW.GLFW_MOUSE_BUTTON_1 && action == GLFW.GLFW_RELEASE;
+            rightButtonUp = button == GLFW.GLFW_MOUSE_BUTTON_2 && action == GLFW.GLFW_RELEASE;
+
         }));
 
         GLFW.glfwSetScrollCallback(Main.getWindow().getWindow(), ((window, xoffset, yoffset) -> {
@@ -88,6 +91,14 @@ public class Mouse {
 
     public boolean isRightButtonPress() {
         return rightButtonPress;
+    }
+
+    public boolean isLeftButtonUp() {
+        return leftButtonUp;
+    }
+
+    public boolean isRightButtonUp() {
+        return rightButtonUp;
     }
 
     public boolean isScrollUp() {

@@ -11,13 +11,13 @@ public class Glyph extends GuiTexture {
     private Vector4f colour;
 
     public Glyph(Font font, Vector2f position, Vector2f scale, Vector2f index) {
-        super(font.getFont(), position, scale);
+        super(font.getFont(), position.x, position.y, scale.x, scale.y);
         this.index = index;
         this.colour = new Vector4f(1.0f, 1.0f, 1.0f, 1.0f);
     }
 
     public Glyph(Font font, Vector2f position, Vector2f scale, Vector2f index, Vector4f colour) {
-        super(font.getFont(), position, scale);
+        super(font.getFont(), position.x, position.y, scale.x, scale.y);
         this.index = index;
         this.colour = colour;
     }

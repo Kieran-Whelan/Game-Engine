@@ -7,8 +7,8 @@ import me.frogdog.engine.core.maths.Maths;
 import me.frogdog.engine.core.maths.MousePicker;
 import me.frogdog.engine.core.maths.Random;
 import me.frogdog.engine.core.rendering.hud.gui.Item;
-import me.frogdog.engine.core.rendering.hud.gui.items.Button;
 import me.frogdog.engine.core.rendering.hud.gui.items.GuiTexture;
+import me.frogdog.engine.core.rendering.hud.gui.items.buttons.Button;
 import me.frogdog.engine.core.rendering.hud.gui.items.font.Font;
 import me.frogdog.engine.core.rendering.hud.gui.items.font.text.Text;
 import me.frogdog.engine.core.world.*;
@@ -139,32 +139,21 @@ public class Game implements ILoigc {
         effect.generateParticles(scene, new Vector3f(player.getPosition()));
 
         GuiTexture cursor = null;
-        Button button = new Button(new Vector2f(0.0f, 0.0f), new Vector2f(0.2f, 0.2f), "heck");
 
         try {
-            cursor = new GuiTexture(loader.loadTextureSheet("textures/png/cursor-pointer-1.png"), mouse.getHudPos(), new Vector2f(0.015f, 0.015f));
+            cursor = new GuiTexture(loader.loadTextureSheet("textures/png/cursor-pointer-1.png"), mouse.getHudPos().x, mouse.getHudPos().y, 0.015f, 0.015f);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        hud.addItem(button);
         hud.addItem(cursor);
 
-        assert cursor != null;
-        if (Maths.isCollide2D(cursor, button)) {
-            if (mouse.isLeftButtonPress()) {
-                System.out.println("Button pressed");
-            }
-        }
-
-        /*
         Vector3f terrainPoint = picker.getCurrentTerrainPoint();
 
         if (terrainPoint != null) {
             Entity cyl = scene.getEntities().get(scene.getEntities().size() - 1);
             cyl.setPos(terrainPoint.x, terrainPoint.y, terrainPoint.z);
         }
-         */
 
         for (Terrain terrain : scene.getTerrains()) {
             renderer.processTerrain(terrain);

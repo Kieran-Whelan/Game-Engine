@@ -1,14 +1,13 @@
-package me.frogdog.engine.core.rendering.hud.gui.items;
+package me.frogdog.engine.core.rendering.hud.gui.items.buttons;
 
 import me.frogdog.engine.core.rendering.hud.gui.Item;
-import org.joml.Vector2f;
 
 public class Button extends Item {
 
     private String label;
 
-    public Button(Vector2f position, Vector2f scale, String label) {
-        super(position, scale);
+    public Button(float x, float y, float width, float height, String label) {
+        super(x, y, width, height);
         this.label = label;
     }
 

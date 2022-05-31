@@ -7,8 +7,8 @@ public class GuiTexture extends Item {
 
     private int id;
 
-    public GuiTexture(int id, Vector2f position, Vector2f scale) {
-        super(position, scale);
+    public GuiTexture(int id, float x, float y, float width, float height) {
+        super(x, y, width, height);
         this.id = id;
     }
 
