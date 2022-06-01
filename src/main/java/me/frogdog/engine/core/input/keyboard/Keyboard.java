@@ -1,4 +1,4 @@
-package me.frogdog.engine.core.input;
+package me.frogdog.engine.core.input.keyboard;
 
 import me.frogdog.engine.game.Main;
 import org.lwjgl.glfw.GLFW;

@@ -2,7 +2,7 @@ package me.frogdog.engine.core.world.skybox;
 
 import me.frogdog.engine.core.world.Model;
 import me.frogdog.engine.utils.Consts;
-import me.frogdog.engine.utils.ObjectLoader;
+import me.frogdog.engine.utils.loader.ObjectLoader;
 
 public class Skybox {
 

@@ -4,8 +4,7 @@ import me.frogdog.engine.core.HudManager;
 import me.frogdog.engine.core.SceneManager;
 import me.frogdog.engine.core.audio.Sound;
 import me.frogdog.engine.core.maths.Maths;
-import me.frogdog.engine.core.maths.MousePicker;
-import me.frogdog.engine.core.maths.Random;
+import me.frogdog.engine.core.input.mouse.MousePicker;
 import me.frogdog.engine.core.rendering.hud.gui.Item;
 import me.frogdog.engine.core.rendering.hud.gui.items.GuiTexture;
 import me.frogdog.engine.core.rendering.hud.gui.items.buttons.Button;
@@ -22,11 +21,11 @@ import me.frogdog.engine.core.world.terrain.BlendMapTerrain;
 import me.frogdog.engine.core.world.terrain.HeightGenerator;
 import me.frogdog.engine.core.world.terrain.Terrain;
 import me.frogdog.engine.core.world.terrain.TerrainTexture;
-import me.frogdog.engine.core.input.Keyboard;
-import me.frogdog.engine.core.input.Mouse;
+import me.frogdog.engine.core.input.keyboard.Keyboard;
+import me.frogdog.engine.core.input.mouse.Mouse;
 import me.frogdog.engine.core.maths.Camera;
 import me.frogdog.engine.core.rendering.RenderManager;
-import me.frogdog.engine.utils.ObjectLoader;
+import me.frogdog.engine.utils.loader.ObjectLoader;
 import me.frogdog.engine.utils.interfaces.ILoigc;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
@@ -98,8 +97,8 @@ public class Game implements ILoigc {
         picker = new MousePicker(mouse, camera, Main.getWindow().updateProjectionMatrix(), terrain);
 
         for (int i = 0; i < 200; i++) {
-            float x = Random.randRange(-400f, 400f);
-            float z = Random.randRange(-400f, 400f);
+            float x = Maths.randRange(-400f, 400f);
+            float z = Maths.randRange(-400f, 400f);
             if (terrain.getTerrainHeight(x, z) >= -18) {
                 Entity entity = new Entity(new Model((loader.loadOBJModel("/models/tree.obj")), new Texture(loader.loadTexture("textures/tree.png"))), new Vector3f(x, terrain.getTerrainHeight(x, z) - 2, z), new Vector3f(0.0f, 0.0f, 0.0f), 3.0f);
                 scene.addEntity(entity);

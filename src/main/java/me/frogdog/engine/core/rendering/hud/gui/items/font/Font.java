@@ -1,6 +1,6 @@
 package me.frogdog.engine.core.rendering.hud.gui.items.font;
 
-import me.frogdog.engine.utils.ObjectLoader;
+import me.frogdog.engine.utils.loader.ObjectLoader;
 
 public class Font {
 

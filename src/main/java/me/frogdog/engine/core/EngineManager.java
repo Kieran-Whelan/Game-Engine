@@ -1,7 +1,5 @@
 package me.frogdog.engine.core;
 
-import me.frogdog.engine.core.input.Keyboard;
-import me.frogdog.engine.core.input.Mouse;
 import me.frogdog.engine.utils.Consts;
 import me.frogdog.engine.game.Main;
 import me.frogdog.engine.utils.interfaces.ILoigc;

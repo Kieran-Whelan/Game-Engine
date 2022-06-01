@@ -1,10 +1,9 @@
-package me.frogdog.engine.utils;
+package me.frogdog.engine.utils.loader;
 
-import me.frogdog.engine.core.maths.Vertex;
 import me.frogdog.engine.core.world.Model;
+import me.frogdog.engine.utils.Utils;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
-import org.joml.Vector3i;
 import org.lwjgl.opengl.*;
 import org.lwjgl.stb.STBImage;
 import org.lwjgl.system.MemoryStack;

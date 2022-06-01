@@ -1,7 +1,7 @@
 package me.frogdog.engine.core.world.terrain;
 
 import me.frogdog.engine.core.maths.Maths;
-import me.frogdog.engine.utils.ObjectLoader;
+import me.frogdog.engine.utils.loader.ObjectLoader;
 import me.frogdog.engine.core.world.Material;
 import me.frogdog.engine.core.world.Model;
 import me.frogdog.engine.core.world.Texture;

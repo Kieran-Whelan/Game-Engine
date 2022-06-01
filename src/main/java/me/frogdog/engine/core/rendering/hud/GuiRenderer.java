@@ -10,7 +10,7 @@ import me.frogdog.engine.core.lighting.DirectionalLight;
 import me.frogdog.engine.core.lighting.PointLight;
 import me.frogdog.engine.core.lighting.SpotLight;
 import me.frogdog.engine.utils.Consts;
-import me.frogdog.engine.utils.ObjectLoader;
+import me.frogdog.engine.utils.loader.ObjectLoader;
 import me.frogdog.engine.utils.Utils;
 import me.frogdog.engine.utils.interfaces.IRenderer;
 import org.joml.Matrix4f;

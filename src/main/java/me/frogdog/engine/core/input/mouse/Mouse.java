@@ -1,4 +1,4 @@
-package me.frogdog.engine.core.input;
+package me.frogdog.engine.core.input.mouse;
 
 import me.frogdog.engine.game.Main;
 import org.joml.Vector2d;
@@ -78,7 +78,7 @@ public class Mouse {
     }
 
     public Vector2f getCurrentPos() {
-        return new Vector2f((float) currentPos.x, (float) currentPos.y);
+        return new Vector2f((float) currentPos.x, (float) currentPos.y * 1);
     }
 
     public Vector2f getHudPos() {

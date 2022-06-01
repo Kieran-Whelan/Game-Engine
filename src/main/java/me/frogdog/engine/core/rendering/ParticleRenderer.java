@@ -11,7 +11,7 @@ import me.frogdog.engine.core.world.particle.Particle;
 import me.frogdog.engine.core.world.particle.ParticleTexture;
 import me.frogdog.engine.game.Main;
 import me.frogdog.engine.utils.Consts;
-import me.frogdog.engine.utils.ObjectLoader;
+import me.frogdog.engine.utils.loader.ObjectLoader;
 import me.frogdog.engine.utils.Utils;
 import me.frogdog.engine.utils.interfaces.IRenderer;
 import org.joml.Matrix4f;

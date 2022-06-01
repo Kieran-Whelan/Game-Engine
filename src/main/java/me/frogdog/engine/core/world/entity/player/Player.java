@@ -1,7 +1,7 @@
 package me.frogdog.engine.core.world.entity.player;
 
 import me.frogdog.engine.core.EngineManager;
-import me.frogdog.engine.core.input.Keyboard;
+import me.frogdog.engine.core.input.keyboard.Keyboard;
 import me.frogdog.engine.core.world.Model;
 import me.frogdog.engine.core.world.entity.Entity;
 import me.frogdog.engine.core.world.terrain.Terrain;

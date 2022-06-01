@@ -6,6 +6,18 @@ import org.joml.Vector3f;
 
 public class Maths {
 
+    public static int randRange(int min, int max) {
+        return min + (int)(Math.random() * ((max - min) + 1));
+    }
+
+    public static float randRange(float min, float max) {
+        return min + (float)(Math.random() * ((max - min) + 1));
+    }
+
+    public static double randRange(double min, double max) {
+        return min + (double)(Math.random() * ((max - min)));
+    }
+
     public static float barryCentric(Vector3f p1, Vector3f p2, Vector3f p3, Vector2f pos) {
         float det = (p2.z - p3.z) * (p1.x - p3.x) + (p3.x - p2.x) * (p1.z - p3.z);
         float l1 = ((p2.z - p3.z) * (pos.x - p3.x) + (p3.x - p2.x) * (pos.y - p3.z)) / det;

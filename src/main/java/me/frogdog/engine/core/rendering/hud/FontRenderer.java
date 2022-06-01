@@ -2,16 +2,14 @@ package me.frogdog.engine.core.rendering.hud;
 
 import me.frogdog.engine.core.maths.Camera;
 import me.frogdog.engine.core.ShaderManager;
-import me.frogdog.engine.core.rendering.hud.gui.items.font.Font;
 import me.frogdog.engine.core.rendering.hud.gui.items.font.Glyph;
 import me.frogdog.engine.core.world.Model;
 import me.frogdog.engine.core.lighting.DirectionalLight;
 import me.frogdog.engine.core.lighting.PointLight;
 import me.frogdog.engine.core.lighting.SpotLight;
 import me.frogdog.engine.core.maths.Transformation;
-import me.frogdog.engine.core.rendering.hud.gui.items.GuiTexture;
 import me.frogdog.engine.utils.Consts;
-import me.frogdog.engine.utils.ObjectLoader;
+import me.frogdog.engine.utils.loader.ObjectLoader;
 import me.frogdog.engine.utils.Utils;
 import me.frogdog.engine.utils.interfaces.IRenderer;
 import org.joml.Matrix4f;
