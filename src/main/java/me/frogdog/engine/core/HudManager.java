@@ -24,11 +24,20 @@ public class HudManager {
     }
 
     public void drawText(String string, float x, float y) {
-        text.add(new Text(font, string, x, y));
+        text.add(new Text(font, string, x, y, 1));
+    }
+
+    public void drawText(String string, float x, float y, int scale) {
+        text.add(new Text(font, string, x, y, scale));
     }
 
     public float getTextWidth(String string) {
-        Text test = new Text(font, string, 0, 0);
+        Text test = new Text(font, string, 0, 0, 1);
+        return test.getWidth();
+    }
+
+    public float getTextWidth(String string, int scale) {
+        Text test = new Text(font, string, 0, 0, scale);
         return test.getWidth();
     }
 

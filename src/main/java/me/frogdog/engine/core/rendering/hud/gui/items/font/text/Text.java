@@ -11,37 +11,36 @@ public class Text {
 
     private List<Glyph> text;
     private float width;
-    private final float space = 0.023f;
-    private final int factor = 8;
+    private final float space = 0.02f;
     private final char[] lowerCase = {'a', 'g', 'b', 'c', 'd', 'e', 'f', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
     private final char[] upperCase = {'A', 'G', 'B', 'C', 'D', 'E', 'F', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
 
-    public Text(Font font, String string, float x, float y) {
-        text = getGlyphString(font, string, new Vector2f(x, y));
-        width = getStringWidth(font, string);
+    public Text(Font font, String string, float x, float y, int scale) {
+        text = getGlyphString(font, string, new Vector2f(x, y), scale);
+        width = getStringWidth(font, string, scale);
 
     }
 
-    public List<Glyph> getGlyphString(Font font, String text, Vector2f pos) {
+    public List<Glyph> getGlyphString(Font font, String text, Vector2f pos, int scale) {
         List<Glyph> glyphs = new ArrayList<>();
         char[] textGlyphs = text.toCharArray();
         float x = 0;
         for (char glyph : textGlyphs) {
-            glyphs.add(new Glyph(font, new Vector2f(pos.x + x, pos.y), new Vector2f(0.125f / factor, 0.25f / factor), getGlyphIndex(glyph)));
-            x += space * getSpaceMultiplier(glyph);
+            glyphs.add(new Glyph(font, new Vector2f(pos.x + x, pos.y), new Vector2f(0.015625f * scale, 0.03125f * scale), getGlyphIndex(glyph)));
+            x += space * getSpaceMultiplier(glyph) * scale;
         }
         return glyphs;
     }
 
-    public float getStringWidth(Font font, String text) {
+    public float getStringWidth(Font font, String text, int scale) {
         List<Glyph> glyphs = new ArrayList<>();
         char[] textGlyphs = text.toCharArray();
         float x = 0;
         for (char glyph : textGlyphs) {
-            glyphs.add(new Glyph(font, new Vector2f(0.0f + x, 0.0f), new Vector2f(0.125f / factor, 0.25f / factor), getGlyphIndex(glyph)));
-            x += space * getSpaceMultiplier(glyph);
+            glyphs.add(new Glyph(font, new Vector2f(0.0f + x, 0.0f), new Vector2f(0.015625f * scale, 0.03125f * scale), getGlyphIndex(glyph)));
+            x += space * getSpaceMultiplier(glyph) * scale;
         }
-        return x - 0.25f / factor;
+        return x - 0.03125f * scale;
     }
 
     /*

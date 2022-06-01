@@ -110,6 +110,7 @@ public class Game implements ILoigc {
     public void input() {
         mouse.input();
 
+        /*
         if (keyboard.isKeyPressed(GLFW.GLFW_KEY_F3)) {
             debugMode = !debugMode;
         }
@@ -122,20 +123,27 @@ public class Game implements ILoigc {
         if (keyboard.isKeyDown(GLFW.GLFW_KEY_P)) {
             scene.addParticle(new Particle(particleTexture , new Vector3f(player.getPosition().x, player.getPosition().y, player.getPosition().z), new Vector3f(0, 30, 0), 1, 4, 0, 1));
         }
+        */
     }
 
     @Override
     public void update(float interval) {
+        hud.drawText("Zombified", 0 - hud.getTextWidth("Zombified", 4) / 2, 0.6f, 4);
+
         if (debugMode) {
             hud.drawText("Frog Engine Dev 0.1", -0.975f, 0.965f);
             hud.drawText("Player XYZ: " + (int) player.getPosition().x + " " + (int) player.getPosition().y + " " + (int) player.getPosition().z, -0.975f, 0.915f);
             hud.drawText("OpenGL version 3.3", -0.975f, 0.865f);
         }
 
-        camera.update(mouse);
-        player.update(keyboard, scene.getTerrains().get(0));
-        picker.update();
-        effect.generateParticles(scene, new Vector3f(player.getPosition()));
+        //camera.update(mouse);
+        //player.update(keyboard, scene.getTerrains().get(0));
+        //picker.update();
+        //effect.generateParticles(scene, new Vector3f(player.getPosition()));
+        camera.getPosition().x = 0.0f;
+        camera.getPosition().y = 20.0f;
+        camera.getPosition().z = 0.0f;
+        camera.setYaw(camera.getYaw() + 0.025f);
 
         GuiTexture cursor = null;
 
@@ -147,12 +155,15 @@ public class Game implements ILoigc {
 
         hud.addItem(cursor);
 
+        /*
         Vector3f terrainPoint = picker.getCurrentTerrainPoint();
 
         if (terrainPoint != null) {
             Entity cyl = scene.getEntities().get(scene.getEntities().size() - 1);
             cyl.setPos(terrainPoint.x, terrainPoint.y, terrainPoint.z);
         }
+
+         */
 
         for (Terrain terrain : scene.getTerrains()) {
             renderer.processTerrain(terrain);
