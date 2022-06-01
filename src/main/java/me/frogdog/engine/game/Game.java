@@ -47,6 +47,7 @@ public class Game implements ILoigc {
     private ParticleEffect effect;
     private Skybox skybox;
     ParticleTexture particleTexture;
+    GuiTexture cursor;
 
     private boolean debugMode = false;
     private final String[] textureFiles = new String[] {"textures/skybox/day/right.png", "textures/skybox/day/left.png", "textures/skybox/day/top.png", "textures/skybox/day/bottom.png", "textures/skybox/day/back.png", "textures/skybox/day/front.png"};
@@ -104,6 +105,8 @@ public class Game implements ILoigc {
                 scene.addEntity(entity);
             }
         }
+
+        cursor = new GuiTexture(loader.loadTextureSheet("textures/png/cursor-pointer-1.png"), mouse.getHudPos().x, mouse.getHudPos().y, 0.015f, 0.015f);
     }
 
     @Override
@@ -130,6 +133,9 @@ public class Game implements ILoigc {
     public void update(float interval) {
         hud.drawText("Zombified", 0 - hud.getTextWidth("Zombified", 4) / 2, 0.6f, 4);
 
+        Button playButton = new Button(0, 0, 0.2f, 0.05f, "Start game");
+        hud.addItem(playButton);
+
         if (debugMode) {
             hud.drawText("Frog Engine Dev 0.1", -0.975f, 0.965f);
             hud.drawText("Player XYZ: " + (int) player.getPosition().x + " " + (int) player.getPosition().y + " " + (int) player.getPosition().z, -0.975f, 0.915f);
@@ -141,17 +147,12 @@ public class Game implements ILoigc {
         //picker.update();
         //effect.generateParticles(scene, new Vector3f(player.getPosition()));
         camera.getPosition().x = 0.0f;
-        camera.getPosition().y = 20.0f;
+        camera.getPosition().y = 40.0f;
         camera.getPosition().z = 0.0f;
         camera.setYaw(camera.getYaw() + 0.025f);
 
-        GuiTexture cursor = null;
-
-        try {
-            cursor = new GuiTexture(loader.loadTextureSheet("textures/png/cursor-pointer-1.png"), mouse.getHudPos().x, mouse.getHudPos().y, 0.015f, 0.015f);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        cursor.getPosition().x = mouse.getHudPos().x;
+        cursor.getPosition().y = mouse.getHudPos().y;
 
         hud.addItem(cursor);
 
