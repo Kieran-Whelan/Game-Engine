@@ -49,7 +49,8 @@ public class Game implements ILoigc {
     ParticleTexture particleTexture;
     GuiTexture cursor;
 
-    private boolean debugMode = false;
+    private int mode = 0;
+    private boolean debugMode;
     private final String[] textureFiles = new String[] {"textures/skybox/day/right.png", "textures/skybox/day/left.png", "textures/skybox/day/top.png", "textures/skybox/day/bottom.png", "textures/skybox/day/back.png", "textures/skybox/day/front.png"};
     private final String[] nightTextureFiles = new String[] {"textures/skybox/night/nightRight.png", "textures/skybox/night/nightLeft.png", "textures/skybox/night/nightTop.png", "textures/skybox/night/nightBottom.png", "textures/skybox/night/nightBack.png", "textures/skybox/night/nightFront.png"};
 
@@ -113,43 +114,62 @@ public class Game implements ILoigc {
     public void input() {
         mouse.input();
 
-        /*
         if (keyboard.isKeyPressed(GLFW.GLFW_KEY_F3)) {
             debugMode = !debugMode;
-        }
-
-        if (keyboard.isKeyPressed(GLFW.GLFW_KEY_F4)) {
-            mouse.getHudPos().x = 0;
-            mouse.getHudPos().y = 0;
         }
 
         if (keyboard.isKeyDown(GLFW.GLFW_KEY_P)) {
             scene.addParticle(new Particle(particleTexture , new Vector3f(player.getPosition().x, player.getPosition().y, player.getPosition().z), new Vector3f(0, 30, 0), 1, 4, 0, 1));
         }
-        */
     }
 
     @Override
     public void update(float interval) {
-        hud.drawText("Zombified", 0 - hud.getTextWidth("Zombified", 4) / 2, 0.6f, 4);
-
         Button playButton = new Button(0, 0, 0.2f, 0.05f, "Start game");
-        hud.addItem(playButton);
+        Button quitButton = new Button(0, -0.2f, 0.2f, 0.05f, "Quit");
+        Button mainMenu = new Button(0, 0, 0.2f, 0.05f, "Main menu");
+
+        if (Maths.isCollide2D(cursor, playButton)) {
+            if (mouse.isLeftButtonUp()) {
+                mode = 1;
+            }
+        }
+
+        if (Maths.isCollide2D(cursor, quitButton)) {
+            if (mouse.isLeftButtonUp()) {
+                GLFW.glfwSetWindowShouldClose(Main.getWindow().getWindow(), true);
+            }
+        }
+
+        switch (mode) {
+            case 0:
+                hud.addItem(playButton);
+                hud.addItem(quitButton);
+                hud.drawText("Zombified", 0 - hud.getTextWidth("Zombified", 4) / 2, 0.6f, 4);
+                camera.getPosition().x = 0.0f;
+                camera.getPosition().y = 40.0f;
+                camera.getPosition().z = 0.0f;
+                camera.setYaw(camera.getYaw() + 0.025f);
+                break;
+            case 1:
+                camera.update(mouse);
+                player.update(keyboard, scene.getTerrains().get(0));
+                picker.update();
+                effect.generateParticles(scene, new Vector3f(player.getPosition()));
+                break;
+            case 2:
+                hud.addItem(mainMenu);
+                hud.drawText("Paused", 0 - hud.getTextWidth("Paused", 4) / 2, 0.6f, 4);
+                break;
+        }
+
+        System.out.println(mode);
 
         if (debugMode) {
             hud.drawText("Frog Engine Dev 0.1", -0.975f, 0.965f);
             hud.drawText("Player XYZ: " + (int) player.getPosition().x + " " + (int) player.getPosition().y + " " + (int) player.getPosition().z, -0.975f, 0.915f);
             hud.drawText("OpenGL version 3.3", -0.975f, 0.865f);
         }
-
-        //camera.update(mouse);
-        //player.update(keyboard, scene.getTerrains().get(0));
-        //picker.update();
-        //effect.generateParticles(scene, new Vector3f(player.getPosition()));
-        camera.getPosition().x = 0.0f;
-        camera.getPosition().y = 40.0f;
-        camera.getPosition().z = 0.0f;
-        camera.setYaw(camera.getYaw() + 0.025f);
 
         cursor.getPosition().x = mouse.getHudPos().x;
         cursor.getPosition().y = mouse.getHudPos().y;

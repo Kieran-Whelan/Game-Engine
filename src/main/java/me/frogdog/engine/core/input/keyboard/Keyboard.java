@@ -11,9 +11,11 @@ public class Keyboard {
 
     public void init() {
         GLFW.glfwSetKeyCallback(Main.getWindow().getWindow(), (window, key, scancode, action, mods) -> {
+            /*
             if (key == GLFW.GLFW_KEY_ESCAPE && action == GLFW.GLFW_RELEASE) {
                 GLFW.glfwSetWindowShouldClose(window, true);
             }
+             */
             if (action == GLFW.GLFW_RELEASE) {
                 lastKeyDown = key;
             }

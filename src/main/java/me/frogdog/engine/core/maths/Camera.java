@@ -55,14 +55,14 @@ public class Camera {
 
     private void calcPitch(Mouse mouse) {
         if (mouse.isRightButtonPress()) {
-            float pitchChange = mouse.getDisplVec().y * Consts.MOUSE_SENSITIVITY;
+            float pitchChange = mouse.getDisplVec().x * Consts.MOUSE_SENSITIVITY;
             pitch -= pitchChange;
         }
     }
 
     private void calcAngleAroundPlayer(Mouse mouse) {
         if (mouse.isLeftButtonPress()) {
-            float angleChange = mouse.getDisplVec().x * Consts.MOUSE_SENSITIVITY;
+            float angleChange = mouse.getDisplVec().y * Consts.MOUSE_SENSITIVITY;
             angleAroundPlayer -= angleChange;
         }
     }
