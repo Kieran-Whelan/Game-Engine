@@ -3,11 +3,16 @@ package me.frogdog.engine.core.input.keyboard;
 import me.frogdog.engine.game.Main;
 import org.lwjgl.glfw.GLFW;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Keyboard {
 
-    private static int lastKeyDown;
+    private List<Integer> keysDown;
 
-    public Keyboard() {}
+    public Keyboard() {
+        keysDown = new ArrayList<>();
+    }
 
     public void init() {
         GLFW.glfwSetKeyCallback(Main.getWindow().getWindow(), (window, key, scancode, action, mods) -> {
@@ -17,7 +22,7 @@ public class Keyboard {
             }
              */
             if (action == GLFW.GLFW_RELEASE) {
-                lastKeyDown = key;
+                keysDown.add(key);
             }
         });
     }
@@ -31,12 +36,14 @@ public class Keyboard {
     }
 
     public boolean isKeyPressed(int keycode) {
-        if (keycode == lastKeyDown) {
-            lastKeyDown = 0;
+        if (keysDown.contains(keycode)) {
             return true;
         }
-        lastKeyDown = 0;
         return false;
+    }
+
+    public void clearKeys() {
+        keysDown.clear();
     }
 
 }

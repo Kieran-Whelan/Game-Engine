@@ -114,6 +114,10 @@ public class Game implements ILoigc {
     public void input() {
         mouse.input();
 
+        if (keyboard.isKeyPressed(GLFW.GLFW_KEY_ESCAPE)) {
+            mode = 2;
+        }
+
         if (keyboard.isKeyPressed(GLFW.GLFW_KEY_F3)) {
             debugMode = !debugMode;
         }
@@ -121,6 +125,8 @@ public class Game implements ILoigc {
         if (keyboard.isKeyDown(GLFW.GLFW_KEY_P)) {
             scene.addParticle(new Particle(particleTexture , new Vector3f(player.getPosition().x, player.getPosition().y, player.getPosition().z), new Vector3f(0, 30, 0), 1, 4, 0, 1));
         }
+
+        keyboard.clearKeys();
     }
 
     @Override
@@ -129,13 +135,13 @@ public class Game implements ILoigc {
         Button quitButton = new Button(0, -0.2f, 0.2f, 0.05f, "Quit");
         Button mainMenu = new Button(0, 0, 0.2f, 0.05f, "Main menu");
 
-        if (Maths.isCollide2D(cursor, playButton)) {
+        if (Maths.isCollide2D(cursor, playButton) && mode == 0) {
             if (mouse.isLeftButtonUp()) {
                 mode = 1;
             }
         }
 
-        if (Maths.isCollide2D(cursor, quitButton)) {
+        if (Maths.isCollide2D(cursor, quitButton) && mode == 0) {
             if (mouse.isLeftButtonUp()) {
                 GLFW.glfwSetWindowShouldClose(Main.getWindow().getWindow(), true);
             }
