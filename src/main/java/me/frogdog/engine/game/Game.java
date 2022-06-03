@@ -133,18 +133,23 @@ public class Game implements ILoigc {
     public void update(float interval) {
         Button playButton = new Button(0, 0, 0.2f, 0.05f, "Start game");
         Button quitButton = new Button(0, -0.2f, 0.2f, 0.05f, "Quit");
-        Button mainMenu = new Button(0, 0, 0.2f, 0.05f, "Main menu");
+        Button resume = new Button(0, 0, 0.2f, 0.05f, "Resume");
+        Button mainMenu = new Button(0, -0.2f, 0.2f, 0.05f, "Main menu");
 
-        if (Maths.isCollide2D(cursor, playButton) && mode == 0) {
-            if (mouse.isLeftButtonUp()) {
-                mode = 1;
-            }
+        if (isClicked(playButton) && mode == 0) {
+            mode = 1;
         }
 
-        if (Maths.isCollide2D(cursor, quitButton) && mode == 0) {
-            if (mouse.isLeftButtonUp()) {
-                GLFW.glfwSetWindowShouldClose(Main.getWindow().getWindow(), true);
-            }
+        if (isClicked(quitButton) && mode == 0) {
+            GLFW.glfwSetWindowShouldClose(Main.getWindow().getWindow(), true);
+        }
+
+        if (isClicked(resume) && mode == 2) {
+            mode = 1;
+        }
+
+        if (isClicked(mainMenu) && mode == 2) {
+            mode = 0;
         }
 
         switch (mode) {
@@ -153,7 +158,7 @@ public class Game implements ILoigc {
                 hud.addItem(quitButton);
                 hud.drawText("Zombified", 0 - hud.getTextWidth("Zombified", 4) / 2, 0.6f, 4);
                 camera.getPosition().x = 0.0f;
-                camera.getPosition().y = 40.0f;
+                camera.getPosition().y = (scene.getTerrains().get(0).getTerrainHeight(0, 0) + 20.0f);
                 camera.getPosition().z = 0.0f;
                 camera.setYaw(camera.getYaw() + 0.025f);
                 break;
@@ -165,11 +170,10 @@ public class Game implements ILoigc {
                 break;
             case 2:
                 hud.addItem(mainMenu);
+                hud.addItem(resume);
                 hud.drawText("Paused", 0 - hud.getTextWidth("Paused", 4) / 2, 0.6f, 4);
                 break;
         }
-
-        System.out.println(mode);
 
         if (debugMode) {
             hud.drawText("Frog Engine Dev 0.1", -0.975f, 0.965f);
@@ -233,5 +237,14 @@ public class Game implements ILoigc {
     public void cleanup() {
         renderer.cleanup();
         loader.cleanup();
+    }
+
+    private boolean isClicked(Item item) {
+        if (Maths.isCollide2D(cursor, item)) {
+            if (mouse.isLeftButtonPress()) {
+                return true;
+            }
+        }
+        return false;
     }
 }
