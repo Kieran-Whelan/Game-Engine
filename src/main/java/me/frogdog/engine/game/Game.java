@@ -135,7 +135,7 @@ public class Game implements ILoigc {
             debugMode = !debugMode;
         }
 
-        if (keyboard.isKeyDown(GLFW.GLFW_KEY_E)) {
+        if (keyboard.isKeyPressed(GLFW.GLFW_KEY_E)) {
             shoot();
         }
 

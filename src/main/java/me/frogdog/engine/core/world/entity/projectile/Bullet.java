@@ -7,7 +7,7 @@ import org.joml.Vector3f;
 
 public class Bullet extends Entity {
 
-    private static final float SPEED = 30f;
+    private static final float SPEED = 120f;
 
     public Bullet(Model model, Vector3f pos, Vector3f rotation, float scale) {
         super(model, pos, rotation, scale);
