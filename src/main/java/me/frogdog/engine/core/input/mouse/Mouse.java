@@ -34,7 +34,6 @@ public class Mouse {
             rightButtonPress = button == GLFW.GLFW_MOUSE_BUTTON_2 && action == GLFW.GLFW_PRESS;
             leftButtonUp = button == GLFW.GLFW_MOUSE_BUTTON_1 && action == GLFW.GLFW_RELEASE;
             rightButtonUp = button == GLFW.GLFW_MOUSE_BUTTON_2 && action == GLFW.GLFW_RELEASE;
-
         }));
 
         GLFW.glfwSetScrollCallback(Main.getWindow().getWindow(), ((window, xoffset, yoffset) -> {
@@ -71,6 +70,11 @@ public class Mouse {
 
         previousPos.x = currentPos.x;
         previousPos.y = currentPos.y;
+    }
+
+    public void clear() {
+        leftButtonUp = false;
+        rightButtonUp = false;
     }
 
     public Vector2f getDisplVec() {

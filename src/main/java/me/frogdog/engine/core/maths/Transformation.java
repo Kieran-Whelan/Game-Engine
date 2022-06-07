@@ -2,6 +2,7 @@ package me.frogdog.engine.core.maths;
 
 import me.frogdog.engine.core.rendering.hud.gui.Item;
 import me.frogdog.engine.core.world.entity.Entity;
+import me.frogdog.engine.core.world.entity.mobs.Zombie;
 import me.frogdog.engine.core.world.terrain.Terrain;
 import me.frogdog.engine.core.rendering.hud.gui.items.GuiTexture;
 import me.frogdog.engine.core.world.water.WaterTile;
@@ -26,11 +27,19 @@ public class Transformation {
 
     public static Matrix4f createTransformationMatrix(Entity entity) {
         Matrix4f matrix = new Matrix4f();
-        matrix.identity().translate(entity.getPosition())
-                .rotateX((float) Math.toRadians(entity.getRotation().x))
-                .rotateY((float) Math.toRadians(entity.getRotation().y))
-                .rotateZ((float) Math.toRadians(entity.getRotation().z))
-                .scale(entity.getScale());
+        if (entity instanceof Zombie) {
+            matrix.identity().translate(entity.getPosition())
+                    .rotateX((float) entity.getRotation().x)
+                    .rotateY((float) entity.getRotation().y)
+                    .rotateZ((float) entity.getRotation().z)
+                    .scale(entity.getScale());
+        } else {
+            matrix.identity().translate(entity.getPosition())
+                    .rotateX((float) Math.toRadians(entity.getRotation().x))
+                    .rotateY((float) Math.toRadians(entity.getRotation().y))
+                    .rotateZ((float) Math.toRadians(entity.getRotation().z))
+                    .scale(entity.getScale());
+        }
 
         return matrix;
     }

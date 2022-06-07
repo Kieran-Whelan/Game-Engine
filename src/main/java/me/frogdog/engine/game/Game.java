@@ -12,7 +12,9 @@ import me.frogdog.engine.core.rendering.hud.gui.items.font.Font;
 import me.frogdog.engine.core.rendering.hud.gui.items.font.text.Text;
 import me.frogdog.engine.core.world.*;
 import me.frogdog.engine.core.world.entity.Entity;
+import me.frogdog.engine.core.world.entity.mobs.Zombie;
 import me.frogdog.engine.core.world.entity.player.Player;
+import me.frogdog.engine.core.world.entity.projectile.Bullet;
 import me.frogdog.engine.core.world.particle.Particle;
 import me.frogdog.engine.core.world.particle.ParticleEffect;
 import me.frogdog.engine.core.world.particle.ParticleTexture;
@@ -46,8 +48,10 @@ public class Game implements ILoigc {
     private MousePicker picker;
     private ParticleEffect effect;
     private Skybox skybox;
+    private Zombie conorBrady;
     ParticleTexture particleTexture;
     GuiTexture cursor;
+    private Model bullet;
 
     private int mode = 0;
     private boolean debugMode;
@@ -84,6 +88,10 @@ public class Game implements ILoigc {
         player.getModel().getMaterial().setDisableCulling(true);
         scene.addEntity(player);
 
+        conorBrady = new Zombie(new Model((loader.loadOBJModel("/models/player.obj")), new Texture(loader.loadTexture("textures/zombie.png"))), new Vector3f(0.0f, 0.0f, 0.0f), new Vector3f(0.0f, 0.0f, 0.0f), 1.0f);
+        conorBrady.getModel().getMaterial().setDisableCulling(true);
+        scene.addEntity(conorBrady);
+
         TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("textures/terrain.png"));
         TerrainTexture redTexture = new TerrainTexture(loader.loadTexture("textures/flowers.png"));
         TerrainTexture greenTexture = new TerrainTexture(loader.loadTexture("textures/stone.png"));
@@ -108,6 +116,7 @@ public class Game implements ILoigc {
         }
 
         cursor = new GuiTexture(loader.loadTextureSheet("textures/png/cursor-pointer-1.png"), mouse.getHudPos().x, mouse.getHudPos().y, 0.015f, 0.015f);
+        bullet = new Model((loader.loadOBJModel("/models/cube.obj")), new Texture(loader.loadTexture("textures/cube.png")));
     }
 
     @Override
@@ -115,11 +124,19 @@ public class Game implements ILoigc {
         mouse.input();
 
         if (keyboard.isKeyPressed(GLFW.GLFW_KEY_ESCAPE)) {
-            mode = 2;
+            if (mode == 2) {
+                mode = 1;
+            } else if (mode == 1) {
+                mode = 2;
+            }
         }
 
         if (keyboard.isKeyPressed(GLFW.GLFW_KEY_F3)) {
             debugMode = !debugMode;
+        }
+
+        if (keyboard.isKeyDown(GLFW.GLFW_KEY_E)) {
+            shoot();
         }
 
         if (keyboard.isKeyDown(GLFW.GLFW_KEY_P)) {
@@ -152,6 +169,8 @@ public class Game implements ILoigc {
             mode = 0;
         }
 
+        mouse.clear();
+
         switch (mode) {
             case 0:
                 hud.addItem(playButton);
@@ -165,8 +184,14 @@ public class Game implements ILoigc {
             case 1:
                 camera.update(mouse);
                 player.update(keyboard, scene.getTerrains().get(0));
+                conorBrady.update(scene.getTerrains().get(0), player);
                 picker.update();
                 effect.generateParticles(scene, new Vector3f(player.getPosition()));
+                for (Entity entity : scene.getEntities()) {
+                    if (entity instanceof Bullet) {
+                        ((Bullet) entity).update();
+                    }
+                }
                 break;
             case 2:
                 hud.addItem(mainMenu);
@@ -185,6 +210,10 @@ public class Game implements ILoigc {
         cursor.getPosition().y = mouse.getHudPos().y;
 
         hud.addItem(cursor);
+
+        if (Maths.isAABBInsideAABB(conorBrady, player)) {
+            System.out.println("t");
+        }
 
         /*
         Vector3f terrainPoint = picker.getCurrentTerrainPoint();
@@ -241,10 +270,14 @@ public class Game implements ILoigc {
 
     private boolean isClicked(Item item) {
         if (Maths.isCollide2D(cursor, item)) {
-            if (mouse.isLeftButtonPress()) {
+            if (mouse.isLeftButtonUp()) {
                 return true;
             }
         }
         return false;
+    }
+
+    private void shoot() {
+        scene.addEntity(new Bullet(bullet, new Vector3f(player.getPosition().x, player.getPosition().y, player.getPosition().z), new Vector3f(player.getRotation().x, player.getRotation().y, player.getRotation().z), 0.5f));
     }
 }
