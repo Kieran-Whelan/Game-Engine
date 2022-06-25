@@ -211,7 +211,7 @@ public class Game implements ILoigc {
 
         hud.addItem(cursor);
 
-        if (Maths.isAABBInsideAABB(conorBrady, player)) {
+        if (Maths.isPointInsideAABB(new Vector3f(0, scene.getTerrains().get(0).getTerrainHeight(0, 0) + 1.25f, 0), player)) {
             System.out.println("t");
         }
 

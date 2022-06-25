@@ -36,9 +36,9 @@ public class Maths {
     }
 
     public static boolean isPointInsideAABB(Vector3f point, Entity entity) {
-         boolean collisionX = (point.x >= entity.getPosition().x && point.x <= (entity.getPosition().x + entity.getScale()));
-         boolean collisionY = (point.y >= entity.getPosition().y && point.y <= (entity.getPosition().y + entity.getScale()));
-         boolean collisionZ = (point.z >= entity.getPosition().z && point.z <= (entity.getPosition().z + entity.getScale()));
+         boolean collisionX = (point.x >= entity.getPosition().x && point.x <= (entity.getPosition().x + 5.0));
+         boolean collisionY = (point.y >= entity.getPosition().y && point.y <= (entity.getPosition().y + 5.0));
+         boolean collisionZ = (point.z >= entity.getPosition().z && point.z <= (entity.getPosition().z + 5.0));
          return collisionX && collisionY && collisionZ;
     }
 
