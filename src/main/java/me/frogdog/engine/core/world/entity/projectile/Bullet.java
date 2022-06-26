@@ -9,8 +9,8 @@ public class Bullet extends Entity {
 
     private static final float SPEED = 120f;
 
-    public Bullet(Model model, Vector3f pos, Vector3f rotation, float scale) {
-        super(model, pos, rotation, scale);
+    public Bullet(Model model, Vector3f pos, Vector3f rotation, Vector3f size, float scale) {
+        super(model, pos, rotation, size, scale);
     }
 
     public void update() {

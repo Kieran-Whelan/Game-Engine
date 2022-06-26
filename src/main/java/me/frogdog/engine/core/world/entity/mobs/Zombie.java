@@ -22,8 +22,8 @@ public class Zombie extends Entity {
     private float currentUpSpeed = 0;
 
 
-    public Zombie(Model model, Vector3f pos, Vector3f rotation, float scale) {
-        super(model, pos, rotation, scale);
+    public Zombie(Model model, Vector3f pos, Vector3f rotation, Vector3f size, float scale) {
+        super(model, pos, rotation, size, scale);
     }
 
     public void update(Terrain terrain, Player player) {

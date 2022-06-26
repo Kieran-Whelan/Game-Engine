@@ -83,12 +83,12 @@ public class Game implements ILoigc {
 
         skybox = new Skybox(textureFiles, nightTextureFiles);
         scene.addSkybox(skybox);
-        player = new Player(new Model((loader.loadOBJModel("/models/player.obj")), new Texture(loader.loadTexture("textures/player.png"))), new Vector3f(0.0f, 0.0f, 0.0f), new Vector3f(0.0f, 0.0f, 0.0f), 1.0f);
+        player = new Player(new Model((loader.loadOBJModel("/models/player.obj")), new Texture(loader.loadTexture("textures/player.png"))), new Vector3f(0.0f, 0.0f, 0.0f), new Vector3f(0.0f, 0.0f, 0.0f), new Vector3f(5.0f, 5.0f, 5.0f), 1.0f);
         camera = new Camera(player);
         player.getModel().getMaterial().setDisableCulling(true);
         scene.addEntity(player);
 
-        conorBrady = new Zombie(new Model((loader.loadOBJModel("/models/player.obj")), new Texture(loader.loadTexture("textures/zombie.png"))), new Vector3f(0.0f, 0.0f, 0.0f), new Vector3f(0.0f, 0.0f, 0.0f), 1.0f);
+        conorBrady = new Zombie(new Model((loader.loadOBJModel("/models/player.obj")), new Texture(loader.loadTexture("textures/zombie.png"))), new Vector3f(0.0f, 0.0f, 0.0f), new Vector3f(0.0f, 0.0f, 0.0f), new Vector3f(5.0f, 5.0f, 5.0f), 1.0f);
         conorBrady.getModel().getMaterial().setDisableCulling(true);
         scene.addEntity(conorBrady);
 
@@ -110,7 +110,7 @@ public class Game implements ILoigc {
             float x = Maths.randRange(-400f, 400f);
             float z = Maths.randRange(-400f, 400f);
             if (terrain.getTerrainHeight(x, z) >= -18) {
-                Entity entity = new Entity(new Model((loader.loadOBJModel("/models/tree.obj")), new Texture(loader.loadTexture("textures/tree.png"))), new Vector3f(x, terrain.getTerrainHeight(x, z) - 2, z), new Vector3f(0.0f, 0.0f, 0.0f), 3.0f);
+                Entity entity = new Entity(new Model((loader.loadOBJModel("/models/tree.obj")), new Texture(loader.loadTexture("textures/tree.png"))), new Vector3f(x, terrain.getTerrainHeight(x, z) - 2, z), new Vector3f(0.0f, 0.0f, 0.0f), new Vector3f(5.0f, 5.0f, 5.0f),3.0f);
                 scene.addEntity(entity);
             }
         }
@@ -211,7 +211,7 @@ public class Game implements ILoigc {
 
         hud.addItem(cursor);
 
-        if (Maths.isPointInsideAABB(new Vector3f(0, scene.getTerrains().get(0).getTerrainHeight(0, 0) + 1.25f, 0), player)) {
+        if (Maths.isAABBInsideAABB(conorBrady, player)) {
             System.out.println("t");
         }
 
@@ -278,6 +278,6 @@ public class Game implements ILoigc {
     }
 
     private void shoot() {
-        scene.addEntity(new Bullet(bullet, new Vector3f(player.getPosition().x, player.getPosition().y, player.getPosition().z), new Vector3f(player.getRotation().x, player.getRotation().y, player.getRotation().z), 0.5f));
+        scene.addEntity(new Bullet(bullet, new Vector3f(player.getPosition().x, player.getPosition().y, player.getPosition().z), new Vector3f(player.getRotation().x, player.getRotation().y, player.getRotation().z), new Vector3f(2.0f, 2.0f, 2.0f), 0.5f));
     }
 }

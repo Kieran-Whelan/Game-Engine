@@ -7,13 +7,14 @@ import org.joml.Vector3f;
 public class Entity {
 
     private Model model;
-    private Vector3f pos, rotation;
+    private Vector3f pos, rotation, size;
     private float scale;
 
-    public Entity(Model model, Vector3f pos, Vector3f rotation, float scale) {
+    public Entity(Model model, Vector3f pos, Vector3f rotation, Vector3f size, float scale) {
         this.model = model;
         this.pos = pos;
         this.rotation = rotation;
+        this.size = size;
         this.scale = scale;
     }
 
@@ -75,6 +76,10 @@ public class Entity {
 
     public Vector3f getRotation() {
         return rotation;
+    }
+
+    public Vector3f getSize() {
+        return size;
     }
 
     public float getScale() {
