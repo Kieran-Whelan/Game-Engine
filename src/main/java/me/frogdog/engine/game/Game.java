@@ -88,7 +88,7 @@ public class Game implements ILoigc {
         player.getModel().getMaterial().setDisableCulling(true);
         scene.addEntity(player);
 
-        conorBrady = new Zombie(new Model((loader.loadOBJModel("/models/player.obj")), new Texture(loader.loadTexture("textures/zombie.png"))), new Vector3f(0.0f, 0.0f, 0.0f), new Vector3f(0.0f, 0.0f, 0.0f), new Vector3f(5.0f, 5.0f, 5.0f), 1.0f);
+        conorBrady = new Zombie(new Model((loader.loadOBJModel("/models/zomified2.obj")), new Texture(loader.loadTexture("textures/zombie.png"))), new Vector3f(0.0f, 0.0f, 0.0f), new Vector3f(0.0f, 0.0f, 0.0f), new Vector3f(5.0f, 5.0f, 5.0f), 2.0f);
         conorBrady.getModel().getMaterial().setDisableCulling(true);
         scene.addEntity(conorBrady);
 
@@ -211,8 +211,12 @@ public class Game implements ILoigc {
 
         hud.addItem(cursor);
 
-        if (Maths.isAABBInsideAABB(conorBrady, player)) {
-            System.out.println("t");
+        for (Entity entity : scene.getEntities()) {
+            if (entity instanceof Bullet) {
+                if (Maths.isAABBInsideAABB(conorBrady, entity)) {
+                    System.out.println("1");
+                }
+            }
         }
 
         /*

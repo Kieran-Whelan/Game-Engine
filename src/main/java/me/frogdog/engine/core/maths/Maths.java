@@ -43,12 +43,12 @@ public class Maths {
     }
 
     public static boolean isAABBInsideAABB(Entity item1, Entity item2) {
-        boolean collisionX = (item1.getPosition().x - item1.getSize().x) + item1.getSize().x * 2 >= (item2.getPosition().x - item2.getSize().x) &&
-                (item2.getPosition().x - item2.getSize().x) + item2.getSize().x * 2 >= (item1.getPosition().x - item1.getSize().x);
+        boolean collisionX = (item1.getPosition().x - item1.getSize().x) + item1.getSize().x >= (item2.getPosition().x - item2.getSize().x) &&
+                (item2.getPosition().x - item2.getSize().x) + item2.getSize().x >= (item1.getPosition().x - item1.getSize().x);
         boolean collisionY = (item1.getPosition().y - item1.getSize().y) + item1.getSize().y * 2 >= (item2.getPosition().y - item2.getSize().y) &&
                 (item2.getPosition().y - item2.getSize().y) + item2.getSize().y * 2 >= (item1.getPosition().y - item1.getSize().y);
-        boolean collisionZ = (item1.getPosition().z - item1.getSize().z) + item1.getSize().z * 2 >= (item2.getPosition().z - item2.getSize().z) &&
-                (item2.getPosition().z - item2.getSize().z) + item2.getSize().z * 2 >= (item1.getPosition().z - item1.getSize().z);
+        boolean collisionZ = (item1.getPosition().z - item1.getSize().z) + item1.getSize().z >= (item2.getPosition().z - item2.getSize().z) &&
+                (item2.getPosition().z - item2.getSize().z) + item2.getSize().z >= (item1.getPosition().z - item1.getSize().z);
         return collisionX && collisionY && collisionZ;
     }
 }
