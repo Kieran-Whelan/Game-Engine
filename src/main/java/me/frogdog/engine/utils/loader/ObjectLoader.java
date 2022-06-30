@@ -22,15 +22,8 @@ public class ObjectLoader {
     private List<Integer> textures = new ArrayList<>();
 
 
-    public Model loadOBJModel(String filename) {
-        FileReader isr = null;
-        File objFile = new File("src/main/resources" + filename);
-        try {
-            isr = new FileReader(objFile);
-        } catch (FileNotFoundException e) {
-            System.err.println("File not found");
-        }
-        BufferedReader reader = new BufferedReader(isr);
+    public Model loadOBJModel(String filename) throws ClassNotFoundException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(Class.forName(Utils.class.getName()).getResourceAsStream(filename)));
         String line;
         List<Vertex> vertices = new ArrayList<Vertex>();
         List<Vector2f> textures = new ArrayList<Vector2f>();

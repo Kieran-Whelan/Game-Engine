@@ -9,7 +9,7 @@ project.ext.jomlVersion = "1.10.0"
 project.ext.jomlPrimVersion = "1.10.0"
 
 group 'me.frogdog.engine'
-version '0.1'
+version '0.1.1'
 
 repositories {
     mavenCentral()

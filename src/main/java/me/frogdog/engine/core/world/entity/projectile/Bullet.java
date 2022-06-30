@@ -9,8 +9,11 @@ public class Bullet extends Entity {
 
     private static final float SPEED = 120f;
 
-    public Bullet(Model model, Vector3f pos, Vector3f rotation, Vector3f size, float scale) {
+    private float damage;
+
+    public Bullet(Model model, Vector3f pos, Vector3f rotation, Vector3f size, float scale, float damage) {
         super(model, pos, rotation, size, scale);
+        this.damage = damage;
     }
 
     public void update() {
@@ -18,5 +21,13 @@ public class Bullet extends Entity {
         float dx = (float) (distance * Math.sin(Math.toRadians(super.getRotation().y)));
         float dz = (float) (distance * Math.cos(Math.toRadians(super.getRotation().y)));
         super.incPos(dx, 0, dz);
+    }
+
+    public float getDamage() {
+        return damage;
+    }
+
+    public void setDamage() {
+        this.damage = damage;
     }
 }

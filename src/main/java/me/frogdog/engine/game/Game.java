@@ -34,6 +34,8 @@ import org.joml.Vector3f;
 import org.joml.Vector4f;
 import org.lwjgl.glfw.GLFW;
 
+import java.util.Iterator;
+
 public class Game implements ILoigc {
 
     private final RenderManager renderer;
@@ -211,12 +213,17 @@ public class Game implements ILoigc {
 
         hud.addItem(cursor);
 
-        for (Entity entity : scene.getEntities()) {
-            if (entity instanceof Bullet) {
-                if (Maths.isAABBInsideAABB(conorBrady, entity)) {
-                    System.out.println("1");
-                }
+        Iterator<Entity> iterator = scene.getEntities().iterator();
+        while (iterator.hasNext()) {
+            Entity entity = iterator.next();
+            if (entity instanceof Bullet && Maths.isAABBInsideAABB(entity, conorBrady)) {
+                conorBrady.incHealth(((Bullet) entity).getDamage() * -1);
+                iterator.remove();
             }
+        }
+
+        if (conorBrady.getHealth() <= 0) {
+            scene.getEntities().remove(conorBrady);
         }
 
         /*
@@ -282,6 +289,6 @@ public class Game implements ILoigc {
     }
 
     private void shoot() {
-        scene.addEntity(new Bullet(bullet, new Vector3f(player.getPosition().x, player.getPosition().y, player.getPosition().z), new Vector3f(player.getRotation().x, player.getRotation().y, player.getRotation().z), new Vector3f(2.0f, 2.0f, 2.0f), 0.5f));
+        scene.addEntity(new Bullet(bullet, new Vector3f(player.getPosition().x, player.getPosition().y, player.getPosition().z), new Vector3f(player.getRotation().x, player.getRotation().y, player.getRotation().z), new Vector3f(2.0f, 2.0f, 2.0f), 0.5f, 10.0f));
     }
 }

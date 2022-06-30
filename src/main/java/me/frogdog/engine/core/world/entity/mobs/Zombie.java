@@ -20,7 +20,7 @@ public class Zombie extends Entity {
     private float currentTurnSpeed = 0;
     private float currentSpeed = 0;
     private float currentUpSpeed = 0;
-
+    private float health = 100;
 
     public Zombie(Model model, Vector3f pos, Vector3f rotation, Vector3f size, float scale) {
         super(model, pos, rotation, size, scale);
@@ -58,5 +58,17 @@ public class Zombie extends Entity {
     private float getDistanceFromPlayer(Player player) {
         Vector3f distance = new Vector3f(super.getPosition().x, super.getPosition().y, super.getPosition().z);
         return distance.distance(player.getPosition());
+    }
+
+    public float getHealth() {
+        return health;
+    }
+
+    public void setHealth(float health) {
+        this.health = health;
+    }
+
+    public void incHealth(float health) {
+        this.health += health;
     }
 }
