@@ -1,7 +1,7 @@
 package me.frogdog.engine.core.maths;
 
 import me.frogdog.engine.core.rendering.hud.gui.Item;
-import me.frogdog.engine.core.world.entity.Entity;
+import me.frogdog.engine.core.rendering.world.entity.Entity;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 

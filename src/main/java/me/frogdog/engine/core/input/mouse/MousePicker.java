@@ -1,9 +1,8 @@
 package me.frogdog.engine.core.input.mouse;
 
-import me.frogdog.engine.core.input.mouse.Mouse;
 import me.frogdog.engine.core.maths.Camera;
 import me.frogdog.engine.core.maths.Transformation;
-import me.frogdog.engine.core.world.terrain.Terrain;
+import me.frogdog.engine.core.rendering.world.terrain.Terrain;
 import me.frogdog.engine.game.Main;
 import org.joml.Matrix4f;
 import org.joml.Vector2f;

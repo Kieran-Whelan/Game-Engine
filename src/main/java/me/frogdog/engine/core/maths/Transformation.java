@@ -1,11 +1,11 @@
 package me.frogdog.engine.core.maths;
 
 import me.frogdog.engine.core.rendering.hud.gui.Item;
-import me.frogdog.engine.core.world.entity.Entity;
-import me.frogdog.engine.core.world.entity.mobs.Zombie;
-import me.frogdog.engine.core.world.terrain.Terrain;
+import me.frogdog.engine.core.rendering.world.entity.Entity;
+import me.frogdog.engine.core.rendering.world.entity.mobs.Zombie;
+import me.frogdog.engine.core.rendering.world.terrain.Terrain;
 import me.frogdog.engine.core.rendering.hud.gui.items.GuiTexture;
-import me.frogdog.engine.core.world.water.WaterTile;
+import me.frogdog.engine.core.rendering.world.water.WaterTile;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 

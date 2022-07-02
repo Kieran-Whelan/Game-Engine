@@ -1,7 +1,7 @@
 package me.frogdog.engine.core.maths;
 
 import me.frogdog.engine.core.input.mouse.Mouse;
-import me.frogdog.engine.core.world.entity.player.Player;
+import me.frogdog.engine.core.rendering.world.entity.player.Player;
 import me.frogdog.engine.utils.Consts;
 import org.joml.Vector3f;
 

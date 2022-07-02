@@ -10,19 +10,21 @@ import me.frogdog.engine.core.rendering.hud.gui.items.GuiTexture;
 import me.frogdog.engine.core.rendering.hud.gui.items.buttons.Button;
 import me.frogdog.engine.core.rendering.hud.gui.items.font.Font;
 import me.frogdog.engine.core.rendering.hud.gui.items.font.text.Text;
-import me.frogdog.engine.core.world.*;
-import me.frogdog.engine.core.world.entity.Entity;
-import me.frogdog.engine.core.world.entity.mobs.Zombie;
-import me.frogdog.engine.core.world.entity.player.Player;
-import me.frogdog.engine.core.world.entity.projectile.Bullet;
-import me.frogdog.engine.core.world.particle.Particle;
-import me.frogdog.engine.core.world.particle.ParticleEffect;
-import me.frogdog.engine.core.world.particle.ParticleTexture;
-import me.frogdog.engine.core.world.skybox.Skybox;
-import me.frogdog.engine.core.world.terrain.BlendMapTerrain;
-import me.frogdog.engine.core.world.terrain.HeightGenerator;
-import me.frogdog.engine.core.world.terrain.Terrain;
-import me.frogdog.engine.core.world.terrain.TerrainTexture;
+import me.frogdog.engine.core.rendering.world.Material;
+import me.frogdog.engine.core.rendering.world.Model;
+import me.frogdog.engine.core.rendering.world.Texture;
+import me.frogdog.engine.core.rendering.world.entity.Entity;
+import me.frogdog.engine.core.rendering.world.entity.mobs.Zombie;
+import me.frogdog.engine.core.rendering.world.entity.player.Player;
+import me.frogdog.engine.core.rendering.world.entity.projectile.Bullet;
+import me.frogdog.engine.core.rendering.world.particle.Particle;
+import me.frogdog.engine.core.rendering.world.particle.ParticleEffect;
+import me.frogdog.engine.core.rendering.world.particle.ParticleTexture;
+import me.frogdog.engine.core.rendering.world.skybox.Skybox;
+import me.frogdog.engine.core.rendering.world.terrain.BlendMapTerrain;
+import me.frogdog.engine.core.rendering.world.terrain.HeightGenerator;
+import me.frogdog.engine.core.rendering.world.terrain.Terrain;
+import me.frogdog.engine.core.rendering.world.terrain.TerrainTexture;
 import me.frogdog.engine.core.input.keyboard.Keyboard;
 import me.frogdog.engine.core.input.mouse.Mouse;
 import me.frogdog.engine.core.maths.Camera;
@@ -33,7 +35,9 @@ import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 import org.lwjgl.glfw.GLFW;
+import org.lwjgl.system.CallbackI;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 
 public class Game implements ILoigc {
@@ -55,6 +59,7 @@ public class Game implements ILoigc {
     GuiTexture cursor;
     private Model bullet;
 
+    private int round = 1;
     private int mode = 0;
     private boolean debugMode;
     private final String[] textureFiles = new String[] {"textures/skybox/day/right.png", "textures/skybox/day/left.png", "textures/skybox/day/top.png", "textures/skybox/day/bottom.png", "textures/skybox/day/back.png", "textures/skybox/day/front.png"};
@@ -85,14 +90,10 @@ public class Game implements ILoigc {
 
         skybox = new Skybox(textureFiles, nightTextureFiles);
         scene.addSkybox(skybox);
-        player = new Player(new Model((loader.loadOBJModel("/models/player.obj")), new Texture(loader.loadTexture("textures/player.png"))), new Vector3f(0.0f, 0.0f, 0.0f), new Vector3f(0.0f, 0.0f, 0.0f), new Vector3f(5.0f, 5.0f, 5.0f), 1.0f);
+        player = new Player(new Model((loader.loadOBJModel("/models/zomified2.obj")), new Texture(loader.loadTexture("textures/player.png"))), new Vector3f(0.0f, 0.0f, 0.0f), new Vector3f(0.0f, 0.0f, 0.0f), new Vector3f(5.0f, 5.0f, 5.0f), 1.5f);
         camera = new Camera(player);
         player.getModel().getMaterial().setDisableCulling(true);
         scene.addEntity(player);
-
-        conorBrady = new Zombie(new Model((loader.loadOBJModel("/models/zomified2.obj")), new Texture(loader.loadTexture("textures/zombie.png"))), new Vector3f(0.0f, 0.0f, 0.0f), new Vector3f(0.0f, 0.0f, 0.0f), new Vector3f(5.0f, 5.0f, 5.0f), 2.0f);
-        conorBrady.getModel().getMaterial().setDisableCulling(true);
-        scene.addEntity(conorBrady);
 
         TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("textures/terrain.png"));
         TerrainTexture redTexture = new TerrainTexture(loader.loadTexture("textures/flowers.png"));
@@ -115,6 +116,12 @@ public class Game implements ILoigc {
                 Entity entity = new Entity(new Model((loader.loadOBJModel("/models/tree.obj")), new Texture(loader.loadTexture("textures/tree.png"))), new Vector3f(x, terrain.getTerrainHeight(x, z) - 2, z), new Vector3f(0.0f, 0.0f, 0.0f), new Vector3f(5.0f, 5.0f, 5.0f),3.0f);
                 scene.addEntity(entity);
             }
+        }
+
+        for (int i = 0; i < 6; i++) {
+            float x = Maths.randRange(-400f, 400f);
+            float z = Maths.randRange(-400f, 400f);
+            scene.addEntity(new Zombie(new Model((loader.loadOBJModel("/models/zomified2.obj")), new Texture(loader.loadTexture("textures/zombie.png"))), new Vector3f(x, terrain.getTerrainHeight(x, z), z), new Vector3f(0.0f, 0.0f, 0.0f), new Vector3f(5.0f, 5.0f, 5.0f), 1.5f));
         }
 
         cursor = new GuiTexture(loader.loadTextureSheet("textures/png/cursor-pointer-1.png"), mouse.getHudPos().x, mouse.getHudPos().y, 0.015f, 0.015f);
@@ -186,12 +193,14 @@ public class Game implements ILoigc {
             case 1:
                 camera.update(mouse);
                 player.update(keyboard, scene.getTerrains().get(0));
-                conorBrady.update(scene.getTerrains().get(0), player);
                 picker.update();
                 effect.generateParticles(scene, new Vector3f(player.getPosition()));
                 for (Entity entity : scene.getEntities()) {
                     if (entity instanceof Bullet) {
                         ((Bullet) entity).update();
+                    }
+                    if (entity instanceof Zombie) {
+                        ((Zombie) entity).update(scene.getTerrains().get(0), player);
                     }
                 }
                 break;
@@ -202,29 +211,44 @@ public class Game implements ILoigc {
                 break;
         }
 
-        if (debugMode) {
-            hud.drawText("Frog Engine Dev 0.1", -0.975f, 0.965f);
-            hud.drawText("Player XYZ: " + (int) player.getPosition().x + " " + (int) player.getPosition().y + " " + (int) player.getPosition().z, -0.975f, 0.915f);
-            hud.drawText("OpenGL version 3.3", -0.975f, 0.865f);
-        }
-
         cursor.getPosition().x = mouse.getHudPos().x;
         cursor.getPosition().y = mouse.getHudPos().y;
 
         hud.addItem(cursor);
 
-        Iterator<Entity> iterator = scene.getEntities().iterator();
-        while (iterator.hasNext()) {
-            Entity entity = iterator.next();
-            if (entity instanceof Bullet && Maths.isAABBInsideAABB(entity, conorBrady)) {
-                conorBrady.incHealth(((Bullet) entity).getDamage() * -1);
-                iterator.remove();
+        ArrayList<Zombie> zombies = new ArrayList<>();
+
+        for (Entity entity : scene.getEntities()) {
+            if (entity instanceof Zombie) {
+                zombies.add((Zombie) entity);
             }
         }
 
-        if (conorBrady.getHealth() <= 0) {
-            scene.getEntities().remove(conorBrady);
+        for (Zombie zombie : zombies) {
+            Iterator<Entity> iterator = scene.getEntities().iterator();
+            while (iterator.hasNext()) {
+                Entity entity = iterator.next();
+                if (entity instanceof Bullet && Maths.isAABBInsideAABB(entity, zombie)) {
+                    zombie.incHealth(((Bullet) entity).getDamage() * -1);
+                    iterator.remove();
+                }
+            }
         }
+
+        for (Zombie zombie : zombies) {
+            if (zombie.getHealth() <= 0) {
+                scene.getEntities().remove(zombie);
+            }
+        }
+
+        if (debugMode) {
+            hud.drawText("Frog Engine Dev 0.1", -0.975f, 0.965f);
+            hud.drawText("Player XYZ: " + (int) player.getPosition().x + " " + (int) player.getPosition().y + " " + (int) player.getPosition().z, -0.975f, 0.915f);
+            hud.drawText("OpenGL version 3.3", -0.975f, 0.865f);
+            hud.drawText("Zombies left: " + zombies.size(), -0.975f, 0.815f);
+        }
+
+        zombies.clear();
 
         /*
         Vector3f terrainPoint = picker.getCurrentTerrainPoint();
@@ -289,6 +313,6 @@ public class Game implements ILoigc {
     }
 
     private void shoot() {
-        scene.addEntity(new Bullet(bullet, new Vector3f(player.getPosition().x, player.getPosition().y, player.getPosition().z), new Vector3f(player.getRotation().x, player.getRotation().y, player.getRotation().z), new Vector3f(2.0f, 2.0f, 2.0f), 0.5f, 10.0f));
+        scene.addEntity(new Bullet(bullet, new Vector3f(player.getPosition().x, player.getPosition().y + 5.0f, player.getPosition().z), new Vector3f(player.getRotation().x, player.getRotation().y, player.getRotation().z), new Vector3f(2.0f, 2.0f, 2.0f), 0.25f, 10.0f));
     }
 }
