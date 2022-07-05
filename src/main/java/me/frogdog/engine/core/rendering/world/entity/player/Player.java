@@ -19,6 +19,7 @@ public class Player extends Entity {
     private float currentTurnSpeed = 0;
     private float currentSpeed = 0;
     private float currentUpSpeed = 0;
+    private float health = 200;
 
     private boolean isInAir = false;
 
@@ -70,6 +71,18 @@ public class Player extends Entity {
             this.currentUpSpeed = JUMP_POWER;
             isInAir = true;
         }
+    }
+
+    public float getHealth() {
+        return health;
+    }
+
+    public void setHealth(float health) {
+        this.health = health;
+    }
+
+    public void incHealth(float health) {
+        this.health += health;
     }
 
 }

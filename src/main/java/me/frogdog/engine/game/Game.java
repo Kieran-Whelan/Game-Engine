@@ -174,7 +174,7 @@ public class Game implements ILoigc {
             mode = 1;
         }
 
-        if (isClicked(mainMenu) && mode == 2) {
+        if (isClicked(mainMenu) && mode == 2 || isClicked(mainMenu) && mode == 3) {
             mode = 0;
         }
 
@@ -222,6 +222,10 @@ public class Game implements ILoigc {
                 hud.addItem(resume);
                 hud.drawText("Paused", 0 - hud.getTextWidth("Paused", 4) / 2, 0.6f, 4);
                 break;
+            case 3:
+                hud.addItem(mainMenu);
+                hud.drawText("You died!", 0 - hud.getTextWidth("Paused", 4) / 2, 0.6f, 4);
+                break;
         }
 
         cursor.getPosition().x = mouse.getHudPos().x;
@@ -241,9 +245,16 @@ public class Game implements ILoigc {
         }
 
         for (Zombie zombie : zombies) {
+            if (Maths.isAABBInsideAABB(zombie, player)) {
+                player.incHealth(-25);
+            }
             if (zombie.getHealth() <= 0) {
                 scene.getEntities().remove(zombie);
             }
+        }
+
+        if (player.getHealth() <= 0) {
+            mode = 3;
         }
 
         if (debugMode) {
