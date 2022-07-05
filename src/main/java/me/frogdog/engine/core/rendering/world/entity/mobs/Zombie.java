@@ -25,6 +25,7 @@ public class Zombie extends Entity {
     }
 
     public void update(Terrain terrain, Player player) {
+        /*
         if (getDistanceFromPlayer(player) > 15.0f) {
             currentSpeed = SPEED;
         } else {
@@ -35,6 +36,8 @@ public class Zombie extends Entity {
         float dx = (float) (distance * Math.sin(super.getRotation().y));
         float dz = (float) (distance * Math.cos(super.getRotation().y));
         super.incPos(dx, 0, dz);
+
+         */
         this.currentUpSpeed += Consts.GRAVITY * EngineManager.getFrameTimeSeconds();
         float terrainHeight = terrain.getTerrainHeight(super.getPosition().x, super.getPosition().z);
         if (super.getPosition().y < terrainHeight - 0.7f) { //quick fix
@@ -42,6 +45,8 @@ public class Zombie extends Entity {
             super.getPosition().y = terrainHeight - 0.7f;
         }
         super.incPos(0, currentUpSpeed * EngineManager.getFrameTimeSeconds(), 0);
+        Vector3f position = new Vector3f(player.getPosition().x, player.getPosition().y, player.getPosition().z);
+        super.incPos(position.sub(super.getPosition()).normalize().mul(SPEED * EngineManager.getFrameTimeSeconds()));
     }
 
     private float getZombieRotation(Player player) {

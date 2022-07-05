@@ -35,7 +35,6 @@ import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 import org.lwjgl.glfw.GLFW;
-import org.lwjgl.system.CallbackI;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -59,6 +58,7 @@ public class Game implements ILoigc {
     GuiTexture cursor;
     private Model bullet;
 
+    private int zombies = 6;
     private int round = 1;
     private int mode = 0;
     private boolean debugMode;
@@ -109,7 +109,7 @@ public class Game implements ILoigc {
 
         picker = new MousePicker(mouse, camera, Main.getWindow().updateProjectionMatrix(), terrain);
 
-        for (int i = 0; i < 200; i++) {
+        for (int i = 0; i < 50; i++) {
             float x = Maths.randRange(-400f, 400f);
             float z = Maths.randRange(-400f, 400f);
             if (terrain.getTerrainHeight(x, z) >= -18) {
@@ -118,7 +118,7 @@ public class Game implements ILoigc {
             }
         }
 
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < zombies; i++) {
             float x = Maths.randRange(-400f, 400f);
             float z = Maths.randRange(-400f, 400f);
             scene.addEntity(new Zombie(new Model((loader.loadOBJModel("/models/zomified2.obj")), new Texture(loader.loadTexture("textures/zombie.png"))), new Vector3f(x, terrain.getTerrainHeight(x, z), z), new Vector3f(0.0f, 0.0f, 0.0f), new Vector3f(5.0f, 5.0f, 5.0f), 1.5f));
@@ -180,6 +180,14 @@ public class Game implements ILoigc {
 
         mouse.clear();
 
+        ArrayList<Zombie> zombies = new ArrayList<>();
+
+        for (Entity entity : scene.getEntities()) {
+            if (entity instanceof Zombie) {
+                zombies.add((Zombie) entity);
+            }
+        }
+
         switch (mode) {
             case 0:
                 hud.addItem(playButton);
@@ -191,6 +199,7 @@ public class Game implements ILoigc {
                 camera.setYaw(camera.getYaw() + 0.025f);
                 break;
             case 1:
+                hud.drawText(String.valueOf(round), -0.9f, -0.9f, 3);
                 camera.update(mouse);
                 player.update(keyboard, scene.getTerrains().get(0));
                 picker.update();
@@ -202,6 +211,10 @@ public class Game implements ILoigc {
                     if (entity instanceof Zombie) {
                         ((Zombie) entity).update(scene.getTerrains().get(0), player);
                     }
+                }
+
+                if (zombies.size() == 0) {
+                    nextRound();
                 }
                 break;
             case 2:
@@ -215,14 +228,6 @@ public class Game implements ILoigc {
         cursor.getPosition().y = mouse.getHudPos().y;
 
         hud.addItem(cursor);
-
-        ArrayList<Zombie> zombies = new ArrayList<>();
-
-        for (Entity entity : scene.getEntities()) {
-            if (entity instanceof Zombie) {
-                zombies.add((Zombie) entity);
-            }
-        }
 
         for (Zombie zombie : zombies) {
             Iterator<Entity> iterator = scene.getEntities().iterator();
@@ -248,8 +253,6 @@ public class Game implements ILoigc {
             hud.drawText("Zombies left: " + zombies.size(), -0.975f, 0.815f);
         }
 
-        zombies.clear();
-
         /*
         Vector3f terrainPoint = picker.getCurrentTerrainPoint();
 
@@ -257,7 +260,6 @@ public class Game implements ILoigc {
             Entity cyl = scene.getEntities().get(scene.getEntities().size() - 1);
             cyl.setPos(terrainPoint.x, terrainPoint.y, terrainPoint.z);
         }
-
          */
 
         for (Terrain terrain : scene.getTerrains()) {
@@ -290,6 +292,7 @@ public class Game implements ILoigc {
         hud.getText().clear();
         hud.getItems().clear();
         scene.getParticles().clear();
+        zombies.clear();
     }
 
     @Override
@@ -314,5 +317,19 @@ public class Game implements ILoigc {
 
     private void shoot() {
         scene.addEntity(new Bullet(bullet, new Vector3f(player.getPosition().x, player.getPosition().y + 5.0f, player.getPosition().z), new Vector3f(player.getRotation().x, player.getRotation().y, player.getRotation().z), new Vector3f(2.0f, 2.0f, 2.0f), 0.25f, 10.0f));
+    }
+
+    private void nextRound() {
+        round++;
+        zombies++;
+        for (int i = 0; i < zombies; i++) {
+            float x = Maths.randRange(-400f, 400f);
+            float z = Maths.randRange(-400f, 400f);
+            try {
+                scene.addEntity(new Zombie(new Model((loader.loadOBJModel("/models/zomified2.obj")), new Texture(loader.loadTexture("textures/zombie.png"))), new Vector3f(x, scene.getTerrains().get(0).getTerrainHeight(x, z), z), new Vector3f(0.0f, 0.0f, 0.0f), new Vector3f(5.0f, 5.0f, 5.0f), 1.5f));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
