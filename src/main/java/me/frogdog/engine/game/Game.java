@@ -121,7 +121,7 @@ public class Game implements ILoigc {
         for (int i = 0; i < zombies; i++) {
             float x = Maths.randRange(-400f, 400f);
             float z = Maths.randRange(-400f, 400f);
-            scene.addEntity(new Zombie(new Model((loader.loadOBJModel("/models/zomified2.obj")), new Texture(loader.loadTexture("textures/zombie.png"))), new Vector3f(x, terrain.getTerrainHeight(x, z), z), new Vector3f(0.0f, 0.0f, 0.0f), new Vector3f(5.0f, 5.0f, 5.0f), 1.5f));
+            scene.addEntity(new Zombie(new Model((loader.loadOBJModel("/models/zomified2.obj")), new Texture(loader.loadTexture("textures/zombie.png"))), new Vector3f(x, terrain.getTerrainHeight(x, z), z), new Vector3f(0.0f, 0.0f, 0.0f), new Vector3f(5.0f, 10.0f, 5.0f), 1.5f));
         }
 
         cursor = new GuiTexture(loader.loadTextureSheet("textures/png/cursor-pointer-1.png"), mouse.getHudPos().x, mouse.getHudPos().y, 0.015f, 0.015f);
@@ -213,6 +213,10 @@ public class Game implements ILoigc {
                     }
                 }
 
+                if (player.getHealth() <= 0) {
+                    mode = 3;
+                }
+
                 if (zombies.size() == 0) {
                     nextRound();
                 }
@@ -251,10 +255,6 @@ public class Game implements ILoigc {
             if (zombie.getHealth() <= 0) {
                 scene.getEntities().remove(zombie);
             }
-        }
-
-        if (player.getHealth() <= 0) {
-            mode = 3;
         }
 
         if (debugMode) {
@@ -337,7 +337,7 @@ public class Game implements ILoigc {
             float x = Maths.randRange(-400f, 400f);
             float z = Maths.randRange(-400f, 400f);
             try {
-                scene.addEntity(new Zombie(new Model((loader.loadOBJModel("/models/zomified2.obj")), new Texture(loader.loadTexture("textures/zombie.png"))), new Vector3f(x, scene.getTerrains().get(0).getTerrainHeight(x, z), z), new Vector3f(0.0f, 0.0f, 0.0f), new Vector3f(5.0f, 5.0f, 5.0f), 1.5f));
+                scene.addEntity(new Zombie(new Model((loader.loadOBJModel("/models/zomified2.obj")), new Texture(loader.loadTexture("textures/zombie.png"))), new Vector3f(x, scene.getTerrains().get(0).getTerrainHeight(x, z), z), new Vector3f(0.0f, 0.0f, 0.0f), new Vector3f(5.0f, 10.0f, 5.0f), 1.5f));
             } catch (Exception e) {
                 e.printStackTrace();
             }

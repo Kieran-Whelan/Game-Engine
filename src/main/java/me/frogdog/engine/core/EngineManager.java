@@ -32,7 +32,7 @@ public class EngineManager {
 
     public void start() throws Exception {
         init();
-        lastFrameTime= System.currentTimeMillis();
+        lastFrameTime = System.currentTimeMillis();
         if (isRunning) {
             return;
         }
