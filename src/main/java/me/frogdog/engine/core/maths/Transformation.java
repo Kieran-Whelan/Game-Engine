@@ -1,8 +1,8 @@
 package me.frogdog.engine.core.maths;
 
 import me.frogdog.engine.core.rendering.hud.gui.Item;
-import me.frogdog.engine.core.rendering.world.entity.Entity;
-import me.frogdog.engine.core.rendering.world.entity.mobs.Zombie;
+import me.frogdog.engine.core.rendering.world.body.Body;
+import me.frogdog.engine.core.rendering.world.body.mobs.Zombie;
 import me.frogdog.engine.core.rendering.world.terrain.Terrain;
 import me.frogdog.engine.core.rendering.hud.gui.items.GuiTexture;
 import me.frogdog.engine.core.rendering.world.water.WaterTile;
@@ -25,7 +25,7 @@ public class Transformation {
         return matrix;
     }
 
-    public static Matrix4f createTransformationMatrix(Entity entity) {
+    public static Matrix4f createTransformationMatrix(Body entity) {
         Matrix4f matrix = new Matrix4f();
         if (entity instanceof Zombie) {
             matrix.identity().translate(entity.getPosition())

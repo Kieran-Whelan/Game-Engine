@@ -1,11 +1,11 @@
-package me.frogdog.engine.core.rendering.world.entity.projectile;
+package me.frogdog.engine.core.rendering.world.body.projectile;
 
 import me.frogdog.engine.core.EngineManager;
-import me.frogdog.engine.core.rendering.world.entity.Entity;
+import me.frogdog.engine.core.rendering.world.body.Body;
 import me.frogdog.engine.core.rendering.world.Model;
 import org.joml.Vector3f;
 
-public class Bullet extends Entity {
+public class Bullet extends Body {
 
     private static final float SPEED = 120f;
 

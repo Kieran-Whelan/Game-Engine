@@ -26,10 +26,10 @@ public class Consts {
     public static final float[] HUD_VERTICES = {-1, 1, -1, -1, 1, 1, 1, -1};
     public static final float[] PARTICLE_VERTICES = {-0.5f, 0.5f, -0.5f, -0.5f, 0.5f, 0.5f, 0.5f, -0.5f};
 
-    public static final float GRAVITY = -50.0f;
+    public static final float GRAVITY = -9.807f;
 
-    //Skybox
-    public static final float SIZE = 500f;
+    //Cube
+    public static final float SIZE = 5f;
     public static final float[] VERTICES = {
             -SIZE,  SIZE, -SIZE,
             -SIZE, -SIZE, -SIZE,
@@ -72,6 +72,52 @@ public class Consts {
             SIZE, -SIZE, -SIZE,
             -SIZE, -SIZE,  SIZE,
             SIZE, -SIZE,  SIZE
+    };
+
+    //Skybox
+    public static final float SKYBOX_SIZE = 500f;
+    public static final float[] SKYBOX_VERTICES = {
+            -SKYBOX_SIZE,  SKYBOX_SIZE, -SKYBOX_SIZE,
+            -SKYBOX_SIZE, -SKYBOX_SIZE, -SKYBOX_SIZE,
+            SKYBOX_SIZE, -SKYBOX_SIZE, -SKYBOX_SIZE,
+            SKYBOX_SIZE, -SKYBOX_SIZE, -SKYBOX_SIZE,
+            SKYBOX_SIZE,  SKYBOX_SIZE, -SKYBOX_SIZE,
+            -SKYBOX_SIZE,  SKYBOX_SIZE, -SKYBOX_SIZE,
+
+            -SKYBOX_SIZE, -SKYBOX_SIZE,  SKYBOX_SIZE,
+            -SKYBOX_SIZE, -SKYBOX_SIZE, -SKYBOX_SIZE,
+            -SKYBOX_SIZE,  SKYBOX_SIZE, -SKYBOX_SIZE,
+            -SKYBOX_SIZE,  SKYBOX_SIZE, -SKYBOX_SIZE,
+            -SKYBOX_SIZE,  SKYBOX_SIZE,  SKYBOX_SIZE,
+            -SKYBOX_SIZE, -SKYBOX_SIZE,  SKYBOX_SIZE,
+
+            SKYBOX_SIZE, -SKYBOX_SIZE, -SKYBOX_SIZE,
+            SKYBOX_SIZE, -SKYBOX_SIZE,  SKYBOX_SIZE,
+            SKYBOX_SIZE,  SKYBOX_SIZE,  SKYBOX_SIZE,
+            SKYBOX_SIZE,  SKYBOX_SIZE,  SKYBOX_SIZE,
+            SKYBOX_SIZE,  SKYBOX_SIZE, -SKYBOX_SIZE,
+            SKYBOX_SIZE, -SKYBOX_SIZE, -SKYBOX_SIZE,
+
+            -SKYBOX_SIZE, -SKYBOX_SIZE,  SKYBOX_SIZE,
+            -SKYBOX_SIZE,  SKYBOX_SIZE,  SKYBOX_SIZE,
+            SKYBOX_SIZE,  SKYBOX_SIZE,  SKYBOX_SIZE,
+            SKYBOX_SIZE,  SKYBOX_SIZE,  SKYBOX_SIZE,
+            SKYBOX_SIZE, -SKYBOX_SIZE,  SKYBOX_SIZE,
+            -SKYBOX_SIZE, -SKYBOX_SIZE,  SKYBOX_SIZE,
+
+            -SKYBOX_SIZE,  SKYBOX_SIZE, -SKYBOX_SIZE,
+            SKYBOX_SIZE,  SKYBOX_SIZE, -SKYBOX_SIZE,
+            SKYBOX_SIZE,  SKYBOX_SIZE,  SKYBOX_SIZE,
+            SKYBOX_SIZE,  SKYBOX_SIZE,  SKYBOX_SIZE,
+            -SKYBOX_SIZE,  SKYBOX_SIZE,  SKYBOX_SIZE,
+            -SKYBOX_SIZE,  SKYBOX_SIZE, -SKYBOX_SIZE,
+
+            -SKYBOX_SIZE, -SKYBOX_SIZE, -SKYBOX_SIZE,
+            -SKYBOX_SIZE, -SKYBOX_SIZE,  SKYBOX_SIZE,
+            SKYBOX_SIZE, -SKYBOX_SIZE, -SKYBOX_SIZE,
+            SKYBOX_SIZE, -SKYBOX_SIZE, -SKYBOX_SIZE,
+            -SKYBOX_SIZE, -SKYBOX_SIZE,  SKYBOX_SIZE,
+            SKYBOX_SIZE, -SKYBOX_SIZE,  SKYBOX_SIZE
     };
 
     public static final float[] WATER_VERTICES = {-1, -1, -1, 1, 1, -1, 1, -1, -1, 1, 1, 1};

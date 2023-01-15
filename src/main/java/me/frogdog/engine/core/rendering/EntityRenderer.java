@@ -3,7 +3,7 @@ package me.frogdog.engine.core.rendering;
 import me.frogdog.engine.core.maths.Camera;
 import me.frogdog.engine.core.ShaderManager;
 import me.frogdog.engine.core.maths.Transformation;
-import me.frogdog.engine.core.rendering.world.entity.Entity;
+import me.frogdog.engine.core.rendering.world.body.Body;
 import me.frogdog.engine.core.rendering.world.Model;
 import me.frogdog.engine.core.lighting.DirectionalLight;
 import me.frogdog.engine.core.lighting.PointLight;
@@ -25,7 +25,7 @@ import java.util.Map;
 public class EntityRenderer implements IRenderer {
 
     private ShaderManager shader;
-    private Map<Model, List<Entity>> entities;
+    private Map<Model, List<Body>> entities;
 
     public EntityRenderer() throws Exception {
         entities = new HashMap<>();
@@ -58,8 +58,8 @@ public class EntityRenderer implements IRenderer {
         RenderManager.renderLights(pointLights, spotLights, directionalLight, shader);
         for (Model model : entities.keySet()) {
             bind(model);
-            List<Entity> entitiesList = entities.get(model);
-            for (Entity entity : entitiesList) {
+            List<Body> entitiesList = entities.get(model);
+            for (Body entity : entitiesList) {
                 prepare(entity, camera);
                 GL11.glDrawElements(GL11.GL_TRIANGLES, entity.getModel().getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
             }
@@ -100,7 +100,7 @@ public class EntityRenderer implements IRenderer {
     public void prepare(Object entity, Camera camera) {
         shader.setUniform("textureSampler", 0);
         shader.setUniform("skyColour", new Vector3f(Consts.SKY_COLOUR.x, Consts.SKY_COLOUR.y, Consts.SKY_COLOUR.z));
-        shader.setUniform("transformationMatrix", Transformation.createTransformationMatrix((Entity) entity));
+        shader.setUniform("transformationMatrix", Transformation.createTransformationMatrix((Body) entity));
         shader.setUniform("viewMatrix", Transformation.getViewMatrix(camera));
     }
 
@@ -109,7 +109,7 @@ public class EntityRenderer implements IRenderer {
         shader.cleanup();
     }
 
-    public Map<Model, List<Entity>> getEntities() {
+    public Map<Model, List<Body>> getEntities() {
         return entities;
     }
 }
