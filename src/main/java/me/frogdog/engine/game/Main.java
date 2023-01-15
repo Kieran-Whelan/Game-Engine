@@ -7,11 +7,11 @@ import me.frogdog.engine.utils.Consts;
 public class Main {
 
     private static WindowManager window;
-    private static Game game;
+    private static Logic game;
 
     public static void main(String[] args) {
         window = new WindowManager(Consts.TITLE, 1600, 900, false);
-        game = new Game();
+        game = new Logic();
 
         EngineManager engine = new EngineManager();
         try {
@@ -25,7 +25,7 @@ public class Main {
         return window;
     }
 
-    public static Game getGame() {
+    public static Logic getGame() {
         return game;
     }
 }

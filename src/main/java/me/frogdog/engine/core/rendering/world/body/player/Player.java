@@ -1,19 +1,19 @@
-package me.frogdog.engine.core.rendering.world.entity.player;
+package me.frogdog.engine.core.rendering.world.body.player;
 
 import me.frogdog.engine.core.EngineManager;
 import me.frogdog.engine.core.input.keyboard.Keyboard;
-import me.frogdog.engine.core.rendering.world.entity.Entity;
+import me.frogdog.engine.core.rendering.world.body.Body;
 import me.frogdog.engine.core.rendering.world.Model;
 import me.frogdog.engine.core.rendering.world.terrain.Terrain;
 import me.frogdog.engine.utils.Consts;
 import org.joml.Vector3f;
 import org.lwjgl.glfw.GLFW;
 
-public class Player extends Entity {
+public class Player extends Body {
 
     private static final float SPEED = 20.0f;
     private static final float TURN_SPEED = 100.0f;
-    private static final float JUMP_POWER = 30.0f;
+    private static final float JUMP_POWER = 4.8f;
     private static final float TERRAIN_HEIGHT = 0.0f;
 
     private float currentTurnSpeed = 0;

@@ -1,5 +1,6 @@
 package me.frogdog.engine.game;
 
+import me.frogdog.engine.core.EngineManager;
 import me.frogdog.engine.core.HudManager;
 import me.frogdog.engine.core.SceneManager;
 import me.frogdog.engine.core.audio.Sound;
@@ -13,10 +14,10 @@ import me.frogdog.engine.core.rendering.hud.gui.items.font.text.Text;
 import me.frogdog.engine.core.rendering.world.Material;
 import me.frogdog.engine.core.rendering.world.Model;
 import me.frogdog.engine.core.rendering.world.Texture;
-import me.frogdog.engine.core.rendering.world.entity.Entity;
-import me.frogdog.engine.core.rendering.world.entity.mobs.Zombie;
-import me.frogdog.engine.core.rendering.world.entity.player.Player;
-import me.frogdog.engine.core.rendering.world.entity.projectile.Bullet;
+import me.frogdog.engine.core.rendering.world.body.Body;
+import me.frogdog.engine.core.rendering.world.body.mobs.Zombie;
+import me.frogdog.engine.core.rendering.world.body.player.Player;
+import me.frogdog.engine.core.rendering.world.body.projectile.Bullet;
 import me.frogdog.engine.core.rendering.world.particle.Particle;
 import me.frogdog.engine.core.rendering.world.particle.ParticleEffect;
 import me.frogdog.engine.core.rendering.world.particle.ParticleTexture;
@@ -39,7 +40,7 @@ import org.lwjgl.glfw.GLFW;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class Game implements ILoigc {
+public class Logic implements ILoigc {
 
     private final RenderManager renderer;
     private final ObjectLoader loader;
@@ -65,7 +66,7 @@ public class Game implements ILoigc {
     private final String[] textureFiles = new String[] {"textures/skybox/day/right.png", "textures/skybox/day/left.png", "textures/skybox/day/top.png", "textures/skybox/day/bottom.png", "textures/skybox/day/back.png", "textures/skybox/day/front.png"};
     private final String[] nightTextureFiles = new String[] {"textures/skybox/night/nightRight.png", "textures/skybox/night/nightLeft.png", "textures/skybox/night/nightTop.png", "textures/skybox/night/nightBottom.png", "textures/skybox/night/nightBack.png", "textures/skybox/night/nightFront.png"};
 
-    public Game() {
+    public Logic() {
         renderer = new RenderManager();
         keyboard = new Keyboard();
         mouse = new Mouse();
@@ -95,7 +96,7 @@ public class Game implements ILoigc {
         player.getModel().getMaterial().setDisableCulling(true);
         scene.addEntity(player);
 
-        TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("textures/terrain.png"));
+        TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("textures/Grass0.jpg"));
         TerrainTexture redTexture = new TerrainTexture(loader.loadTexture("textures/flowers.png"));
         TerrainTexture greenTexture = new TerrainTexture(loader.loadTexture("textures/stone.png"));
         TerrainTexture blueTexture = new TerrainTexture(loader.loadTexture("textures/dirt.png"));
@@ -113,7 +114,7 @@ public class Game implements ILoigc {
             float x = Maths.randRange(-400f, 400f);
             float z = Maths.randRange(-400f, 400f);
             if (terrain.getTerrainHeight(x, z) >= -18) {
-                Entity entity = new Entity(new Model((loader.loadOBJModel("/models/tree.obj")), new Texture(loader.loadTexture("textures/tree.png"))), new Vector3f(x, terrain.getTerrainHeight(x, z) - 2, z), new Vector3f(0.0f, 0.0f, 0.0f), new Vector3f(5.0f, 5.0f, 5.0f),3.0f);
+                Body entity = new Body(new Model((loader.loadOBJModel("/models/tree.obj")), new Texture(loader.loadTexture("textures/tree.png"))), new Vector3f(x, terrain.getTerrainHeight(x, z) - 2, z), new Vector3f(0.0f, 0.0f, 0.0f), new Vector3f(5.0f, 5.0f, 5.0f),3.0f);
                 scene.addEntity(entity);
             }
         }
@@ -182,7 +183,7 @@ public class Game implements ILoigc {
 
         ArrayList<Zombie> zombies = new ArrayList<>();
 
-        for (Entity entity : scene.getEntities()) {
+        for (Body entity : scene.getEntities()) {
             if (entity instanceof Zombie) {
                 zombies.add((Zombie) entity);
             }
@@ -192,7 +193,7 @@ public class Game implements ILoigc {
             case 0:
                 hud.addItem(playButton);
                 hud.addItem(quitButton);
-                hud.drawText("Zombified", 0 - hud.getTextWidth("Zombified", 4) / 2, 0.6f, 4);
+                hud.drawText("Frog Engine", 0 - hud.getTextWidth("Frog Engine", 4) / 2, 0.6f, 4);
                 camera.getPosition().x = 0.0f;
                 camera.getPosition().y = (scene.getTerrains().get(0).getTerrainHeight(0, 0) + 20.0f);
                 camera.getPosition().z = 0.0f;
@@ -204,7 +205,7 @@ public class Game implements ILoigc {
                 player.update(keyboard, scene.getTerrains().get(0));
                 picker.update();
                 effect.generateParticles(scene, new Vector3f(player.getPosition()));
-                for (Entity entity : scene.getEntities()) {
+                for (Body entity : scene.getEntities()) {
                     if (entity instanceof Bullet) {
                         ((Bullet) entity).update();
                     }
@@ -238,9 +239,9 @@ public class Game implements ILoigc {
         hud.addItem(cursor);
 
         for (Zombie zombie : zombies) {
-            Iterator<Entity> iterator = scene.getEntities().iterator();
+            Iterator<Body> iterator = scene.getEntities().iterator();
             while (iterator.hasNext()) {
-                Entity entity = iterator.next();
+                Body entity = iterator.next();
                 if (entity instanceof Bullet && Maths.isAABBInsideAABB(entity, zombie)) {
                     zombie.incHealth(((Bullet) entity).getDamage() * -1);
                     iterator.remove();
@@ -262,6 +263,8 @@ public class Game implements ILoigc {
             hud.drawText("Player XYZ: " + (int) player.getPosition().x + " " + (int) player.getPosition().y + " " + (int) player.getPosition().z, -0.975f, 0.915f);
             hud.drawText("OpenGL version 3.3", -0.975f, 0.865f);
             hud.drawText("Zombies left: " + zombies.size(), -0.975f, 0.815f);
+            hud.drawText("Delta Time: " + EngineManager.getFrameTimeSeconds(), -0.975f, 0.765f);
+            hud.drawText("Interval Time: " + interval, -0.975f, 0.715f);
         }
 
         /*
@@ -277,7 +280,7 @@ public class Game implements ILoigc {
             renderer.processTerrain(terrain);
         }
 
-        for (Entity entity : scene.getEntities()) {
+        for (Body entity : scene.getEntities()) {
             renderer.processEntity(entity);
         }
 

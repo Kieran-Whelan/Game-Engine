@@ -8,7 +8,7 @@ import me.frogdog.engine.core.rendering.hud.gui.items.font.Glyph;
 import me.frogdog.engine.core.rendering.hud.gui.items.font.text.Text;
 import me.frogdog.engine.core.rendering.world.particle.Particle;
 import me.frogdog.engine.core.rendering.world.skybox.Skybox;
-import me.frogdog.engine.core.rendering.world.entity.Entity;
+import me.frogdog.engine.core.rendering.world.body.Body;
 import me.frogdog.engine.core.rendering.world.Model;
 import me.frogdog.engine.core.SceneManager;
 import me.frogdog.engine.core.rendering.world.terrain.Terrain;
@@ -40,7 +40,7 @@ public class RenderManager {
 
     private static boolean isCulling = false;
 
-    private Map<Model, List<Entity>> entities = new HashMap<>();
+    private Map<Model, List<Body>> entities = new HashMap<>();
 
     public RenderManager() {
         instance = this;
@@ -114,12 +114,12 @@ public class RenderManager {
         }
     }
 
-    public void processEntity(Entity entity) {
-        List<Entity> entitiesList = entityRenderer.getEntities().get(entity.getModel());
+    public void processEntity(Body entity) {
+        List<Body> entitiesList = entityRenderer.getEntities().get(entity.getModel());
         if (entitiesList != null) {
             entitiesList.add(entity);
         } else {
-            List<Entity> newEntityList = new ArrayList<>();
+            List<Body> newEntityList = new ArrayList<>();
             newEntityList.add(entity);
             entityRenderer.getEntities().put(entity.getModel(), newEntityList);
         }

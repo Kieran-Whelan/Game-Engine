@@ -2,7 +2,7 @@ package me.frogdog.engine.core;
 
 import me.frogdog.engine.core.rendering.world.particle.Particle;
 import me.frogdog.engine.core.rendering.world.skybox.Skybox;
-import me.frogdog.engine.core.rendering.world.entity.Entity;
+import me.frogdog.engine.core.rendering.world.body.Body;
 import me.frogdog.engine.core.rendering.world.terrain.Terrain;
 import me.frogdog.engine.core.lighting.DirectionalLight;
 import me.frogdog.engine.core.lighting.PointLight;
@@ -15,7 +15,7 @@ import java.util.List;
 
 public class SceneManager {
 
-    private List<Entity> entities;
+    private List<Body> entities;
     private List<Terrain> terrains;
     private List<Particle> particles;
     private List<Skybox> skyboxes;
@@ -37,11 +37,11 @@ public class SceneManager {
         this.lightAngle = lightAngle;
     }
 
-    public List<Entity> getEntities() {
+    public List<Body> getEntities() {
         return entities;
     }
 
-    public void addEntity(Entity entity) {
+    public void addEntity(Body entity) {
         this.entities.add(entity);
     }
 

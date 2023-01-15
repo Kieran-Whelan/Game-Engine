@@ -1,7 +1,7 @@
 package me.frogdog.engine.core.maths;
 
 import me.frogdog.engine.core.rendering.hud.gui.Item;
-import me.frogdog.engine.core.rendering.world.entity.Entity;
+import me.frogdog.engine.core.rendering.world.body.Body;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 
@@ -35,14 +35,14 @@ public class Maths {
         return collisionX && collisionY;
     }
 
-    public static boolean isPointInsideAABB(Vector3f point, Entity entity) {
+    public static boolean isPointInsideAABB(Vector3f point, Body entity) {
          boolean collisionX = (point.x >= entity.getPosition().x && point.x <= (entity.getPosition().x + 5.0));
          boolean collisionY = (point.y >= entity.getPosition().y && point.y <= (entity.getPosition().y + 5.0));
          boolean collisionZ = (point.z >= entity.getPosition().z && point.z <= (entity.getPosition().z + 5.0));
          return collisionX && collisionY && collisionZ;
     }
 
-    public static boolean isAABBInsideAABB(Entity item1, Entity item2) {
+    public static boolean isAABBInsideAABB(Body item1, Body item2) {
         boolean collisionX = (item1.getPosition().x - item1.getSize().x) + item1.getSize().x >= (item2.getPosition().x - item2.getSize().x) &&
                 (item2.getPosition().x - item2.getSize().x) + item2.getSize().x >= (item1.getPosition().x - item1.getSize().x);
         boolean collisionY = (item1.getPosition().y - item1.getSize().y) + item1.getSize().y * 2 >= (item2.getPosition().y - item2.getSize().y) &&
@@ -50,5 +50,9 @@ public class Maths {
         boolean collisionZ = (item1.getPosition().z - item1.getSize().z) + item1.getSize().z >= (item2.getPosition().z - item2.getSize().z) &&
                 (item2.getPosition().z - item2.getSize().z) + item2.getSize().z >= (item1.getPosition().z - item1.getSize().z);
         return collisionX && collisionY && collisionZ;
+    }
+
+    public static float getMagnitude(Vector3f vector3f) {
+        return (float) Math.sqrt(Math.pow(vector3f.x, 2) + Math.pow(vector3f.y, 2) + Math.pow(vector3f.z, 2));
     }
 }

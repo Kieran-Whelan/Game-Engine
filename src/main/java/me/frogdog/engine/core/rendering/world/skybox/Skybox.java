@@ -14,14 +14,14 @@ public class Skybox {
 
     public Skybox(String[] textureFiles, String[] nightTextureFiles) throws Exception {
         loader = new ObjectLoader();
-        this.model = loader.loadModel(Consts.VERTICES, 3);
+        this.model = loader.loadModel(Consts.SKYBOX_VERTICES, 3);
         this.dayTextureMap = loader.loadCubeMap(textureFiles);
         this.nightTextureMap = loader.loadCubeMap(nightTextureFiles);
     }
 
     public Skybox(String[] textureFiles, String[] nightTextureFiles, float rotationSpeed) throws Exception {
         loader = new ObjectLoader();
-        this.model = loader.loadModel(Consts.VERTICES, 3);
+        this.model = loader.loadModel(Consts.SKYBOX_VERTICES, 3);
         this.dayTextureMap = loader.loadCubeMap(textureFiles);
         this.nightTextureMap = loader.loadCubeMap(nightTextureFiles);
         this.rotationSpeed = rotationSpeed;

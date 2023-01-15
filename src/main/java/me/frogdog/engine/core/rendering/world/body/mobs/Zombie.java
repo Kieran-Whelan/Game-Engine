@@ -1,15 +1,15 @@
-package me.frogdog.engine.core.rendering.world.entity.mobs;
+package me.frogdog.engine.core.rendering.world.body.mobs;
 
 import me.frogdog.engine.core.EngineManager;
-import me.frogdog.engine.core.rendering.world.entity.Entity;
-import me.frogdog.engine.core.rendering.world.entity.player.Player;
+import me.frogdog.engine.core.rendering.world.body.Body;
+import me.frogdog.engine.core.rendering.world.body.player.Player;
 import me.frogdog.engine.core.rendering.world.Model;
 import me.frogdog.engine.core.rendering.world.terrain.Terrain;
 import me.frogdog.engine.utils.Consts;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
-public class Zombie extends Entity {
+public class Zombie extends Body {
 
     private static final float SPEED = 12.0f;
     private static final float TURN_SPEED = 25.0f;

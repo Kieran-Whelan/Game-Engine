@@ -1,15 +1,15 @@
-package me.frogdog.engine.core.rendering.world.entity;
+package me.frogdog.engine.core.rendering.world.body;
 
 import me.frogdog.engine.core.rendering.world.Model;
 import org.joml.Vector3f;
 
-public class Entity {
+public class Body {
 
     private Model model;
     private Vector3f pos, rotation, size;
     private float scale;
 
-    public Entity(Model model, Vector3f pos, Vector3f rotation, Vector3f size, float scale) {
+    public Body(Model model, Vector3f pos, Vector3f rotation, Vector3f size, float scale) {
         this.model = model;
         this.pos = pos;
         this.rotation = rotation;
